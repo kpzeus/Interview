@@ -99,13 +99,14 @@ namespace Interview
 
             long t = 0;
             int p = 0;
+            long val2 = val;
 
-            while (val > 0)
+            while (val2 > 0)
             {
-                var digit = val % 10;
+                var digit = val2 % 10;
                 t += digit * (1 << p);
                 p++;
-                val /= 10;
+                val2 /= 10;
             }
 
             if (t == n)
