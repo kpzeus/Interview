@@ -50,13 +50,13 @@ namespace Interview
         public static void GetMatch(long n, int maxPower)
         {
             var maxNumber = (int)Math.Pow(2, maxPower);
-            var binaryNumber = Convert.ToInt64(Convert.ToString(maxNumber, 2));
+            var binaryNumber = Convert.ToDouble(Convert.ToString(maxNumber, 2));
             long count = 0;
             while (count < binaryNumber)
             {
-                if (Eval(count, n))
+                if (!processed.Contains(count))
                 {
-                    if (!processed.Contains(count))
+                    if (Eval(count, n))
                     {
                         map[map.Count] = count;
                         processed.Add(count);
