@@ -8,8 +8,6 @@ namespace Interview
     {
         public static Dictionary<long, long> map = new Dictionary<long, long>();
 
-        public static List<long> items = new List<long>();
-
         public static Dictionary<long, Dictionary<long, bool>> evalMap = new Dictionary<long, Dictionary<long, bool>>();
 
         public static int globalCount = 0;
@@ -21,8 +19,6 @@ namespace Interview
                 return map[n - 1];
             }
 
-            if (items.Count == 0)
-                items.Add(0);
             map[0] = 0;
 
             long curr = 0;
@@ -38,12 +34,8 @@ namespace Interview
                 var m = GetMatches(curr);
                 m.ForEach(x =>
                 {
-                    if (!items.Contains(x))
-                    {
-                        items.Add(x);
-                        map[i] = x;
-                        i++;
-                    }
+                    map[i] = x;
+                    i++;
                 });
 
                 globalCount++;
@@ -65,54 +57,25 @@ namespace Interview
 
             var set = new List<long>();
             set.Add(n);
-            GetMatch(n, 0, 0, x, set);
+            GetMatch(n, x, set);
             l.AddRange(set);
-            l.Sort();
 
             return l;
         }
 
-        public static void GetMatch(long n, long val, int power, int maxPower, List<long> l)
+        public static void GetMatch(long n, int maxPower, List<long> l)
         {
-            long testDigit = 0;
-            while (power <= maxPower)
+            var maxNumber = (int)Math.Pow(2, maxPower);
+            var binaryNumber = Convert.ToInt64(Convert.ToString(maxNumber, 2));
+            long count = 0;
+            while(count < binaryNumber)
             {
-                while (testDigit < 10)
+                if (Eval(count, n))
                 {
-                    val = (val * 10) + testDigit;
-
-                    if (((int)Math.Log10(val) + 1) <= maxPower)
-                    {
-                        if (Eval(val, n))
-                        {
-                            if(!l.Contains(val))
-                                l.Add(val);
-                        }
-                    }
-
-                    val = (val - testDigit) / 10;
-
-                    testDigit++;
+                    if (!l.Contains(count))
+                        l.Add(count);
                 }
-
-                testDigit = 0;
-                while (testDigit < 10)
-                {
-                    val = (val * 10) + testDigit;
-
-                    if (((int)Math.Log10(val) + 1) <= maxPower)
-                    {
-                        if (val != 0)
-                        {
-                            GetMatch(n, val, power++, maxPower, l);
-                        }
-                    }
-
-                    val = (val - testDigit) / 10;
-
-                    testDigit++;
-                }
-                power++;
+                count++;
             }
         }
 

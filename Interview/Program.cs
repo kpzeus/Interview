@@ -312,7 +312,7 @@ namespace Interview
             //DecibinaryNumbers.GetMatches(4).ForEach(x => Console.WriteLine(x));
 
             //var z = new List<long>();
-            //DecibinaryNumbers.GetMatch(2, 0, 0, 2, z);
+            //DecibinaryNumbers.GetMatch(4, 0, 0, 3, z);
             //z.ForEach(x => Console.WriteLine(x));
 
             Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(1) == 0);
