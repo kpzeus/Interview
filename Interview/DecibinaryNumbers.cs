@@ -67,7 +67,7 @@ namespace Interview
                 {
                     val = (val * 10) + testDigit;
 
-                    if (val.ToString().Length <= (power + 1))
+                    if (((int)Math.Log10(val) + 1) <= (power + 1))
                     {
                         if (Eval(val, n))
                         {
