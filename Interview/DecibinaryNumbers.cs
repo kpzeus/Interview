@@ -12,17 +12,29 @@ namespace Interview
 
         public static Dictionary<long, Dictionary<long, bool>> evalMap = new Dictionary<long, Dictionary<long, bool>>();
 
+        public static int globalCount = 0;
+
         public static long decibinaryNumbers(long n)
         {
             if (map.ContainsKey(n))
             {
-                return map[n];
+                return map[n - 1];
             }
 
+            if (items.Count == 0)
+                items.Add(0);
+            map[0] = 0;
+
             long curr = 0;
-            long i = map.Count + 1;
+            long i = map.Count;
             while (curr <= n)
             {
+                if (curr <= globalCount)
+                {
+                    curr++;
+                    continue;
+                }                   
+
                 var m = GetMatches(curr);
                 m.ForEach(x =>
                 {
@@ -34,10 +46,11 @@ namespace Interview
                     }
                 });
 
+                globalCount++;
                 curr++;
             }
 
-            return map[n];
+            return map[n - 1];
         }
 
         public static List<long> GetMatches(long n)
@@ -51,33 +64,35 @@ namespace Interview
             }
 
             var set = new List<long>();
-            GetMatch(n, 0, x, set);
+            set.Add(n);
+            GetMatch(n, 0, 0, x, set);
             l.AddRange(set);
             l.Sort();
 
             return l;
         }
 
-        public static void GetMatch(long n, long val, int power, List<long> l)
+        public static void GetMatch(long n, long val, int power, int maxPower, List<long> l)
         {
             long testDigit = 0;
-            while (power > -1)
+            while (power <= maxPower)
             {
                 while (testDigit < 10)
                 {
                     val = (val * 10) + testDigit;
 
-                    if (((int)Math.Log10(val) + 1) <= (power + 1))
+                    if (((int)Math.Log10(val) + 1) <= (power + 3))
                     {
                         if (Eval(val, n))
                         {
-                            l.Add(val);
+                            if(!l.Contains(val))
+                                l.Add(val);
                         }
                         else
                         {
                             if (val != 0)
                             {
-                                GetMatch(n, val, power, l);
+                                GetMatch(n, val, power++, maxPower, l);
                             }
                         }
                     }
@@ -86,7 +101,7 @@ namespace Interview
 
                     testDigit++;
                 }
-                power--;
+                power++;
             }
         }
 
