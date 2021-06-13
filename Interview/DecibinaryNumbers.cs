@@ -9,6 +9,8 @@ namespace Interview
     {
         public static Dictionary<long, long> map = new Dictionary<long, long>();
 
+        public static HashSet<long> processed = new HashSet<long>();
+
         public static Dictionary<long, Dictionary<long, bool>> evalMap = new Dictionary<long, Dictionary<long, bool>>();
 
         public static long decibinaryNumbers(long n)
@@ -19,6 +21,7 @@ namespace Interview
             }
 
             map[0] = 0;
+            processed.Add(0);
 
             long curr = 0;
             long i = map.Count;
@@ -35,6 +38,7 @@ namespace Interview
         public static void GetMatches(long n)
         {
             var x = 0;
+
             while (n >= Math.Pow(2, x))
             {
                 x++;
@@ -52,9 +56,10 @@ namespace Interview
             {
                 if (Eval(count, n))
                 {
-                    if (map.Count(x => x.Value == count) == 0)
+                    if (!processed.Contains(count))
                     {
                         map[map.Count] = count;
+                        processed.Add(count);
                     }
                 }
                 count++;
