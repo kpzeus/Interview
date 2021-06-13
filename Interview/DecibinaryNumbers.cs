@@ -116,6 +116,14 @@ namespace Interview
                 if (!evalMap[n].ContainsKey(val))
                     evalMap[n].Add(val, t == n);
             }
+            else
+            {
+                if (!evalMap.ContainsKey(t))
+                    evalMap.Add(t, new Dictionary<long, bool>());
+
+                if (!evalMap[t].ContainsKey(val))
+                    evalMap[t].Add(val, true);
+            }
 
             return t == n;
         }
