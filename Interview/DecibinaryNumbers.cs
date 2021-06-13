@@ -68,7 +68,7 @@ namespace Interview
             var maxNumber = (int)Math.Pow(2, maxPower);
             var binaryNumber = Convert.ToInt64(Convert.ToString(maxNumber, 2));
             long count = 0;
-            while(count < binaryNumber)
+            while (count < binaryNumber)
             {
                 if (Eval(count, n))
                 {
