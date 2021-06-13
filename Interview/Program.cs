@@ -311,13 +311,13 @@ namespace Interview
             //ArrayQns.GetMatch(1, 0, 2, z);
             //z.ForEach(x => Console.WriteLine(x));
             //ArrayQns.GetMatches(4).ForEach(x => Console.WriteLine(x));
-            Console.WriteLine(ArrayQns.decibinaryNumbers(1));
-            Console.WriteLine(ArrayQns.decibinaryNumbers(2));
-            Console.WriteLine(ArrayQns.decibinaryNumbers(3));
-            Console.WriteLine(ArrayQns.decibinaryNumbers(4));
-            Console.WriteLine(ArrayQns.decibinaryNumbers(10));
-            Console.WriteLine(ArrayQns.decibinaryNumbers(30));
-            Console.WriteLine(ArrayQns.decibinaryNumbers(50));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(1));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(2));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(3));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(4));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(10));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(30));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(50));
 
             //Console.WriteLine(ArrayQns.Eval(4, 4));
             //Console.WriteLine(ArrayQns.Eval(12, 4));
