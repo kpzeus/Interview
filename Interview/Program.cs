@@ -315,14 +315,15 @@ namespace Interview
             //DecibinaryNumbers.GetMatch(4, 0, 0, 3, z);
             //z.ForEach(x => Console.WriteLine(x));
 
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(1) == 0);
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(2) == 1);
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(3) == 2);
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(4) == 10);
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(10) == 100);
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(30) == 32);
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(29) == 24);
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(44) == 121);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(1) == 0);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(2) == 1);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(3) == 2);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4) == 10);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(10) == 100);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(30) == 32);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(29) == 24);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(44) == 121);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4592999) == 2394628);
 
             //Console.WriteLine(DecibinaryNumbers.Eval(4, 4));
             //Console.WriteLine(DecibinaryNumbers.Eval(12, 4));
