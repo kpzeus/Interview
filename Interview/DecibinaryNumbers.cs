@@ -100,7 +100,7 @@ namespace Interview
                 {
                     val = (val * 10) + testDigit;
 
-                    if (((int)Math.Log10(val) + 1) <= (power + 3))
+                    if (((int)Math.Log10(val) + 1) <= maxPower)
                     {
                         if (val != 0)
                         {
