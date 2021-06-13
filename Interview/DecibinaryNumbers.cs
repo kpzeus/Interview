@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Interview
 {
@@ -9,8 +10,6 @@ namespace Interview
         public static Dictionary<long, long> map = new Dictionary<long, long>();
 
         public static Dictionary<long, Dictionary<long, bool>> evalMap = new Dictionary<long, Dictionary<long, bool>>();
-
-        public static int globalCount = 0;
 
         public static long decibinaryNumbers(long n)
         {
@@ -25,45 +24,26 @@ namespace Interview
             long i = map.Count;
             while (curr <= n)
             {
-                if (curr <= globalCount)
-                {
-                    curr++;
-                    continue;
-                }                   
+                GetMatches(curr);
 
-                var m = GetMatches(curr);
-                m.ForEach(x =>
-                {
-                    map[i] = x;
-                    i++;
-                });
-
-                globalCount++;
                 curr++;
             }
 
             return map[n - 1];
         }
 
-        public static List<long> GetMatches(long n)
+        public static void GetMatches(long n)
         {
-            List<long> l = new List<long>();
-
             var x = 0;
             while (n >= Math.Pow(2, x))
             {
                 x++;
             }
 
-            var set = new List<long>();
-            set.Add(n);
-            GetMatch(n, x, set);
-            l.AddRange(set);
-
-            return l;
+            GetMatch(n, x);
         }
 
-        public static void GetMatch(long n, int maxPower, List<long> l)
+        public static void GetMatch(long n, int maxPower)
         {
             var maxNumber = (int)Math.Pow(2, maxPower);
             var binaryNumber = Convert.ToInt64(Convert.ToString(maxNumber, 2));
@@ -72,8 +52,10 @@ namespace Interview
             {
                 if (Eval(count, n))
                 {
-                    if (!l.Contains(count))
-                        l.Add(count);
+                    if (map.Count(x => x.Value == count) == 0)
+                    {
+                        map[map.Count] = count;
+                    }
                 }
                 count++;
             }
