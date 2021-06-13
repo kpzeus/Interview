@@ -311,13 +311,13 @@ namespace Interview
             //ArrayQns.GetMatch(1, 0, 2, z);
             //z.ForEach(x => Console.WriteLine(x));
             //ArrayQns.GetMatches(4).ForEach(x => Console.WriteLine(x));
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(1));
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(2));
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(3));
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(4));
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(10));
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(30));
-            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(50));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(1) == 0);
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(2) == 1);
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(3) == 2);
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(4) == 10);
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(10) == 100);
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(30) == 32);
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(50) == 42);
 
             //Console.WriteLine(ArrayQns.Eval(4, 4));
             //Console.WriteLine(ArrayQns.Eval(12, 4));
@@ -325,7 +325,7 @@ namespace Interview
             //Console.WriteLine(ArrayQns.Eval(100,4));
             //Console.WriteLine(ArrayQns.Eval(101, 4));
 
-            Console.WriteLine("Duration : " + (DateTime.Now - start));
+            Console.WriteLine("Duration : " + (DateTime.Now - start).TotalMilliseconds);
 
             Console.Read();
         }
