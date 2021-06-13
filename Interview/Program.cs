@@ -307,12 +307,13 @@ namespace Interview
             //ArrayQns.bestSumTabular(100, 1, 2, 5, 25)?.ForEach(x => Console.Write(x + " "));
             //Console.WriteLine();
 
-            var z = new List<long>();
+
             //DecibinaryNumbers.GetMatch(1, 0, 2, z);            
             //DecibinaryNumbers.GetMatches(4).ForEach(x => Console.WriteLine(x));
 
-            //DecibinaryNumbers.GetMatch(6, 0, 0, 3, z);
-            //z.ForEach(x => Console.WriteLine(x));
+            var z = new List<long>();
+            DecibinaryNumbers.GetMatch(2, 0, 0, 2, z);
+            z.ForEach(x => Console.WriteLine(x));
 
             Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(1) == 0);
             Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(2) == 1);
@@ -322,14 +323,14 @@ namespace Interview
             Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(30) == 32);
             Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(29) == 24);
             Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(44) == 201);
-            //Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(44));
+            Console.WriteLine(DecibinaryNumbers.decibinaryNumbers(44));
 
             //Console.WriteLine(DecibinaryNumbers.Eval(4, 4));
             //Console.WriteLine(DecibinaryNumbers.Eval(12, 4));
             //Console.WriteLine(DecibinaryNumbers.Eval(20, 4));
             //Console.WriteLine(DecibinaryNumbers.Eval(100,4));
             //Console.WriteLine(DecibinaryNumbers.Eval(101, 4));
-            Console.WriteLine(DecibinaryNumbers.Eval(202, 10));
+            //Console.WriteLine(DecibinaryNumbers.Eval(202, 10));
 
             Console.WriteLine("Duration : " + (DateTime.Now - start).TotalMilliseconds);
 

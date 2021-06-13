@@ -58,7 +58,7 @@ namespace Interview
             List<long> l = new List<long>();
 
             var x = 0;
-            while (n > Math.Pow(2, x))
+            while (n >= Math.Pow(2, x))
             {
                 x++;
             }
@@ -81,19 +81,30 @@ namespace Interview
                 {
                     val = (val * 10) + testDigit;
 
-                    if (((int)Math.Log10(val) + 1) <= (power + 3))
+                    if (((int)Math.Log10(val) + 1) <= maxPower)
                     {
                         if (Eval(val, n))
                         {
                             if(!l.Contains(val))
                                 l.Add(val);
                         }
-                        else
+                    }
+
+                    val = (val - testDigit) / 10;
+
+                    testDigit++;
+                }
+
+                testDigit = 0;
+                while (testDigit < 10)
+                {
+                    val = (val * 10) + testDigit;
+
+                    if (((int)Math.Log10(val) + 1) <= (power + 3))
+                    {
+                        if (val != 0)
                         {
-                            if (val != 0)
-                            {
-                                GetMatch(n, val, power++, maxPower, l);
-                            }
+                            GetMatch(n, val, power++, maxPower, l);
                         }
                     }
 
