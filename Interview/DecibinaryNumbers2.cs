@@ -14,24 +14,23 @@ namespace Interview
 
         public static long decibinaryNumbers(long n)
         {
-            GetMatches(100);
-
-            return items[(int)n - 1];
-        }
-
-        public static void GetMatches(long n)
-        {
-            if (lookup.Count > 0)
-                return;
-
-            var x = 0;
-
-            while (n >= Math.Pow(2, x))
+            if (lookup.Count == 0)
             {
-                x++;
+                GetMatch();
             }
 
-            GetMatch(n, x);
+            return items[n - 1];
+        }
+
+        public static void GetMatch()
+        {
+            long count = 0;
+
+            while (count < items.Length)
+            {
+                Eval(count);
+                count++;
+            }
 
             foreach (var set in lookup)
             {
@@ -43,19 +42,7 @@ namespace Interview
             }
         }
 
-        public static void GetMatch(long n, int maxPower)
-        {
-            var maxNumber = (int)Math.Pow(2, maxPower);
-            var binaryNumber = Convert.ToDouble(Convert.ToString(maxNumber, 2));
-            long count = 0;
-            while (count < binaryNumber)
-            {
-                Eval(count, n);
-                count++;
-            }
-        }
-
-        public static bool Eval(long val, long n)
+        public static void Eval(long val)
         {
             long t = 0;
             int p = 0;
@@ -73,9 +60,8 @@ namespace Interview
             {
                 lookup.Add(t, new List<long>());
             }
-            lookup[t].Add(val);
 
-            return t == n;
+            lookup[t].Add(val);
         }
     }
 }

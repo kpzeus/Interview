@@ -323,7 +323,8 @@ namespace Interview
             Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(30) == 32);
             Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(29) == 24);
             Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(44) == 121);
-            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4592999) == 2394628);
+            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4592999) == 2394628);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4284323577117864) == 5124105853195114);
 
             //Console.WriteLine(DecibinaryNumbers.Eval(4, 4));
             //Console.WriteLine(DecibinaryNumbers.Eval(12, 4));
@@ -338,3 +339,4 @@ namespace Interview
         }
     }
 }
+
