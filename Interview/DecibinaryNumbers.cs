@@ -98,12 +98,12 @@ namespace Interview
             }
 
             long t = 0;
-            long p = 0;
+            int p = 0;
 
             while (val > 0)
             {
                 var digit = val % 10;
-                t += digit * (long)Math.Pow(2, p);
+                t += digit * (1 << p);
                 p++;
                 val /= 10;
             }
