@@ -333,8 +333,11 @@ namespace Interview
             //Console.WriteLine(DecibinaryNumbers.Eval(101, 4));
             //Console.WriteLine(DecibinaryNumbers.Eval(202, 10));
 
-            Console.WriteLine(BitQns.CountSmallestSubSetForMaxBitWiseOR(5, 1, 3, 4, 2));
-            Console.WriteLine(BitQns.CountSmallestSubSetForMaxBitWiseOR(2, 6, 2, 8, 4, 5));
+            //Console.WriteLine(BitQns.CountSmallestSubSetForMaxBitWiseOR(5, 1, 3, 4, 2));
+            //Console.WriteLine(BitQns.CountSmallestSubSetForMaxBitWiseOR(2, 6, 2, 8, 4, 5));
+
+            Console.WriteLine(ArrayQns.MaximumSizeSubsetWithGivenSum(10, 2, 3, 5, 7, 10, 15));
+            Console.WriteLine(ArrayQns.MaximumSizeSubsetWithGivenSum(4, 1, 2, 3, 4, 5));
 
             Console.WriteLine("Duration : " + (DateTime.Now - start).TotalMilliseconds);
 

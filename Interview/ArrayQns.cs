@@ -7,6 +7,38 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public static int MaximumSizeSubsetWithGivenSum(int sum, params int[] a)
+        {
+            var res = new List<List<int>>();
+            var curr = new List<int>();
+            MaximumSizeSubsetWithGivenSum(sum, 0, res, curr, a);
+            return res.Max(x => x.Count);
+        }
+
+        private static void MaximumSizeSubsetWithGivenSum(
+            int sum, 
+            int i, 
+            List<List<int>> res,
+            List<int> curr,
+            params int[] a)
+        {
+            if (sum < 0 || i >= a.Length)
+                return;
+
+            if (sum == 0)
+            {
+                res.Add(curr);
+                return;
+            }
+
+            for (int j = i; j < a.Length; j++)
+            {
+                var newCurr = new List<int>(curr);
+                newCurr.Add(a[j]);
+                MaximumSizeSubsetWithGivenSum(sum - a[j], j + 1, res, newCurr, a);
+            }
+        }
+
         public static int GetMaxSumContiguousSubarray(params int[] a)
         {
             int meh = 0;
