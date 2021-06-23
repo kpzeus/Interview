@@ -7,6 +7,53 @@ namespace Interview
 {
     public class BitQns
     {
+        public static int CountSmallestSubSetForMaxBitWiseOR(params int[] n)
+        {
+            var c = 0;
+
+            var map = new Dictionary<int, List<int>>();
+
+            n.ToList().ForEach(x =>
+            {
+                var i = x;
+                var power = 0;
+                while (i > 0)
+                {
+                    if (i % 2 == 1)
+                    {
+                        if (!map.ContainsKey(x))
+                        {
+                            map.Add(x, new List<int>());
+                        }
+                        if(!map[x].Contains(power))
+                            map[x].Add(power);
+                    }
+                    power++;
+                    i /= 2;
+                }
+            });
+
+            var groups = map.OrderByDescending(x => x.Value.Count()).Select(x => x.Value).ToList();
+
+            var powers = new HashSet<int>();
+            int oldCount = 0;
+            groups.ForEach(x =>
+            {
+                x.ForEach(y =>
+                {
+                    powers.Add(y);
+                });
+
+                if (oldCount < powers.Count)
+                {
+                    oldCount = powers.Count;
+                    c++;
+                }
+            });
+
+            return c;
+        }
+
         public enum Allergen
         {
             Eggs = 1,

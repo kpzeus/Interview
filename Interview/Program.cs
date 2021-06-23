@@ -315,15 +315,15 @@ namespace Interview
             //DecibinaryNumbers.GetMatch(4, 0, 0, 3, z);
             //z.ForEach(x => Console.WriteLine(x));
 
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(1) == 0);
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(2) == 1);
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(3) == 2);
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4) == 10);
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(10) == 100);
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(30) == 32);
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(29) == 24);
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(44) == 121);
-            Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4592999) == 2394628);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(1) == 0);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(2) == 1);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(3) == 2);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4) == 10);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(10) == 100);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(30) == 32);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(29) == 24);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(44) == 121);
+            //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4592999) == 2394628);
             //Console.WriteLine(DecibinaryNumbers2.decibinaryNumbers(4284323577117864) == 5124105853195114);
 
             //Console.WriteLine(DecibinaryNumbers.Eval(4, 4));
@@ -332,6 +332,9 @@ namespace Interview
             //Console.WriteLine(DecibinaryNumbers.Eval(100,4));
             //Console.WriteLine(DecibinaryNumbers.Eval(101, 4));
             //Console.WriteLine(DecibinaryNumbers.Eval(202, 10));
+
+            Console.WriteLine(BitQns.CountSmallestSubSetForMaxBitWiseOR(5, 1, 3, 4, 2));
+            Console.WriteLine(BitQns.CountSmallestSubSetForMaxBitWiseOR(2, 6, 2, 8, 4, 5));
 
             Console.WriteLine("Duration : " + (DateTime.Now - start).TotalMilliseconds);
 
