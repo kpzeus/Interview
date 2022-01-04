@@ -7,6 +7,109 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public static bool IsValidBrackets(string s)
+        {
+            Dictionary<char, char> d =
+                new Dictionary<char, char>
+            {
+                {'(',')'},
+                {'{','}'},
+                {'[',']'}
+            };
+
+            Stack<char> st = new();
+
+            if (s.Length == 0)
+                return true;
+
+            if (s.Length % 2 == 1)
+                return false;
+
+            int i = 0;
+            while (i < s.Length)
+            {
+                if (d.ContainsKey(s[i]))
+                    st.Push(s[i]);
+                else
+                {
+                    if (st.Count == 0)
+                        return false;
+                    char p = st.Pop();
+                    if (s[i] != d[p])
+                        return false;
+                }
+
+                i++;
+            }
+
+            return st.Count == 0;
+        }
+
+        public static string LongestCommonPrefix(params string[] strs)
+        {
+            StringBuilder s = new();
+
+            if (strs.Length == 0)
+                return "";
+
+            if (strs.Length == 1)
+                return strs[0];
+
+            int i = 0;
+            int j = 0;
+            while (true)
+            {
+                while (j < strs.Length)
+                {
+                    if (strs[j].Length == i)
+                        return s.ToString();
+
+                    if (strs[0][i] != strs[j][i])
+                        return s.ToString();
+
+                    j++;
+                }
+                j = 1;
+                s.Append(strs[0][i]);
+                i++;
+            }
+        }
+
+        public static int StrStr(string haystack, string needle)
+        {
+            if (needle == string.Empty)
+                return 0;
+
+            int i = 0;
+            int j = 0;
+            int index = -1;
+            while (i < haystack.Length)
+            {
+                if (j == needle.Length)
+                    break;
+                if (haystack[i] == needle[j])
+                {
+                    if (j == 0)
+                        index = i;
+                    j++;
+                }
+                else
+                {
+                    if (j > 0 && index > -1)
+                    {
+                        i = index;
+                    }
+                    j = 0;
+                }
+                i++;
+            }
+
+            if (j == needle.Length)
+                return index;
+
+            return -1;
+        }
+
         public static int MaximumSizeSubsetWithGivenSum(int sum, params int[] a)
         {
             var res = new List<List<int>>();

@@ -336,10 +336,41 @@ namespace Interview
             //Console.WriteLine(BitQns.CountSmallestSubSetForMaxBitWiseOR(5, 1, 3, 4, 2));
             //Console.WriteLine(BitQns.CountSmallestSubSetForMaxBitWiseOR(2, 6, 2, 8, 4, 5));
 
-            Console.WriteLine(ArrayQns.MaximumSizeSubsetWithGivenSum(10, 2, 3, 5, 7, 10, 15));
-            Console.WriteLine(ArrayQns.MaximumSizeSubsetWithGivenSum(4, 1, 2, 3, 4, 5));
+            //Console.WriteLine(ArrayQns.MaximumSizeSubsetWithGivenSum(10, 2, 3, 5, 7, 10, 15));
+            //Console.WriteLine(ArrayQns.MaximumSizeSubsetWithGivenSum(4, 1, 2, 3, 4, 5));
 
-            Console.WriteLine("Duration : " + (DateTime.Now - start).TotalMilliseconds);
+            //Console.WriteLine("Duration : " + (DateTime.Now - start).TotalMilliseconds);
+
+            //TreeNode root = new TreeNode(2);
+            //root.left = new TreeNode(2);
+            //root.right = new TreeNode(2);
+
+            //root = new TreeNode(int.MinValue);
+
+            //Console.WriteLine(TreeQns.isBST(root));
+            //Console.WriteLine();
+
+            //Console.WriteLine(ArrayQns.StrStr("mississippi", "issip"));
+
+            //Console.WriteLine(ArrayQns.LongestCommonPrefix("flower", "flow", "flight"));
+
+            //int[][] matrix = new int[3][];
+            //matrix[0] = new int[] { 1, 2, 3 };
+            //matrix[1] = new int[] { 4, 5, 6 };
+            //matrix[2] = new int[] { 7, 8, 9 };
+
+            //MatrixQns.Rotate(matrix);
+
+            //matrix.ToList().ForEach(x =>
+            //{
+            //    x.ToList().ForEach(y =>
+            //    {
+            //        Console.Write(y + " ");
+            //    });
+            //    Console.WriteLine();
+            //});
+
+            Console.WriteLine(ArrayQns.IsValidBrackets("()"));
 
             Console.Read();
         }
