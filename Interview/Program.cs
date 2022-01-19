@@ -370,7 +370,49 @@ namespace Interview
             //    Console.WriteLine();
             //});
 
-            Console.WriteLine(ArrayQns.IsValidBrackets("()"));
+            //Console.WriteLine(ArrayQns.IsValidBrackets("()"));
+
+            //Console.WriteLine(ArrayQns.PotHoles("x..xx.", "..xxx."));
+
+            //Console.WriteLine(ArrayQns.FindDisappearedNumbers(4, 3, 2, 7, 8, 2, 3, 1));
+
+            //Console.WriteLine(ArrayQns.FindDisappearedNumbers(1, 1));
+
+            //var x = TreeQns.BuildTree(new int[]{ 3, 9, 20, 15, 7 }, new int[] { 9, 3, 15, 20, 7 });
+
+            //Console.WriteLine("Done");
+
+            //MyCircularQueue x = new MyCircularQueue(6);
+            //x.EnQueue(6);
+            //Console.WriteLine(x.Rear() == 6);
+            //Console.WriteLine(x.Rear() == 6);
+            //Console.WriteLine(x.DeQueue());
+            //Console.WriteLine(x.EnQueue(5));
+            //Console.WriteLine(x.Rear() == 5);
+            //Console.WriteLine(x.DeQueue());
+            //Console.WriteLine(x.Front() == 0);
+
+            //Console.WriteLine(Recursion.NumSquares(12));
+
+            //MyStack stack = new MyStack();
+            //stack.Push(1);
+            //stack.Push(2);
+            //Console.WriteLine(stack.Top() == 2);
+            //Console.WriteLine(stack.Pop() == 2);
+
+            //var x = ArrayQns.SortArray(new int[] { 5, 2, 3, 1 });
+
+            //var x = ArrayQns.GenerateParenthesis(3);
+
+            //var x = ArrayQns.LetterCombinations("23");
+
+            ListNode l = new ListNode(1, 
+                new ListNode(2, 
+                new ListNode(3, 
+                new ListNode(4,
+                new ListNode(5, null)))));
+
+            var x = LinkListQns.ReverseKGroup(l, 3);
 
             Console.Read();
         }

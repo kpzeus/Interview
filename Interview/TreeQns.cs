@@ -37,6 +37,40 @@ namespace Interview
 
     public class TreeQns
     {
+        static int preIndex = 0;
+        public static TreeNode BuildTree(int[] preorder, int[] inorder)
+        {
+            preIndex = 0;
+            return BuildTree(preorder, inorder, 0, inorder.Length - 1);
+        }
+
+        private static TreeNode BuildTree(int[] preorder, int[] inorder, int s, int e)
+        {
+            if (s > e)
+                return null;
+
+            TreeNode n = new TreeNode(preorder[preIndex++]);
+
+            if (s == e)
+            {
+                return n;
+            }
+
+            int i;
+            for (i = s; i <= e; i++)
+            {
+                if (inorder[i] == n.val)
+                {
+                    break;
+                }
+            }
+
+            n.left = BuildTree(preorder, inorder, s, i - 1);
+            n.right = BuildTree(preorder, inorder, i + 1, e);
+
+            return n;
+        }
+
         public static bool IsTreePossible(string[] strArr)
         {
             TreeNode root = null;

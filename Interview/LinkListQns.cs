@@ -6,6 +6,11 @@ namespace Interview
 {
     public class ListNode
     {
+        public ListNode(int data)
+        {
+            this.val = data;
+        }
+
         public ListNode(int data, ListNode next)
         {
             this.next = next;
@@ -19,6 +24,50 @@ namespace Interview
 
     public class LinkListQns
     {
+        public static ListNode ReverseKGroup(ListNode head, int k)
+        {
+            if (head == null)
+                return head;
+
+            ListNode d = new ListNode(0);
+            d.next = head;
+
+            var pre = d;
+            var oldHead = head;
+            while (oldHead != null)
+            {
+                var c = oldHead;
+                int i = k;
+                while (c != null && i > 0)
+                {
+                    c = c.next;
+                    i--;
+                }
+                var newHead = c;
+
+                Stack<ListNode> s = new();
+                c = oldHead;
+                while (c != newHead)
+                {
+                    s.Push(c);
+                    c = c.next;
+                }
+
+                c = pre;
+                while (s.Count > 0)
+                {
+                    c.next = s.Pop();
+                    c = c.next;
+                }
+                c.next = newHead;
+
+                pre = c;
+                oldHead = newHead;
+            }
+
+            return d.next;
+        }
+
         public static ListNode DeepCopy(ListNode x)
         {
             if (x == null)

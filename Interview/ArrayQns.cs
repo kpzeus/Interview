@@ -7,6 +7,206 @@ namespace Interview
 {
     public class ArrayQns
     {
+        static Dictionary<char, char[]> d = new Dictionary<char, char[]>(){
+        {'2', new char[] {'a','b','c'}},
+        {'3', new char[] {'d','e','f'}},
+        {'4', new char[] {'g','h','i'}},
+        {'5', new char[] {'j','k','l'}},
+        {'6', new char[] {'m','n','o'}},
+        {'7', new char[] {'p','q','r', 's'}},
+        {'8', new char[] {'t','u','v'}},
+        {'9', new char[] {'w','x','y','z'}}
+    };
+
+        static IList<string> x;
+
+        public static IList<string> LetterCombinations(string digits)
+        {
+            x = new List<string>();
+            Build(new StringBuilder(), digits, 0);
+            return x;
+        }
+
+        private static void Build(StringBuilder s, string digits, int i)
+        {
+            if (s.Length == digits.Length)
+            {
+                x.Add(s.ToString());
+                return;
+            }
+
+            var set = d[digits[i]];
+            int j = 0;
+            while (j < set.Length)
+            {
+                s.Append(set[j]);
+                Build(s, digits, i + 1);
+                s.Length--;
+                j++;
+            }
+        }
+        static List<string> s;
+        public static IList<string> GenerateParenthesis(int n)
+        {
+            s = new();
+            Gen(new StringBuilder(), n, 0, 0);
+            return s;
+        }
+
+        private static void Gen(StringBuilder sb, int n, int o, int c)
+        {
+            if (c == n)
+            {
+                s.Add(sb.ToString());
+                return;
+            }
+
+            if (o > c)
+            {
+                sb.Append(")");
+                Gen(sb, n, o, c + 1);
+                sb.Length--;
+            }
+
+            if (o < n)
+            {
+                sb.Append("(");
+                Gen(sb, n, o + 1, c);
+                sb.Length--;
+            }
+        }
+
+        public static int[] SortArray(int[] nums)
+        {
+            if (nums == null || nums.Length < 2)
+                return nums;
+
+            return MergeSort(nums);
+        }
+
+        private static int[] MergeSort(int[] nums)
+        {
+            if (nums.Length < 2)
+                return nums;
+
+            int mid = nums.Length / 2;
+            int[] l = new int[mid];
+            int i = 0;
+            while (i < mid)
+            {
+                l[i] = nums[i];
+                i++;
+            }
+
+            l = MergeSort(l);
+            int[] r = new int[nums.Length - mid];
+            int j = 0;
+            while (i < nums.Length)
+            {
+                r[j] = nums[i];
+                i++;
+                j++;
+            }
+            r = MergeSort(r);
+
+            return Merge(l, r);
+        }
+
+        private static int[] Merge(int[] l, int[] r)
+        {
+            int[] x = new int[l.Length + r.Length];
+
+            int i = 0;
+            int j = 0;
+            int k = 0;
+            while (i < l.Length && j < r.Length)
+            {
+                if (l[i] <= r[j])
+                {
+                    x[k] = l[i];
+                    i++;
+                }
+                else
+                {
+                    x[k] = r[j];
+                    j++;
+                }
+                k++;
+            }
+
+            while (i < l.Length)
+            {
+                x[k] = l[i];
+                i++;
+                k++;
+            }
+
+            while (j < r.Length)
+            {
+                x[k] = r[j];
+                j++;
+                k++;
+            }
+
+            return x;
+        }
+        public static IList<int> FindDisappearedNumbers(params int[] nums)
+        {
+            HashSet<int> h = new();
+            List<int> x = new();
+            int i = 0;
+            while (i < nums.Length)
+            {
+                h.Add(nums[i]);
+                i++;
+            }
+
+            i = 1;
+            while (i <= nums.Length)
+            {
+                if (!h.Contains(i))
+                    x.Add(i);
+                i++;
+            }
+
+            return x;
+        }
+
+        public static int PotHoles(string L1, string L2)
+        {
+            return Math.Max(PotHoles(L1, L2, 0, true), PotHoles(L1, L2, 0, false));
+        }
+
+        public static int PotHoles(string L1, string L2, int i, bool lane1)
+        {
+            if (i == L1.Length)
+                return 0;
+
+            if (lane1)
+            {
+                if (L2[i] == 'x')
+                {
+                    return 1 + PotHoles(L1, L2, i + 1, true);
+                }
+                else
+                {
+                    return PotHoles(L1, L2, i + 1, false);
+                }
+            }
+            else
+            {
+
+                if (L1[i] == 'x')
+                {
+                    return 1 + PotHoles(L1, L2, i + 1, false);
+                }
+                else
+                {
+                    return PotHoles(L1, L2, i + 1, true);
+                }
+            }
+        }
+
         public static bool IsValidBrackets(string s)
         {
             Dictionary<char, char> d =
