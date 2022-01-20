@@ -406,13 +406,13 @@ namespace Interview
 
             //var x = ArrayQns.LetterCombinations("23");
 
-            ListNode l = new ListNode(1, 
-                new ListNode(2, 
-                new ListNode(3, 
-                new ListNode(4,
-                new ListNode(5, null)))));
+            //ListNode l = new ListNode(1, 
+            //    new ListNode(2, 
+            //    new ListNode(3, 
+            //    new ListNode(4,
+            //    new ListNode(5, null)))));
 
-            var x = LinkListQns.ReverseKGroup(l, 3);
+            //var x = LinkListQns.ReverseKGroup(l, 3);
 
             Console.Read();
         }

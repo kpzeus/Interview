@@ -7,6 +7,59 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public static int FirstMissingPositive(int[] nums)
+        {
+            int missing = 1;
+
+            int[] val = new int[nums.Length * 2];
+
+            int i = 0;
+            int min = int.MaxValue;
+            while (i < nums.Length)
+            {
+                if (nums[i] < min)
+                {
+                    min = nums[i];
+                }
+                i++;
+            }
+
+            if (min > nums.Length)
+            {
+                return 1;
+            }
+
+            i = 0;
+            val[0] = -1;
+            while (i < nums.Length)
+            {
+                if (nums[i] > 0 && nums[i] < val.Length)
+                {
+                    var value = nums[i];
+                    val[value] = -1;
+                }
+                i++;
+            }
+
+            i = 0;
+            while (i < val.Length)
+            {
+                if (val[i] == 0)
+                {
+                    missing = i;
+                    break;
+                }
+                i++;
+            }
+
+            if(i == val.Length)
+            {
+                missing = nums.Length + 1;
+            }
+
+            return missing;
+        }
+
         static Dictionary<char, char[]> d = new Dictionary<char, char[]>(){
         {'2', new char[] {'a','b','c'}},
         {'3', new char[] {'d','e','f'}},
@@ -150,6 +203,7 @@ namespace Interview
 
             return x;
         }
+
         public static IList<int> FindDisappearedNumbers(params int[] nums)
         {
             HashSet<int> h = new();
@@ -400,46 +454,6 @@ namespace Interview
             }
 
             return m;
-        }
-
-        public static String GetLargestNumberFormed(params int[] a)
-        {
-            int i = 0;
-            int j = 1;
-            int temp = 0;
-
-            while (i < a.Length)
-            {
-                j = i + 1;
-                while (j < a.Length)
-                {
-                    if (string.Compare(a[j].ToString() + a[i].ToString(),
-                                       a[i].ToString() + a[j].ToString()) > 0)
-                    {
-                        temp = a[i];
-                        a[i] = a[j];
-                        a[j] = temp;
-                    }
-                    j++;
-                }
-                i++;
-            }
-
-            i = 0;
-            string s = "";
-            while (i < a.Length)
-            {
-                s = s + a[i];
-                i++;
-            }
-
-            int val = 0;
-            if (int.TryParse(s, out val))
-            {
-                s = val.ToString();
-            }
-
-            return s;
         }
 
         public static int[] PlusOne(params int[] digits)
@@ -853,9 +867,9 @@ namespace Interview
             return x[t];
         }
 
-        public static List<int>? howSumTabular(int t, params int[] a)
+        public static List<int> howSumTabular(int t, params int[] a)
         {
-            var x = new List<int>?[t + 1];
+            var x = new List<int>[t + 1];
 
             x[0] = new List<int>();
 
@@ -883,9 +897,9 @@ namespace Interview
             return x[t];
         }
 
-        public static List<int>? bestSumTabular(int t, params int[] a)
+        public static List<int> bestSumTabular(int t, params int[] a)
         {
-            var x = new List<int>?[t + 1];
+            var x = new List<int>[t + 1];
 
             x[0] = new List<int>();
 
