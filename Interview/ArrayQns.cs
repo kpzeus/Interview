@@ -7,6 +7,202 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public static bool IsNumber(string str)
+        {
+            str = str.Trim();
+
+            if (str.Length == 0)
+                return false;
+
+            if (str.Length == 1 && !char.IsDigit(str[0]))
+                return false;
+
+            bool foundDot = str[0] == '.';
+            bool foundDigit = char.IsDigit(str[0]);
+            bool foundE = false;
+
+            if (str[0] != '+' && str[0] != '-'
+    && !foundDigit && !foundDot)
+                return false;
+
+            for (int i = 1; i < str.Length; i++)
+            {
+                if (!char.IsDigit(str[i]) && str[i] != 'e'
+                    && str[i] != 'E'
+                    && str[i] != '.'
+                    && str[i] != '+'
+                    && str[i] != '-')
+                    return false;
+
+                if (char.IsDigit(str[i]))
+                    foundDigit = true;
+
+                if (str[i] == '.')
+                {
+                    if (foundDot)
+                        return false;
+
+                    if (foundE)
+                        return false;
+
+                    foundDot = true;
+
+                    if (!char.IsDigit(str[i - 1])
+                       && (i + 1 == str.Length ||
+                          (!char.IsDigit(str[i + 1])
+                          && !"eE".Contains(str[i + 1]))))
+                        return false;
+                }
+
+                if (str[i] == 'e' || str[i] == 'E')
+                {
+                    if (foundE)
+                        return false;
+
+                    foundE = true;
+
+                    if (!foundDigit)
+                        return false;
+                    if (!char.IsDigit(str[i - 1])
+                       && str[i - 1] != '.')
+                        return false;
+
+                    if (i + 1 == str.Length)
+                        return false;
+
+                    if (!char.IsDigit(str[i + 1]) && str[i + 1] != '+'
+        && str[i + 1] != '-')
+                        return false;
+                }
+
+                if (str[i] == '+' || str[i] == '-')
+                {
+                    if (str[i - 1] != 'e' && str[i - 1] != 'E')
+                        return false;
+
+                    if (i + 1 == str.Length)
+                        return false;
+
+                    if (!char.IsDigit(str[i + 1]))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static IList<int> FindSubstring(string s, string[] words)
+        {
+            List<int> r = new();
+
+            int w = words[0].Length;
+
+            int l = w * words.Length;
+
+            if (s.Length < l)
+                return r;
+
+            Dictionary<string, int> d = new();
+
+            int i = 0;
+            while (i < words.Length)
+            {
+                if (d.ContainsKey(words[i]))
+                {
+                    d[words[i]] = d[words[i]] + 1;
+                }
+                else
+                {
+                    d.Add(words[i], 1);
+                }
+                i++;
+            }
+
+            i = 0;
+            while (i + l - 1 < s.Length)
+            {
+                var temp = new Dictionary<string, int>(d);
+
+                int j = i;
+                int count = words.Length;
+                while (j + w - 1 < s.Length)
+                {
+                    var x = s.Substring(j, w);
+
+                    if (!d.ContainsKey(x) || temp[x] == 0)
+                        break;
+
+                    temp[x]--;
+                    count--;
+                    j = j + w;
+                }
+
+                if (count == 0)
+                    r.Add(i);
+
+                i++;
+            }
+
+            return r;
+        }
+
+        public static double FindMedianSortedArrays(int[] nums1, int[] nums2)
+        {
+            int i = 0;
+            int j = 0;
+            int count;
+            int n = nums1.Length;
+            int m = nums2.Length;
+            int m1 = -1, m2 = -1;
+
+            if ((m + n) % 2 == 1)
+            {
+                for (count = 0;
+                    count <= (n + m) / 2;
+                    count++)
+                {
+                    if (i != n && j != m)
+                    {
+                        m1 = (nums1[i] > nums2[j]) ?
+                              nums2[j++] : nums1[i++];
+                    }
+                    else if (i < n)
+                    {
+                        m1 = nums1[i++];
+                        i++;
+                    }
+                    else
+                    {
+                        m1 = nums2[j++];
+                    }
+                }
+                return m1;
+            }
+            else
+            {
+                for (count = 0;
+                    count <= (n + m) / 2;
+                    count++)
+                {
+                    m2 = m1;
+                    if (i != n && j != m)
+                    {
+                        m1 = (nums1[i] > nums2[j]) ?
+                              nums2[j++] : nums1[i++];
+                    }
+                    else if (i < n)
+                    {
+                        m1 = nums1[i++];
+                    }
+                    else
+                    {
+                        m1 = nums2[j++];
+                    }
+                }
+                return ((double)m1 + (double)m2) / 2;
+            }
+        }
+
         public static int FirstMissingPositive(int[] nums)
         {
             int missing = 1;

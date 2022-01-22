@@ -412,7 +412,8 @@ namespace Interview
             //    new ListNode(4,
             //    new ListNode(5, null)))));
 
-            //var x = LinkListQns.ReverseKGroup(l, 3);
+            //var x = ArrayQns.FullJustify(new string[] {
+            //    "Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do" },20);
 
             Console.Read();
         }
