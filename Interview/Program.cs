@@ -412,8 +412,7 @@ namespace Interview
             //    new ListNode(4,
             //    new ListNode(5, null)))));
 
-            //var x = ArrayQns.FullJustify(new string[] {
-            //    "Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do" },20);
+            var x = ArrayQns.MaxArea(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 });
 
             Console.Read();
         }

@@ -7,6 +7,106 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public static int MaxArea(int[] height)
+        {
+            int max = 0;
+            int i = 0;
+            int j = height.Length - 1;
+            while (i < j)
+            {
+                int l = height[i];
+                int r = height[j];
+                int len = j - i;
+                int h = Math.Min(l, r);
+                int area = h * len;
+                max = Math.Max(max, area);
+
+                if (l <= r)
+                {
+                    i++;
+                }
+                else
+                    j--;
+            }
+
+            return max;
+        }
+
+        public static int LengthOfLongestSubstring(string s)
+        {
+            int max = 0;
+
+            HashSet<char> h;
+            int i = 0;
+            while (i < s.Length)
+            {
+                h = new();
+                h.Add(s[i]);
+                int j = i + 1;
+                while (j < s.Length)
+                {
+                    if (h.Contains(s[j]))
+                    {
+                        max = Math.Max(max, h.Count);
+                        break;
+                    }
+                    h.Add(s[j]);
+                    j++;
+                }
+                i++;
+            }
+
+            return max;
+        }
+
+        static IList<IList<string>> r = new List<IList<string>>();
+
+        public static IList<IList<string>> FindLadders(string beginWord, string endWord, IList<string> wordList)
+        {
+            r.Clear();
+
+            if (!wordList.Contains(endWord))
+                return r;
+
+            HashSet<string> h = new HashSet<string>(wordList);
+            var x = new List<string>();
+            x.Add(beginWord);
+            Search(h, x, beginWord, endWord);
+            return r;
+        }
+
+        private static void Search(HashSet<string> h, List<string> l, string c, string endWord)
+        {
+            if (r.Count > 0 && l.Count > r[0].Count)
+                return;
+
+            if (c == endWord)
+            {
+                l.Add(c);
+                if(r.Count == 0 || l.Count == r[0].Count)
+                    r.Add(l);
+                return;
+            }
+
+            for (char i = 'a'; i <= 'z'; i++)
+            {
+                for (int j = 0; j < c.Length; j++)
+                {
+                    var x = c.ToCharArray();
+                    x[j] = i;
+                    var word = new string(x);
+                    if (h.Contains(word))
+                    {
+                        var newh = new HashSet<string>(h);
+                        newh.Remove(word);
+                        var newl = new List<string>(l);
+                        newl.Add(word);
+                        Search(newh, newl, word, endWord);
+                    }
+                }
+            }
+        }
+
         public static bool IsNumber(string str)
         {
             str = str.Trim();
