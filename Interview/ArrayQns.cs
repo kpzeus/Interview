@@ -2,11 +2,252 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Collections;
 
 namespace Interview
 {
     public class ArrayQns
     {
+        class sortHelper : IComparer
+        {
+            int IComparer.Compare(object a, object b)
+            {
+                int[] first = (int[])a;
+                int[] second = (int[])b;
+                if (first[0] == second[0])
+                {
+                    return first[1] - second[1];
+                }
+                return first[0] - second[0];
+            }
+        }
+
+        public int[][] Merge(int[][] intervals)
+        {
+            if (intervals == null || intervals.Length == 0)
+                return intervals;
+
+            List<int[]> res = new();
+
+            Array.Sort(intervals, new sortHelper());
+
+            Stack<int[]> stack = new();
+
+            stack.Push(intervals[0]);
+
+            for (int i = 1; i < intervals.Length; i++)
+            {
+
+                var top = (int[])stack.Peek();
+
+                if (top[1] < intervals[i][0])
+                    stack.Push(intervals[i]);
+                else if (top[1] < intervals[i][1])
+                {
+                    top[1] = intervals[i][1];
+                    stack.Pop();
+                    stack.Push(top);
+                }
+            }
+
+            while (stack.Count != 0)
+            {
+                res.Add(stack.Pop());
+            }
+
+            return res.ToArray();
+        }
+
+        public int Jump(int[] nums)
+        {
+            if (nums == null || nums.Length == 0)
+                return -1;
+
+            Queue<(int, int, int)> q = new();
+            q.Enqueue((0, nums[0], 0));
+            while (q.Count > 0)
+            {
+                var x = q.Dequeue();
+                if (x.Item1 == nums.Length - 1)
+                    return x.Item3;
+                int i = x.Item1 + 1;
+                int max = x.Item1 + x.Item2;
+                while (i <= max && i < nums.Length)
+                {
+                    q.Enqueue((i, nums[i], x.Item3 + 1));
+                    i++;
+                }
+            }
+
+            return -1;
+        }
+
+        public string Multiply(string num1, string num2)
+        {
+            StringBuilder res = new();
+
+            if (num1 == "0" || num2 == "0")
+                return "0";
+
+            int r = 0;
+            int q = 0;
+            List<string> x = new();
+            int c = 0;
+            for (int i = num2.Length - 1; i > -1; i--)
+            {
+                res.Length = 0;
+                int y = c;
+                while (y > 0)
+                {
+                    res.Append("0");
+                    y--;
+                }
+                for (int j = num1.Length - 1; j > -1; j--)
+                {
+                    int a = num2[i] - '0';
+                    int b = num1[j] - '0';
+
+                    int z = (a * b) + q;
+                    r = z % 10;
+                    q = z / 10;
+
+                    res.Insert(0, r.ToString());
+                }
+                if (q > 0)
+                {
+                    res.Insert(0, q.ToString());
+                    q = 0;
+                }
+                x.Add(res.ToString());
+                c++;
+            }
+
+            if (q > 0)
+            {
+                res.Length = 0;
+                int y = c;
+                while (y > 0)
+                {
+                    res.Append("0");
+                    y--;
+                }
+                res.Insert(0, q.ToString());
+                x.Add(res.ToString());
+            }
+
+            return Add(x);
+        }
+
+        private string Add(List<string> s)
+        {
+            string a = s[s.Count - 1];
+
+            int k = s.Count - 2;
+            while (k > -1)
+            {
+                StringBuilder res = new();
+                string b = s[k];
+                int q = 0;
+                int r = 0;
+                int i = a.Length - 1;
+                int j = b.Length - 1;
+                while (i > -1 && j > -1)
+                {
+                    int x = a[i] - '0';
+                    int y = b[j] - '0';
+
+                    int c = (x + y) + q;
+                    r = c % 10;
+                    q = c / 10;
+
+                    res.Insert(0, r.ToString());
+                    i--;
+                    j--;
+                }
+                while (i > -1)
+                {
+                    int x = a[i] - '0';
+                    int c = x + q;
+                    r = c % 10;
+                    q = c / 10;
+                    res.Insert(0, r.ToString());
+                    i--;
+                }
+                while (j > -1)
+                {
+                    int x = b[j] - '0';
+                    int c = x + q;
+                    r = c % 10;
+                    q = c / 10;
+                    res.Insert(0, r.ToString());
+                    j--;
+                }
+                if (q > 0)
+                    res.Insert(0, q.ToString());
+                a = res.ToString();
+                k--;
+            }
+
+            return a;
+        }
+
+        public static IList<IList<int>> FourSum(int[] nums, int target)
+        {
+            IList<IList<int>> r = new List<IList<int>>();
+
+            if (nums == null || nums.Length < 4)
+                return r;
+
+            HashSet<int> h = new();
+
+            Array.Sort(nums);
+            for (int i = 0; i < nums.Length - 3; i++)
+            {
+                for (int j = i + 1; j < nums.Length - 2; j++)
+                {
+                    int low = j + 1;
+                    int high = nums.Length - 1;
+                    while (low < high)
+                    {
+                        int current = nums[low] + nums[high] + nums[i] + nums[j];
+                        if (current == target)
+                        {
+                            List<int> x = new();
+                            x.Add(nums[i]);
+                            x.Add(nums[j]);
+                            x.Add(nums[low]);
+                            x.Add(nums[high]);
+                            (int, int, int, int) item = new();
+                            item.Item1 = x[0];
+                            item.Item2 = x[1];
+                            item.Item3 = x[2];
+                            item.Item4 = x[3];
+                            int hash = item.GetHashCode();
+                            if (!h.Contains(hash))
+                                r.Add(x);
+                            h.Add(hash);
+                            while (low < high && nums[low] == nums[low + 1])
+                                low++;
+                            while (low < high && nums[high] == nums[high - 1])
+                                high--;
+                            low++;
+                            high--;
+                        }
+                        else if (current > target)
+                        {
+                            high--;
+                        }
+                        else
+                        {
+                            low++;
+                        }
+                    }
+                }
+            }
+
+            return r;
+        }
+
         public static int MaxArea(int[] height)
         {
             int max = 0;
@@ -83,7 +324,7 @@ namespace Interview
             if (c == endWord)
             {
                 l.Add(c);
-                if(r.Count == 0 || l.Count == r[0].Count)
+                if (r.Count == 0 || l.Count == r[0].Count)
                     r.Add(l);
                 return;
             }
@@ -348,7 +589,7 @@ namespace Interview
                 i++;
             }
 
-            if(i == val.Length)
+            if (i == val.Length)
             {
                 missing = nums.Length + 1;
             }
@@ -522,40 +763,114 @@ namespace Interview
             return x;
         }
 
-        public static int PotHoles(string L1, string L2)
+        static HashSet<string> h = new();
+        public static int PotHoles2(string L1, string L2)
         {
-            return Math.Max(PotHoles(L1, L2, 0, true), PotHoles(L1, L2, 0, false));
+            h = new();
+            var x = PotHoles2(L1, L2, 0, true);
+            h = new();
+            var y = PotHoles2(L1, L2, 0, false);
+            return Math.Max(x, y);
         }
 
-        public static int PotHoles(string L1, string L2, int i, bool lane1)
+        public static int PotHoles2(string L1, string L2, int i, bool lane1)
         {
-            if (i == L1.Length)
-                return 0;
-
-            if (lane1)
+            if (i < L1.Length)
             {
-                if (L2[i] == 'x')
+                if (lane1)
                 {
-                    return 1 + PotHoles(L1, L2, i + 1, true);
+                    if (L2[i] == 'x')
+                    {
+                        h.Add(1 + "," + i);
+                        return 1 + PotHoles2(L1, L2, i + 1, true);
+                    }
+                    else
+                    {
+                        if (L1[i] == 'x')
+                        {
+                            if (i == 0 || !h.Contains("1," + (i - 1)))
+                            {
+                                h.Add(0 + "," + i);
+                                return 1 + PotHoles2(L1, L2, i + 1, false);
+                            }
+                            else
+                            {
+                                return PotHoles2(L1, L2, i + 1, true);
+                            }
+                        }
+                        else
+                        {
+                            return PotHoles2(L1, L2, i + 1, true);
+                        }
+                    }
                 }
                 else
                 {
-                    return PotHoles(L1, L2, i + 1, false);
+                    if (L1[i] == 'x')
+                    {
+                        h.Add(0 + "," + i);
+                        return 1 + PotHoles2(L1, L2, i + 1, false);
+                    }
+                    else
+                    {
+                        if (L2[i] == 'x')
+                        {
+                            if (i == 0 || !h.Contains("0," + (i - 1)))
+                            {
+                                h.Add(1 + "," + i);
+                                return 1 + PotHoles2(L1, L2, i + 1, false);
+                            }
+                            else
+                            {
+                                return PotHoles2(L1, L2, i + 1, true);
+                            }
+                        }
+                        else
+                        {
+                            return PotHoles2(L1, L2, i + 1, true);
+                        }
+                    }
                 }
+                i++;
             }
-            else
-            {
 
-                if (L1[i] == 'x')
-                {
-                    return 1 + PotHoles(L1, L2, i + 1, false);
-                }
-                else
-                {
-                    return PotHoles(L1, L2, i + 1, true);
-                }
-            }
+            return 0;
         }
+
+        //public static int PotHoles(string L1, string L2)
+        //{
+        //    return Math.Max(PotHoles(L1, L2, 0, true), PotHoles(L1, L2, 0, false));
+        //}
+
+        //public static int PotHoles(string L1, string L2, int i, bool lane1)
+        //{
+        //    if (i == L1.Length)
+        //        return 0;
+
+        //    if (lane1)
+        //    {
+        //        if (L2[i] == 'x')
+        //        {
+        //            return 1 + PotHoles(L1, L2, i + 1, true);
+        //        }
+        //        else
+        //        {
+        //            return PotHoles(L1, L2, i + 1, false);
+        //        }
+        //    }
+        //    else
+        //    {
+
+        //        if (L1[i] == 'x')
+        //        {
+        //            return 1 + PotHoles(L1, L2, i + 1, false);
+        //        }
+        //        else
+        //        {
+        //            return PotHoles(L1, L2, i + 1, true);
+        //        }
+        //    }
+        //}
 
         public static bool IsValidBrackets(string s)
         {
@@ -669,8 +984,8 @@ namespace Interview
         }
 
         private static void MaximumSizeSubsetWithGivenSum(
-            int sum, 
-            int i, 
+            int sum,
+            int i,
             List<List<int>> res,
             List<int> curr,
             params int[] a)
@@ -1031,7 +1346,7 @@ namespace Interview
         }
 
         public static List<int> howSum(
-            List<int> A, 
+            List<int> A,
             int B)
         {
             var result = new List<int>();
@@ -1061,9 +1376,9 @@ namespace Interview
             if (B == 0)
             {
                 return temp;
-            }  
+            }
 
-            foreach(var x in A)
+            foreach (var x in A)
             {
                 temp.Add(x);
                 var ret = howSum(A, B - x, temp, cache);
@@ -1129,10 +1444,10 @@ namespace Interview
 
             x[1] = 1;
 
-            for(int i=0; i<n; i++)
+            for (int i = 0; i < n; i++)
             {
                 x[i + 1] += x[i];
-                if(i+2 <= n)
+                if (i + 2 <= n)
                     x[i + 2] += x[i];
             }
 
@@ -1157,7 +1472,7 @@ namespace Interview
                             x[index] = true;
                         }
                     }
-                }                
+                }
             }
 
             return x[t];
@@ -1216,17 +1531,263 @@ namespace Interview
                             }
                             else
                             {
-                                if(c.Count < x[index].Count)
+                                if (c.Count < x[index].Count)
                                 {
                                     x[index] = c;
                                 }
-                            }                            
+                            }
                         }
                     }
                 }
             }
 
             return x[t];
+        }
+
+        public bool Exist(char[][] board, string word)
+        {
+            if (board == null || board.Length == 0)
+                return false;
+
+            bool[][] v = new bool[board.Length][];
+            int k = 0;
+            while (k < board.Length)
+            {
+                v[k] = new bool[board[0].Length];
+                k++;
+            }
+
+            for (int i = 0; i < board.Length; i++)
+            {
+                for (int j = 0; j < board[0].Length; j++)
+                {
+                    if (Exist(board, word, v, i, j, 0))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool Exist(char[][] board, string word, bool[][] v, int i, int j, int k)
+        {
+            if (k == word.Length)
+                return true;
+
+            if (i == -1 || i == board.Length)
+                return false;
+
+            if (j == -1 || j == board[0].Length)
+                return false;
+
+            if (v[i][j])
+                return false;
+
+            if (board[i][j] == word[k])
+            {
+                v[i][j] = true;
+                var status = Exist(board, word, v, i + 1, j, k + 1);
+                if (status)
+                    return true;
+                status = Exist(board, word, v, i - 1, j, k + 1);
+                if (status)
+                    return true;
+                status = Exist(board, word, v, i, j + 1, k + 1);
+                if (status)
+                    return true;
+                status = Exist(board, word, v, i, j - 1, k + 1);
+                if (status)
+                    return true;
+                v[i][j] = false;
+            }
+
+            return false;
+        }
+
+        public int RemoveDuplicates(int[] nums)
+        {
+            if (nums == null || nums.Length == 0)
+                return 0;
+
+            if (nums.Length < 2)
+                return nums.Length;
+
+            int l = 2;
+            for (int i = 2; i < nums.Length; i++)
+            {
+                if (nums[i] != nums[l - 2] || nums[i] != nums[l - 1])
+                {
+                    nums[l] = nums[i];
+                    l++;
+                }
+            }
+
+            return l;
+        }
+
+        public bool Search(int[] nums, int target)
+        {
+            if (nums == null || nums.Length == 0)
+                return false;
+
+            if (nums.Length == 1)
+                return nums[0] == target;
+
+            int i = 0;
+            int j = nums.Length - 1;
+            int p = 0;
+
+            while (i < j)
+            {
+                int mid = (i + j) / 2;
+
+                if (nums[i] == target)
+                    return true;
+
+                if (nums[j] == target)
+                    return true;
+
+                if (nums[mid] == target)
+                    return true;
+
+                if ((nums[i] == nums[mid])
+                && (nums[j] == nums[mid]))
+                {
+                    i++;
+                    j--;
+                    continue;
+                }
+
+                if (mid > 0 && nums[mid] < nums[mid - 1])
+                {
+                    p = mid;
+                    break;
+                }
+
+                if (mid < nums.Length - 1 && nums[mid] > nums[mid + 1])
+                {
+                    p = mid + 1;
+                    break;
+                }
+
+                if (nums[mid] > nums[j])
+                {
+                    i = mid + 1;
+                }
+                else
+                {
+                    j = mid - 1;
+                }
+            }
+
+            if (Array.BinarySearch(nums, p, nums.Length - p, target) > -1)
+                return true;
+
+            if (Array.BinarySearch(nums, 0, p, target) > -1)
+                return true;
+
+            return false;
+        }
+
+        public IList<IList<int>> SubsetsWithDup(int[] nums)
+        {
+            IList<IList<int>> r = new List<IList<int>>();
+
+            Array.Sort(nums);
+            Eval(r, new List<int>(), nums, 0);
+            return r;
+        }
+
+        private void Eval(IList<IList<int>> r, List<int> x, int[] nums, int index)
+        {
+            r.Add(new List<int>(x));
+
+            for (int i = index; i < nums.Length; i++)
+            {
+                if (i != index && nums[i] == nums[i - 1])
+                    continue;
+                x.Add(nums[i]);
+                Eval(r, x, nums, i + 1);
+                x.RemoveAt(x.Count - 1);
+            }
+        }
+
+        public IList<string> RestoreIpAddresses(string s)
+        {
+            IList<string> r = new List<string>();
+
+            if (s == null || s.Length < 4 || s.Length > 12)
+                return r;
+
+            Eval(r, new List<string>(), s, 0);
+            return r;
+        }
+
+        private void Eval(IList<string> r, List<string> sets, string s, int index)
+        {
+            if (sets.Count == 4)
+            {
+                if (index == s.Length)
+                    r.Add(string.Join('.', sets));
+                return;
+            }
+
+            if (index >= s.Length)
+                return;
+            int len = Math.Min(3, s.Length - index);
+            for (int i = len; i > 0; i--)
+            {
+                var x = s.Substring(index, i);
+                var num = Convert.ToInt32(x);
+                if (num < 256 && (x[0] != '0' || (num == 0 && x.Length == 1)))
+                {
+                    sets.Add(x);
+                    Eval(r, sets, s, index + i);
+                    sets.RemoveAt(sets.Count - 1);
+                }
+            }
+        }
+
+        public IList<IList<string>> Partition(string s)
+        {
+            IList<IList<string>> r = new List<IList<string>>();
+            if (s == null || s.Length == 0)
+                return r;
+            Eval(r, new List<string>(), 0, s);
+            return r;
+        }
+
+        private void Eval(IList<IList<string>> r, List<string> set, int index, string s)
+        {
+            if (index == s.Length)
+            {
+                r.Add(new List<string>(set));
+                return;
+            }
+
+            for (int i = index; i < s.Length; i++)
+            {
+                if (IsPalindrome(s, index, i))
+                {
+                    set.Add(s.Substring(index, i - index + 1));
+                    Eval(r, set, i + 1, s);
+                    set.RemoveAt(set.Count - 1);
+                }
+            }
+        }
+
+        private bool IsPalindrome(string s, int i, int j)
+        {
+            while (i <= j)
+            {
+                if (s[i] != s[j])
+                    return false;
+                i++;
+                j--;
+            }
+            return true;
         }
     }
 }

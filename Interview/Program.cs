@@ -372,8 +372,6 @@ namespace Interview
 
             //Console.WriteLine(ArrayQns.IsValidBrackets("()"));
 
-            //Console.WriteLine(ArrayQns.PotHoles("x..xx.", "..xxx."));
-
             //Console.WriteLine(ArrayQns.FindDisappearedNumbers(4, 3, 2, 7, 8, 2, 3, 1));
 
             //Console.WriteLine(ArrayQns.FindDisappearedNumbers(1, 1));
@@ -412,7 +410,27 @@ namespace Interview
             //    new ListNode(4,
             //    new ListNode(5, null)))));
 
-            var x = ArrayQns.MaxArea(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 });
+            //Console.WriteLine(ArrayQns.PotHoles3("x..xx.", "..xxx."));
+
+            //x..xx.
+            //..xxx.
+
+            //Console.WriteLine(ArrayQns.PotHoles2("x..xx.", "..xxx.", 0, true));
+            //Console.WriteLine(ArrayQns.PotHoles2("x..xx.", "..xxx.", 0, false));
+
+            //Console.WriteLine(ArrayQns.PotHoles2("x.x.x.", ".x.x.x"));
+            //Console.WriteLine(ArrayQns.PotHoles2("x..xx.", "..xxx."));
+
+            //ArrayQns x = new ArrayQns();
+            //var y = x.Exist(new char[][] {
+            //    new char[] { 'A', 'B', 'C', 'E' },
+            //    new char[] { 'S', 'F', 'C', 'S' },
+            //    new char[] { 'A', 'D', 'E', 'E' } },
+            //    "ABCCED");
+
+            ArrayQns x = new ArrayQns();
+            //var y = x.RemoveDuplicates(new int[] {-3, -1, -1, 0, 0, 0, 0, 0, 2});
+            var y = x.Partition("aab");
 
             Console.Read();
         }
