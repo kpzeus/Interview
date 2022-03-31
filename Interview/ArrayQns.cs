@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Collections;
+using System.Collections.Specialized;
 
 namespace Interview
 {
     public class ArrayQns
     {
-        class sortHelper : IComparer
+        class sortHelper : IComparer<int[]>
         {
-            int IComparer.Compare(object a, object b)
+            public int Compare(int[] a, int[] b)
             {
-                int[] first = (int[])a;
-                int[] second = (int[])b;
-                if (first[0] == second[0])
+                if (a[0] == b[0])
                 {
-                    return first[1] - second[1];
+                    return a[1] - b[1];
                 }
-                return first[0] - second[0];
+                return a[0] - b[0];
             }
         }
 
@@ -1788,6 +1787,199 @@ namespace Interview
                 j--;
             }
             return true;
+        }
+
+
+        public int LongestCommonSubsequence(string text1, string text2)
+        {
+            Dictionary<(int, int), int> d = new();
+            return LongestCommonSubsequence(d, text1, text2, text1.Length - 1, text2.Length - 1);
+        }
+
+        private int LongestCommonSubsequence(Dictionary<(int, int), int> d, string a, string b, int i, int j)
+        {
+            if (d.ContainsKey((i, j)))
+                return d[(i, j)];
+
+            if (i == -1 || j == -1)
+                return d[(i, j)] = 0;
+
+            if (a[i] == b[j])
+            {
+                return d[(i, j)] = 1 + LongestCommonSubsequence(d, a, b, i - 1, j - 1);
+            }
+            else
+            {
+                return d[(i, j)] = Math.Max(LongestCommonSubsequence(d, a, b, i - 1, j),
+                              LongestCommonSubsequence(d, a, b, i, j - 1));
+            }
+        }
+
+        public int LengthOfLIS(int[] nums)
+        {
+            if (nums == null || nums.Length == 0)
+                return 0;
+
+            if (nums.Length == 1)
+                return 1;
+
+            int[] tail = new int[nums.Length];
+            int len = 1;
+            tail[0] = nums[0];
+
+            for (int i = 1; i < nums.Length; i++)
+            {
+                if (nums[i] > tail[len - 1])
+                {
+                    tail[len] = nums[i];
+                    len++;
+                }
+                else
+                {
+                    int idx = GetLowerBound(tail, nums[i], len);
+                    tail[idx] = nums[i];
+                }
+            }
+
+            return len;
+        }
+
+        private int GetLowerBound(int[] a, int t, int n)
+        {
+            int s = 0;
+            int e = n - 1;
+
+            while (s < e)
+            {
+                int mid = (s + e) / 2;
+
+                if (t > a[mid])
+                {
+                    s = mid + 1;
+                }
+                else
+                    e = mid;
+            }
+
+            return s;
+        }
+
+        public int MaxLength(IList<string> arr)
+        {
+            if (arr == null || arr.Count() == 0)
+                return 0;
+
+            int res = 0;
+
+            List<HashSet<char>> col = new List<HashSet<char>>();
+
+            foreach (var s in arr)
+            {
+                int len = s.Length;
+                HashSet<char> set = new HashSet<char>();
+                bool dup = false;
+                foreach (var c in s)
+                {
+                    if (set.Contains(c))
+                    {
+                        dup = true;
+                        break;
+                    }
+                    set.Add(c);
+                }
+
+                if (dup)
+                    continue;
+
+                col.Add(set);
+                res = Math.Max(res, len);
+
+                if (col.Count == 1)
+                    continue;
+
+                for (int i = col.Count - 1; i >= 0; i--)
+                {
+                    var x = col[i];
+                    bool conflict = false;
+                    foreach (var a in set)
+                    {
+                        if (x.Contains(a))
+                        {
+                            conflict = true;
+                            break;
+                        }
+                    }
+
+                    if (conflict)
+                        continue;
+
+                    int len1 = x.Count;
+                    var cand = new HashSet<char>(set);
+                    foreach (var a in x)
+                    {
+                        cand.Add(a);
+                    }
+
+                    col.Add(cand);
+                    res = Math.Max(res, len + len1);
+                }
+            }
+
+            return res;
+        }
+
+        public int TotalFruit(int[] fruits)
+        {
+            Dictionary<int, int> d = new();
+            int max = 0;
+            int curr = 0;
+            int index = 0;
+            foreach (var f in fruits)
+            {
+                if (d.ContainsKey(f))
+                {
+                    d[f]++;
+                }
+                else
+                {
+                    d.Add(f, 1);
+                }
+
+                curr++;
+
+                while (d.Count > 2)
+                {
+                    d[fruits[index]]--;
+                    if (d[fruits[index]] == 0)
+                        d.Remove(fruits[index]);
+                    index++;
+                    curr--;
+                }
+                max = Math.Max(max, curr);
+            }
+
+            return max;
+        }
+
+        public int GetFilters(int[] a)
+        {
+            double sum = a.Sum();
+            PriorityQueue<double, double> q = new PriorityQueue<double, double>();  
+            foreach(var x in a)
+            {
+                q.Enqueue(x, -x);
+            }
+            double target = sum / 2;
+            int c = 0;
+            while(sum > target)
+            {
+                c++;
+                double max = q.Dequeue();
+                double newVal = max / 2;
+                sum -= newVal;
+                q.Enqueue(newVal, newVal);
+            }
+            return c;
         }
     }
 }

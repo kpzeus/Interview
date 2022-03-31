@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Interview
 {
@@ -428,9 +429,28 @@ namespace Interview
             //    new char[] { 'A', 'D', 'E', 'E' } },
             //    "ABCCED");
 
+            //TempTracker t = new TempTracker();
+            //t.Record(100);
+            //Console.WriteLine(t.GetMax());
+            //Thread.Sleep(1000);
+            //t.Record(50);
+            //t.Record(80);
+            //Console.WriteLine(t.GetMax());
+            //Thread.Sleep(2000);
+            //Console.WriteLine(t.GetMax());
+            //t.Record(120);
+            //Console.WriteLine(t.GetMax());
+
             ArrayQns x = new ArrayQns();
             //var y = x.RemoveDuplicates(new int[] {-3, -1, -1, 0, 0, 0, 0, 0, 2});
-            var y = x.Partition("aab");
+            //var y = x.FindDiagonalOrder(new int[][] { new int[] { 1, 2, 3 }, new int[] { 4,5,6 }, new int[] { 7,8,9} });
+            //var y = x.LongestCommonSubsequence("ezupkr","ubmrapg");
+            //var y = x.LengthOfLIS(new int[] { 10, 9, 2, 5, 3, 7, 101, 18 });
+            //var y = x.MaxLength(new string[] { "ab", "fg", "ae" });
+            //var z = x.MaxLength(new string[] { "abcdefghijklmnopqrstuvwxyz" });
+            //var z = x.MaxLength(new string[] { "a", "abc", "d", "de", "def" });
+            //var z = x.MaxLength(new string[] { "ab", "cd", "cde", "cdef", "efg", "fgh", "abxyz" });
+            //var z = x.GetFilters(new int[] { 100, 100, 0, 0, 50 });
 
             Console.Read();
         }
