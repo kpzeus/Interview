@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,61 @@ namespace Interview
 {
     public class StringQns
     {
+        public bool IsValidParentheses(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return true;
+            if (s.Length % 2 == 1)
+                return false;
+
+            Stack st = new();
+            int i = 0;
+            while (i < s.Length)
+            {
+                if ("({[".Contains(s[i]))
+                {
+                    st.Push(s[i]);
+                }
+                else
+                {
+                    if (")}]".Contains(s[i]))
+                    {
+                        if (st.Count == 0)
+                            return false;
+
+                        var c = (char)st.Pop();
+                        var c2 = ' ';
+
+                        switch (c)
+                        {
+                            case '(':
+                                c2 = ')';
+                                break;
+                            case '{':
+                                c2 = '}';
+                                break;
+                            case '[':
+                                c2 = ']';
+                                break;
+
+                            default:
+                                return false;
+                        }
+                        if (s[i] != c2)
+                            return false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                i++;
+            }
+
+            return st.Count == 0;
+        }
+
         public static String RemoveDuplicates(Char[] a)
         {
             if (a == null)
