@@ -9,6 +9,35 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int CanCompleteCircuit(int[] gas, int[] cost)
+        {
+            if (gas == null || cost == null)
+                return -1;
+
+            if (gas.Length != cost.Length)
+                return -1;
+
+            int total = 0;
+            int tank = 0;
+            int start = 0;
+            for (int i = 0; i < gas.Length; i++)
+            {
+                int net = gas[i] - cost[i];
+                total += net;
+                tank += net;
+                if (tank < 0)
+                {
+                    start = (i + 1) % gas.Length;
+                    tank = 0;
+                }
+            }
+
+            if (total >= 0)
+                return start;
+
+            return -1;
+        }
+
         class sortHelper : IComparer<int[]>
         {
             public int Compare(int[] a, int[] b)
