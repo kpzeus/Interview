@@ -1,7 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace Interview
 {
@@ -11,6 +10,20 @@ namespace Interview
         {
             DateTime start = DateTime.Now;
             Console.WriteLine("Started");
+            var x = ArrayQns.ParseNestedList("[[1,100,3],[7,8,9]]");
+            int y;
+            y = new ArrayQns().MaxValueOfCoins(x, 2);
+            Assert.AreEqual(101, y);
+            x = ArrayQns.ParseNestedList("[[100],[100],[100],[100],[100],[100],[1,1,1,1,1,1,700]]");
+            y = new ArrayQns().MaxValueOfCoins(x, 7);
+            Assert.AreEqual(706, y);
+            x = ArrayQns.ParseNestedList("[[48,14,23,38,33,79,3,52,73,58,49,23,74,44,69,76,83,41,46,32,28]]");
+            y = new ArrayQns().MaxValueOfCoins(x, 10);
+            Assert.AreEqual(421, y);
+            x = ArrayQns.ParseNestedList("[[37,88],[51,64,65,20,95,30,26],[9,62,20],[44]]");
+            y = new ArrayQns().MaxValueOfCoins(x, 9);
+            Assert.AreEqual(494, y);
+
             //int[][] m = new int[4][];
             //m[0] = new int[4];
             //m[1] = new int[4];
@@ -441,7 +454,7 @@ namespace Interview
             //t.Record(120);
             //Console.WriteLine(t.GetMax());
 
-            ArrayQns x = new ArrayQns();
+            //ArrayQns x = new ArrayQns();
             //var y = x.RemoveDuplicates(new int[] {-3, -1, -1, 0, 0, 0, 0, 0, 2});
             //var y = x.FindDiagonalOrder(new int[][] { new int[] { 1, 2, 3 }, new int[] { 4,5,6 }, new int[] { 7,8,9} });
             //var y = x.LongestCommonSubsequence("ezupkr","ubmrapg");
@@ -452,6 +465,7 @@ namespace Interview
             //var z = x.MaxLength(new string[] { "ab", "cd", "cde", "cdef", "efg", "fgh", "abxyz" });
             //var z = x.GetFilters(new int[] { 100, 100, 0, 0, 50 });
 
+            Console.WriteLine("Done");
             Console.Read();
         }
     }

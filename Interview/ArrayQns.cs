@@ -1,14 +1,157 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.Collections;
-using System.Collections.Specialized;
+using System.Text;
 
 namespace Interview
 {
     public class ArrayQns
     {
+        public static IList<IList<int>> ParseNestedList(string s)
+        {
+            IList<IList<int>> r = new List<IList<int>>();
+            r.Add(new List<int>());
+            StringBuilder sb = new StringBuilder();
+            s = s.Trim('[').Trim(']');
+            foreach (char c in s.ToCharArray())
+            {
+                if (c == ']')
+                {
+                    r[r.Count - 1].Add(int.Parse(sb.ToString()));
+                    sb.Length = 0;
+                    r.Add(new List<int>());
+                    continue;
+                }
+                if (c == '[')
+                {
+                    continue;
+                }
+                if (c == ',')
+                {
+                    if (sb.Length > 0)
+                    {
+                        r[r.Count - 1].Add(int.Parse(sb.ToString()));
+                    }
+                    sb.Length = 0;
+                }
+                else
+                    sb.Append(c);
+            }
+
+            if (sb.Length > 0)
+            {
+                r[r.Count - 1].Add(int.Parse(sb.ToString()));
+            }
+
+            return r;
+        }
+
+        public int MaxValueOfCoins(IList<IList<int>> piles, int k)
+        {
+            int result = 0;
+
+            Backtrack(piles, 0, 0, k, k, 0, ref result, 0);
+
+            return result;
+        }
+
+        private static void Backtrack(IList<IList<int>> piles, int group, int start, int maxCount, int k, int currentValue, ref int maxCoinValue, int selected)
+        {
+            if (k < 0 && selected < maxCount)
+                return;
+
+            if (k == 0)
+            {
+                maxCoinValue = Math.Max(maxCoinValue, currentValue);                
+                return;
+            }
+            for (int j = group; j < piles.Count; j++)
+            {
+                if (start < piles[j].Count)
+                {
+                    Backtrack(piles, j, start + 1, maxCount, k -1, currentValue + piles[j][start], ref maxCoinValue, selected + 1);
+                }
+                start = 0;
+            }
+        }
+
+        public int MaxValueOfCoinsV1(IList<IList<int>> piles, int k)
+        {
+            int result = 0;
+
+            List<PriorityQueue<(int, int), int>> priorityQueues = new();
+
+            List<int> sums = new();
+
+            List<int> indexes = new();
+
+            foreach (IList<int> p in piles)
+            {
+                var q = new PriorityQueue<(int, int), int>();
+                priorityQueues.Add(q);
+                indexes.Add(0);
+                sums.Add(0);
+                for (int i = 0; i < p.Count; i++)
+                {
+                    q.Enqueue((p[i], i), -(p[i] + i));
+                    sums[sums.Count - 1] = sums[sums.Count - 1] + p[i];
+                }
+            }
+
+            while (k > 0)
+            {
+                var max = int.MinValue;
+                int i = -1;
+                int c = 0;
+
+                var choice = new PriorityQueue<int, int>();
+
+                foreach (var p in priorityQueues)
+                {
+                    if (p.Count > 0)
+                    {
+                        choice.Enqueue(c, -(sums[c]));
+                    }
+                    c++;
+                }
+                i = choice.Dequeue();
+                var set = priorityQueues[i].Peek();
+                while (set.Item2 < indexes[i])
+                {
+                    i = choice.Dequeue();
+                    set = priorityQueues[i].Peek();
+                }
+                max = set.Item1;
+
+                var removed = new List<int>();
+                while (indexes[i] < piles[i].Count && indexes[i] < set.Item2 && k > 0)
+                {
+                    result += piles[i][indexes[i]];
+                    removed.Add(piles[i][indexes[i]]);
+                    sums[i] -= piles[i][indexes[i]];
+                    indexes[i]++;
+                    k--;
+                }
+
+                if (k > 0 && indexes[i] < piles[i].Count)
+                {
+                    priorityQueues[i].Dequeue();
+                    indexes[i]++;
+                    result += max;
+                    sums[i] -= max;
+                    k--;
+                }
+
+                while (removed.Any() && removed.Contains(priorityQueues[i].Peek().Item1))
+                {
+                    int val = priorityQueues[i].Dequeue().Item1;
+                    removed.Remove(val);
+                }
+            }
+
+            return result;
+        }
+
         public int CanCompleteCircuit(int[] gas, int[] cost)
         {
             if (gas == null || cost == null)
@@ -1993,14 +2136,14 @@ namespace Interview
         public int GetFilters(int[] a)
         {
             double sum = a.Sum();
-            PriorityQueue<double, double> q = new PriorityQueue<double, double>();  
-            foreach(var x in a)
+            PriorityQueue<double, double> q = new PriorityQueue<double, double>();
+            foreach (var x in a)
             {
                 q.Enqueue(x, -x);
             }
             double target = sum / 2;
             int c = 0;
-            while(sum > target)
+            while (sum > target)
             {
                 c++;
                 double max = q.Dequeue();
