@@ -65,6 +65,7 @@ namespace Interview
                 maxCoinValue = Math.Max(maxCoinValue, currentValue);                
                 return;
             }
+
             for (int j = group; j < piles.Count; j++)
             {
                 if (start < piles[j].Count)
