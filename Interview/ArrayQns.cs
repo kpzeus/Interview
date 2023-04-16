@@ -7,57 +7,57 @@ namespace Interview
 {
     public class ArrayQns
     {
-        public static IList<IList<int>> ParseNestedList(string s)
-        {
-            IList<IList<int>> r = new List<IList<int>>();
-            r.Add(new List<int>());
-            StringBuilder sb = new StringBuilder();
-            s = s.Trim('[').Trim(']');
-            foreach (char c in s.ToCharArray())
-            {
-                if (c == ']')
-                {
-                    r[r.Count - 1].Add(int.Parse(sb.ToString()));
-                    sb.Length = 0;
-                    r.Add(new List<int>());
-                    continue;
-                }
-                if (c == '[')
-                {
-                    continue;
-                }
-                if (c == ',')
-                {
-                    if (sb.Length > 0)
-                    {
-                        r[r.Count - 1].Add(int.Parse(sb.ToString()));
-                    }
-                    sb.Length = 0;
-                }
-                else
-                    sb.Append(c);
-            }
-
-            if (sb.Length > 0)
-            {
-                r[r.Count - 1].Add(int.Parse(sb.ToString()));
-            }
-
-            return r;
-        }
-
         public int MaxValueOfCoins(IList<IList<int>> piles, int k)
         {
             int result = 0;
 
-            Backtrack(piles, 0, 0, k, k, 0, ref result, 0);
+            Dictionary<(int, int), int> cache = new();
+
+            result = BacktrackMaxValueOfCoins(piles, 0, k, cache);
 
             return result;
         }
 
-        private static void Backtrack(IList<IList<int>> piles, int group, int start, int maxCount, int k, int currentValue, ref int maxCoinValue, int selected)
+        private static int BacktrackMaxValueOfCoins(IList<IList<int>> piles, int group, int k, Dictionary<(int, int), int> cache)
         {
-            if (k < 0 && selected < maxCount)
+            if (group == piles.Count)
+                return 0;
+
+            var key = (group, k);
+
+            if (cache.ContainsKey(key))
+            {
+                return cache[key];
+            }
+
+            cache[key] = BacktrackMaxValueOfCoins(piles, group + 1, k, cache);
+
+            int current = 0;
+
+            int len = Math.Min(piles[group].Count, k);
+
+            for (int i = 0; i < len; i++)
+            {
+                current += piles[group][i];
+                int next = BacktrackMaxValueOfCoins(piles, group + 1, k - i - 1, cache);
+                cache[key] = Math.Max(cache[key], current + next);
+            }
+
+            return cache[key];
+        }
+
+        public int MaxValueOfCoinsV2(IList<IList<int>> piles, int k)
+        {
+            int result = 0;
+
+            BacktrackMaxValueOfCoinsV2(piles, 0, 0, k, k, 0, ref result, 0);
+
+            return result;
+        }
+
+        private static void BacktrackMaxValueOfCoinsV2(IList<IList<int>> piles, int group, int start, int maxCount, int k, int currentValue, ref int maxCoinValue, int selected)
+        {
+            if (k < 0 || selected > maxCount)
                 return;
 
             if (k == 0)
@@ -69,7 +69,7 @@ namespace Interview
             {
                 if (start < piles[j].Count)
                 {
-                    Backtrack(piles, j, start + 1, maxCount, k -1, currentValue + piles[j][start], ref maxCoinValue, selected + 1);
+                    BacktrackMaxValueOfCoinsV2(piles, j, start + 1, maxCount, k -1, currentValue + piles[j][start], ref maxCoinValue, selected + 1);
                 }
                 start = 0;
             }
@@ -150,6 +150,45 @@ namespace Interview
             }
 
             return result;
+        }
+
+        public static IList<IList<int>> ParseNestedList(string s)
+        {
+            IList<IList<int>> r = new List<IList<int>>();
+            r.Add(new List<int>());
+            StringBuilder sb = new StringBuilder();
+            s = s.Trim('[').Trim(']');
+            foreach (char c in s.ToCharArray())
+            {
+                if (c == ']')
+                {
+                    r[r.Count - 1].Add(int.Parse(sb.ToString()));
+                    sb.Length = 0;
+                    r.Add(new List<int>());
+                    continue;
+                }
+                if (c == '[')
+                {
+                    continue;
+                }
+                if (c == ',')
+                {
+                    if (sb.Length > 0)
+                    {
+                        r[r.Count - 1].Add(int.Parse(sb.ToString()));
+                    }
+                    sb.Length = 0;
+                }
+                else
+                    sb.Append(c);
+            }
+
+            if (sb.Length > 0)
+            {
+                r[r.Count - 1].Add(int.Parse(sb.ToString()));
+            }
+
+            return r;
         }
 
         public int CanCompleteCircuit(int[] gas, int[] cost)
