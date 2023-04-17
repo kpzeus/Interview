@@ -7,6 +7,27 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public IList<bool> KidsWithCandies(int[] candies, int extraCandies)
+        {
+            bool[] result = new bool[candies.Length];
+
+            if(candies != null && candies.Length > 0)
+            {
+                int max = candies.Max();
+                int i = 0;
+                while(i < candies.Length)
+                {
+                    if (candies[i] + extraCandies > max)
+                    {
+                        result[i] = true;
+                    }
+                    i++;
+                }
+            }
+
+            return result;
+        }
+
         public int MaxValueOfCoins(IList<IList<int>> piles, int k)
         {
             int result = 0;
