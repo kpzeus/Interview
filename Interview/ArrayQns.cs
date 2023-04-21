@@ -7,6 +7,75 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int[] MinReverseOperations(int n, int p, int[] banned, int k)
+        {
+            // Create a boolean array to mark banned positions
+            bool[] isBanned = new bool[n];
+            foreach (int i in banned)
+            {
+                isBanned[i] = true;
+            }
+
+            // Create a distance array to track the minimum number of operations required to reach each position
+            int[] dist = Enumerable.Repeat(-1, n).ToArray();
+            dist[p] = 0;
+
+            if (k > n)
+            {
+                return dist;
+            }
+
+            var cache = new HashSet<int>();
+            cache.Add(p);
+
+            // Create a queue to hold positions that need to be explored
+            Queue<int> queue = new Queue<int>();
+            queue.Enqueue(p);
+
+            // Perform breadth-first search to explore all possible positions
+            while (queue.Count > 0)
+            {
+                int curr = queue.Dequeue();
+
+                for (int i = curr - k; i < curr + k; i++)
+                {
+                    int left = i;
+                    int right = i + k - 1;
+                    if (curr <= right && curr >= left)
+                    {
+                        RotateMinReverseOperations(curr, left, right, queue, cache, dist, isBanned);
+                    }
+                }
+            }
+
+            return dist;
+        }
+
+        private void RotateMinReverseOperations(int curr, int left, int right, Queue<int> queue, HashSet<int> cache, int[] dist, bool[] isBanned)
+        {
+            int newLocation = right - curr + left;
+
+            // Check if the move is valid
+            if (left > -1 && left < dist.Length && right > -1 && right < dist.Length && !isBanned[newLocation])
+            {
+                // Calculate the new distance
+                int newDist = dist[curr] + 1;
+
+                // Update the distance if it's shorter than the current distance
+                if (dist[newLocation] == -1 || newDist < dist[newLocation])
+                {
+                    dist[newLocation] = newDist;
+
+                    if (cache.Contains(newLocation))
+                        return;
+
+                    cache.Add(newLocation);
+
+                    queue.Enqueue(newLocation);
+                }
+            }
+        }
+
         public IList<bool> KidsWithCandies(int[] candies, int extraCandies)
         {
             bool[] result = new bool[candies.Length];
