@@ -14,6 +14,29 @@ namespace Interview
 
             try
             {
+                //var q = new HashSet<int> { 1, 2 };
+                //var e = new HashSet<int> { 1, 2 };
+                //var hashCode = q.Aggregate(0, (a, v) =>
+                //    HashCode.Combine(a, v.GetHashCode()));
+                //var hashCode1 = e.Aggregate(0, (a, v) =>
+                //    HashCode.Combine(a, v.GetHashCode()));
+
+                //var p = new ArrayQns().GetAllPermutations(0,1,2);
+
+                //int x = 0;
+                //x = new ArrayQns().ProfitableSchemes(5, 3, new int[] { 2, 2 }, new int[] { 2, 3 });
+                //Assert.AreEqual(2, x);
+                //Console.WriteLine();
+                //x = new ArrayQns().ProfitableSchemes(10, 5, new int[] { 2, 3, 5 }, new int[] { 6, 7, 8 });
+                //Assert.AreEqual(7, x);
+                //Console.WriteLine();
+                //x = new ArrayQns().ProfitableSchemes(1, 1, new int[] { 2, 2, 2, 2, 2 }, new int[] { 1, 2, 1, 1, 0 });
+                //Assert.AreEqual(0, x);
+                //Console.WriteLine();
+                //x = new ArrayQns().ProfitableSchemes(64, 0, new int[] { 80, 40 }, new int[] { 88, 88 });
+                //Assert.AreEqual(2, x);
+                //Console.WriteLine();
+
                 //int[] x;
                 //x = new ArrayQns().MinReverseOperations(4, 0, new int[] { 1, 2 }, 4);
                 //x.ToList().ForEach(x => Console.Write(x + " "));
@@ -504,7 +527,8 @@ namespace Interview
                 //var z = x.GetFilters(new int[] { 100, 100, 0, 0, 50 });
 
                 Console.WriteLine("Done");
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine();
                 Console.WriteLine(ex.ToString());

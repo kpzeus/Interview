@@ -1,12 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Interview
 {
     public class ArrayQns
     {
+        public int ProfitableSchemes(int n, int minProfit, int[] group, int[] profit)
+        {
+            if (n < 1 || minProfit < 0 || group == null || profit == null || group.Length == 0 || group.Length != profit.Length)
+            {
+                return 0;
+            }
+
+            //PriorityQueue<int, int> queue = new PriorityQueue<int, int>();
+            //int i = 0;
+            //while (i < group.Length)
+            //{
+            //    queue.Enqueue(i, profit[i]);
+            //    i++;
+            //}
+
+            //List<int> ordered = new List<int>();
+            //int totalProfit = 0;
+
+            //while (queue.Count > 0)
+            //{
+            //    var index = queue.Dequeue();
+            //    ordered.Add(index);
+            //    totalProfit += profit[index];
+            //}
+
+            //if (totalProfit < minProfit)
+            //{
+            //    return 0;
+            //}
+
+            var result = GetAllPermutations(n, Enumerable.Range(0, group.Length).ToList(), group, profit, minProfit);
+
+            //result.ToList().ForEach(p => { Console.WriteLine(p); });
+
+            return (int)(result.Count % (Math.Pow(10, 9) + 7));
+        }
+
+        public HashSet<string> GetAllPermutations(int n, List<int> numbers, int[] group, int[] profits, int minProfit)
+        {
+            HashSet<string> results = new HashSet<string>();
+
+            if (numbers.Count() > 0 && n > 0)
+            {
+                int profit = 0;
+                int i = 0;
+                int currentGroup = n;
+                bool possible = false;
+                while(profit <= minProfit && i < numbers.Count && currentGroup >= group[numbers[i]])
+                {
+                    profit += profits[numbers[i]];
+                    currentGroup -= group[numbers[i]];
+                    possible = true;
+                    i++;
+                }
+
+                int currentCost = n - currentGroup;
+                int currentAvailable = n;
+                if (possible && profit >= minProfit)
+                {
+                    while (currentAvailable >= currentCost)
+                    {
+                        currentAvailable -= currentCost;
+                        results.Add(string.Join(",", new SortedSet<int>(numbers)));
+                    }
+                }
+            }
+
+            for (int i = 0; i <= numbers.Count() - 1; i++)
+            {
+                List<int> newNumbers = new List<int>(numbers);
+                newNumbers.RemoveAt(i);
+                results.UnionWith(GetAllPermutations(n, newNumbers, group, profits, minProfit));
+            }
+
+            return results;
+        }
+
+        public void CountCombinations(ref long result, List<int> ordered)
+        {
+            if (ordered.Count == 0)
+                return;
+            int i = 0;
+            List<int> excluded = new List<int>();
+            while (i < ordered.Count)
+            {
+                excluded.Add(ordered[i]);
+                result++;
+                i++;
+            }
+            var newList = ordered.Except(excluded).ToList();
+            CountCombinations(ref result, newList);
+        }
+
         public int[] MinReverseOperations(int n, int p, int[] banned, int k)
         {
             // Create a boolean array to mark banned positions
