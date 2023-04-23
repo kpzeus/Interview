@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Text;
 
@@ -9,6 +10,28 @@ namespace Interview
     public class ArrayQns
     {
         public int[] GetSubarrayBeauty(int[] nums, int k, int x)
+        {
+            int[] counter = new int[50], ans = new int[nums.Length - k + 1]; ;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] < 0) counter[nums[i] + 50]++;
+                if (i - k >= 0 && nums[i - k] < 0) counter[nums[i - k] + 50]--;
+                if (i - k + 1 < 0) continue;
+                int count = 0;
+                for (int j = 0; j < 50; j++)
+                {
+                    count += counter[j];
+                    if (count >= x)
+                    {
+                        ans[i - k + 1] = j - 50;
+                        break;
+                    }
+                }
+            }
+            return ans;
+        }
+
+        public int[] GetSubarrayBeauty2(int[] nums, int k, int x)
         {
             int[] r = new int[nums.Length - k + 1];
 
@@ -70,6 +93,53 @@ namespace Interview
             }
             Console.WriteLine();
             return r;
+        }
+
+        public int MinOperations(int[] nums)
+        {
+            int n = nums.Length;
+            int c = 0;
+            for (int i = 0; i < n; i++)
+            {
+                if (nums[i] == 1)
+                {
+                    c++;
+                }
+            }
+            if (c > 0)
+            {
+                return n - c;
+            }
+            int ans = int.MaxValue;
+            for (int i = 0; i < n; i++)
+            {
+                int num = nums[i];
+                for (int j = i + 1; j < n; j++)
+                {
+                    num = GetGcd(num, nums[j]);
+                    if (num == 1)
+                    {
+                        ans = Math.Min(ans, j - i);
+                        break;
+                    }
+                }
+                if (num != 1)
+                {
+                    break;
+                }
+            }
+            if (ans == int.MaxValue)
+            {
+                return -1;
+            }
+            return n - 1 + ans;
+        }
+
+        private int GetGcd(int a, int b)
+        {
+            if (a == 1 || b == 1)
+                return 1;
+            return (int)BigInteger.GreatestCommonDivisor(a, b);
         }
 
         public int ProfitableSchemes(int n, int minProfit, int[] group, int[] profit)
