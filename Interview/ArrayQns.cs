@@ -8,6 +8,70 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int[] GetSubarrayBeauty(int[] nums, int k, int x)
+        {
+            int[] r = new int[nums.Length - k + 1];
+
+            int i = 0;
+            LinkedList<int> min = new();
+            while (i < nums.Length)
+            {
+                Console.WriteLine("i" + i);
+                if (nums[i] < 0)
+                {
+                    if (min.Count == 0 || nums[i] < min.First.Value)
+                    {
+                        min.AddFirst(nums[i]);
+                        Console.WriteLine("AF" + nums[i]);
+                    }
+                    else
+                    {
+                        if (min.Last.Value > nums[i])
+                        {
+                            var node = min.First;
+                            while (node.Value < nums[i])
+                            {
+                                node = node.Next;
+                            }
+                            min.AddBefore(node, nums[i]);
+                            Console.WriteLine("IB" + node.Value + "," + nums[i]);
+                        }
+                        else
+                        {
+                            min.AddLast(nums[i]);
+                            Console.WriteLine("AL" + nums[i]);
+                        }
+                    }
+                }
+                if (i - k > -2)
+                {
+                    r[i - k + 1] = 0;
+                    if (min.Count > 0)
+                    {
+                        var node = min.First;
+                        int c = x;
+                        while (node != null && c > 1)
+                        {
+                            node = node.Next;
+                            c--;
+                        }
+                        if (node != null && node.Value < 0)
+                            r[i - k + 1] = node.Value;
+                    }
+                    Console.WriteLine("RES" + r[i - k + 1]);
+                    if (min.Contains(nums[i - k + 1]))
+                    {
+                        min.Remove(nums[i - k + 1]);
+                        Console.WriteLine("R" + nums[i - k + 1]);
+                    }
+                }
+
+                i++;
+            }
+            Console.WriteLine();
+            return r;
+        }
+
         public int ProfitableSchemes(int n, int minProfit, int[] group, int[] profit)
         {
             if (n < 1 || minProfit < 0 || group == null || profit == null || group.Length == 0 || group.Length != profit.Length)
