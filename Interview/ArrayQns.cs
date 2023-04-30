@@ -2,13 +2,165 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Reflection;
 using System.Text;
 
 namespace Interview
 {
     public class ArrayQns
     {
+        public static int InviteFriends(int n, int[] arr, int[] brr)
+        {
+            int max = 0;
+
+            InviteFriendsBackTrack(ref max, n, new List<int>(), int.MaxValue, int.MaxValue, arr, brr);
+
+            return max;
+        }
+
+        private static void InviteFriendsBackTrack(ref int max, int n, List<int> c, int p, int r, int[] arr, int[] brr)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                if (!c.Contains(i) && p > c.Count(x => x < i) && r > c.Count(x => x > i))
+                {                    
+                    c.Add(i);
+                    max = Math.Max(max, c.Count);
+                    InviteFriendsBackTrack(ref max, n, new List<int>(c), Math.Min(p, arr[i]), Math.Min(r, brr[i]), arr, brr);
+                    c.Remove(i);
+                }
+            }
+        }
+
+        public string SmallestBeautifulString(string s, int k)
+        {
+            int n = s.Length;
+            int pos = -1;
+            var c = s.ToCharArray();
+
+            for (int i = n - 1; i >= 0 && pos < 0; i--)
+            {
+                int cur = c[i] - 'a';
+                cur++;
+                while (cur < k && pos < 0)
+                {
+                    bool isPal = false;
+                    if (i - 1 >= 0 && (c[i - 1] - 'a') == cur) isPal = true;
+                    if (i - 2 >= 0 && (c[i - 2] - 'a') == cur) isPal = true;
+                    if (!isPal)
+                    {
+                        c[i] = (char)(cur + 'a');
+                        pos = i;
+                    }
+                    cur++;
+                }
+            }
+
+            if (pos < 0) return "";
+
+            for (int i = pos + 1; i < n; i++)
+            {
+                for (int j = 0; j < k; j++)
+                {
+                    bool isPal = false;
+                    if (i - 1 >= 0 && (c[i - 1] - 'a') == j) isPal = true;
+                    if (i - 2 >= 0 && (c[i - 2] - 'a') == j) isPal = true;
+                    if (!isPal)
+                    {
+                        c[i] = (char)(j + 'a');
+                        break;
+                    }
+                }
+            }
+
+            return new string(c);
+        }
+
+        public int MinimumCost(int[] start, int[] target, int[][] specialRoads)
+        {
+            int n = specialRoads.Length;
+
+            List<int> d = new List<int>(new int[n]);
+            for (int i = 0; i < n; i++)
+            {
+                d[i] = int.MaxValue;
+            }
+
+            var pq = new PriorityQueue<(int, int), int>();
+            for (int i = 0; i < n; i++)
+            {
+                d[i] = Math.Abs(start[0] - specialRoads[i][0]) + Math.Abs(start[1] - specialRoads[i][1]) + specialRoads[i][4];
+                pq.Enqueue((d[i], i), d[i]);
+            }
+
+            int ans = Math.Abs(start[0] - target[0]) + Math.Abs(start[1] - target[1]);
+
+            while (pq.Count > 0)
+            {
+                var (d_c, c) = pq.Dequeue();
+
+                if (d_c != d[c]) continue;
+
+                ans = Math.Min(ans, d_c + Math.Abs(target[0] - specialRoads[c][2]) + Math.Abs(target[1] - specialRoads[c][3]));
+
+                for (int nxt = 0; nxt < n; nxt++)
+                {
+                    int w = Math.Abs(specialRoads[c][2] - specialRoads[nxt][0]) + Math.Abs(specialRoads[c][3] - specialRoads[nxt][1]) + specialRoads[nxt][4];
+                    if (d_c + w < d[nxt])
+                    {
+                        d[nxt] = d_c + w;
+                        pq.Enqueue((d[nxt], nxt), d[nxt]);
+                    }
+                }
+            }
+
+            return ans;
+        }
+
+        public int FirstCompleteIndex(int[] arr, int[][] mat)
+        {
+            Dictionary<int, int[]> d = new();
+            int m = mat.Length;
+            int n = mat[0].Length;
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    d.Add(mat[i][j], new int[] { i, j });
+                }
+            }
+            int[] a = new int[m];
+            int[] b = new int[n];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                int[] c = d[arr[i]];
+                a[c[0]]++;
+                b[c[1]]++;
+                if (a[c[0]] == n || b[c[1]] == m)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public long CountOperationsToEmptyArray(int[] nums)
+        {
+            Dictionary<int, int> pos = new();
+            int n = nums.Length, p = 0;
+            long res = n;
+            for (int i = 0; i < n; ++i)
+                pos[nums[i]] = i;
+            Array.Sort(nums);
+            for (int i = 0; i < n; i++)
+            {
+                if (i > 0)
+                    p = pos[nums[i - 1]];
+                if (pos[nums[i]] < p)
+                    res += n - i;
+            }
+            return res;
+        }
+
         public int[] GetSubarrayBeauty(int[] nums, int k, int x)
         {
             int[] counter = new int[50], ans = new int[nums.Length - k + 1]; ;
