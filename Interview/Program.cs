@@ -15,9 +15,9 @@ namespace Interview
 
             try
             {
-                int[] arr = new int[] { 1, 2, 1 };
-                int[] brr = new int[] { 2, 1, 1 };
-                int x = 0;
+                //int[] arr = new int[] { 1, 2, 1 };
+                //int[] brr = new int[] { 2, 1, 1 };
+                //int x = 0;
                 //x = ArrayQns.InviteFriends(3, arr, brr);
                 //Assert.AreEqual(2, x);
 
@@ -31,20 +31,20 @@ namespace Interview
                 //x = ArrayQns.InviteFriends(9, arr, brr);
                 //Assert.AreEqual(5, x);
 
-                arr = new int[] { 6, 7, 8, 9, 7, 9, 2, 0, 4, 0 };
-                brr = new int[] { 8, 0, 5, 7, 5, 2, 8, 9, 7, 9 };
-                x = ArrayQns.InviteFriends(10, arr, brr);
-                Assert.AreEqual(7, x);
+                //arr = new int[] { 6, 7, 8, 9, 7, 9, 2, 0, 4, 0 };
+                //brr = new int[] { 8, 0, 5, 7, 5, 2, 8, 9, 7, 9 };
+                //x = ArrayQns.InviteFriends(10, arr, brr);
+                //Assert.AreEqual(7, x);
 
-                arr = new int[] { 6, 3, 5, 0, 1, 0, 6, 0, 4, 4 };
-                brr = new int[] { 7, 7, 4, 9, 4, 6, 3, 3, 3, 9 };
-                x = ArrayQns.InviteFriends(10, arr, brr);
-                Assert.AreEqual(5, x);
+                //arr = new int[] { 6, 3, 5, 0, 1, 0, 6, 0, 4, 4 };
+                //brr = new int[] { 7, 7, 4, 9, 4, 6, 3, 3, 3, 9 };
+                //x = ArrayQns.InviteFriends(10, arr, brr);
+                //Assert.AreEqual(5, x);
 
-                arr = new int[] { 0, 0, 4, 1, 5, 8, 6, 1, 7, 4 };
-                brr = new int[] { 4, 1, 0, 2, 1, 8, 5, 1, 2, 1 };
-                x = ArrayQns.InviteFriends(10, arr, brr);
-                Assert.AreEqual(4, x);
+                //arr = new int[] { 0, 0, 4, 1, 5, 8, 6, 1, 7, 4 };
+                //brr = new int[] { 4, 1, 0, 2, 1, 8, 5, 1, 2, 1 };
+                //x = ArrayQns.InviteFriends(10, arr, brr);
+                //Assert.AreEqual(4, x);
 
                 //var x = new ArrayQns().SmallestBeautifulString("abcz", 26);
 
