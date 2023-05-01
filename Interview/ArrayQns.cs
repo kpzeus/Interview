@@ -21,7 +21,9 @@ namespace Interview
         {
             for (int i = 0; i < n; i++)
             {
-                if (!c.Contains(i) && p > c.Count(x => x < i) && r > c.Count(x => x > i))
+                int currP = c.Count(x => x < i);
+                int currR = c.Count(x => x > i);
+                if (!c.Contains(i) && p > currP && r > currR && arr[i] >= currP && brr[i] >= currR)
                 {                    
                     c.Add(i);
                     max = Math.Max(max, c.Count);
