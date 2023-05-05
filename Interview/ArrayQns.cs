@@ -8,6 +8,39 @@ namespace Interview
 {
     public class ArrayQns
     {
+        const string vowels = "aeiou";
+
+        public int MaxVowels(string s, int k)
+        {
+            int v = 0;
+            int max = 0;
+            int i = 0;
+            int curr = k;
+
+            while (i < s.Length)
+            {
+                if (curr == 0)
+                {
+                    if (vowels.Contains(s[i - k]))
+                    {
+                        v--;
+                    }
+                    curr++;
+                }
+
+                if (vowels.Contains(s[i]))
+                {
+                    v++;
+                }
+
+                max = Math.Max(max, v);
+                curr--;
+                i++;
+            }
+
+            return max;
+        }
+
         public int BalancedStringSplit(string s)
         {
             ushort count = 0, r = 0, l = 0;
