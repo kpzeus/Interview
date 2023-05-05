@@ -8,6 +8,90 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int BalancedStringSplit(string s)
+        {
+            ushort count = 0, r = 0, l = 0;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == 'R')
+                {
+                    r++;
+                }
+                else
+                {
+                    l++;
+                }
+                if (r == l)
+                {
+                    count++;
+                    r = 0; l = 0;
+                }
+            }
+
+            return count;
+        }
+
+        public int BalancedStringSplit2(string s)
+        {
+            int count = 0;
+
+            int i = 1;
+            int limit = -1;
+            while (i < s.Length)
+            {
+                Search(ref count, s, ref i, ref limit);
+            }
+
+            return count;
+        }
+
+        private void Search(ref int count, string s, ref int i, ref int limit)
+        {
+            int j = i - 1;
+            int k = i;
+            int l = 0;
+            int r = 0;
+            int oldLimit = limit;
+
+            var l1 = l;
+            var r1 = r;
+            //Console.WriteLine(oldLimit + "oldLimit");
+            while (j > oldLimit && k < s.Length)
+            {
+                l1 = s[j] == 'L' ? l1 + 1 : l1;
+                l1 = s[k] == 'L' ? l1 + 1 : l1;
+                r1 = s[j] == 'R' ? r1 + 1 : r1;
+                r1 = s[k] == 'R' ? r1 + 1 : r1;
+
+                //Console.WriteLine(l1 + "lcheck" + j);
+                //Console.WriteLine(r1 + "rcheck" + k);
+                if (l1 == r1)
+                {
+                    l = l1;
+                    r = r1;
+                    //Console.WriteLine(i + "more");
+                    if (j == oldLimit + 1 && l > 0)
+                    {
+                        limit = k;
+                        i = k + 1;
+                    }
+                }
+                j--;
+                k++;
+            }
+
+            if (limit > oldLimit)
+            {
+                count++;
+                //Console.WriteLine("found");
+            }
+            i++;
+            //Console.WriteLine(i+ "i");
+            //Console.WriteLine(count);
+            //Console.WriteLine("limit" + limit);
+        }
+
         public static int InviteFriends(int n, int[] arr, int[] brr)
         {
             int max = 0;
