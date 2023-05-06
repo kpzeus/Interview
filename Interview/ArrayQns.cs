@@ -1,13 +1,63 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading.Tasks;
+using static Interview.ArrayQns;
 
 namespace Interview
 {
     public class ArrayQns
     {
+        public class EnumeratorConfig
+        {
+            // Specifies the minimum length of strings that should be returned by a custom enumerator.
+            // If it is set to a negative value then this option is ignored.
+            public int MinLength { get; set; } = -1;
+            // Specifies the maximum length of strings that should be returned by a custom enumerator.
+            // If it is set to negative value then this option is ignored.
+            public int MaxLength { get; set; } = -1;
+            // Specifies that only strings that start with a capital letter should be returned by a custom enumerato
+            // Please note that empty or null strings do not meet this condition.
+            public bool StartWithCapitalLetter { get; set; }
+            // Specifies that only strings that start with a digit should be returned by a custom enumerator.
+            // Please note that empty or null strings do not meet this condition.
+            public bool StartWithDigit { get; set; }
+        }
+
+        public class CustomStringEnumerator : IEnumerable<string>
+        {
+            List<string> list;
+
+
+            public CustomStringEnumerator(IEnumerable<string> collection, EnumeratorConfig config)
+            {
+                if (collection == null || config == null)
+                    throw new ArgumentNullException();
+
+                list = new List<string>(collection);
+                list = list.Where(x =>
+                 (config.MinLength < 1 || (x != null && x.Length >= config.MinLength))
+                 &&
+                 (config.MaxLength < 0 || (x == null || x.Length <= config.MaxLength))
+                 &&
+                 (!config.StartWithCapitalLetter || (!string.IsNullOrEmpty(x) && x[0] >= 'A' && x[0] <= 'Z'))
+                 &&
+                 (!config.StartWithDigit || (!string.IsNullOrEmpty(x) && x[0] >= '0' && x[0] <= '9')))
+                 .ToList();
+            }
+
+            public IEnumerator<string> GetEnumerator()
+            {
+                return list.GetEnumerator();
+            }
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return (IEnumerator)list;
+            }
+        }
         public int RoadFuel(int[] A, int[] B)
         {
             var d = new Dictionary<int, List<int>>();
