@@ -8,6 +8,55 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int RoadFuel(int[] A, int[] B)
+        {
+            var d = new Dictionary<int, List<int>>();
+            int fuel = 0;
+
+            int j = 0;
+            d[0] = new List<int>();
+            foreach (var i in A)
+            {
+                if (!d.ContainsKey(i))
+                    d[i] = new List<int>();
+                if (!d.ContainsKey(B[j]))
+                    d[B[j]] = new List<int>();
+                d[i].Add(B[j]);
+                d[B[j]].Add(i);
+
+                j++;
+            }
+
+            List<int> visited = new List<int>();
+            BackTrackRoadFuel(ref fuel, d, 0, 0, 0, visited, 1);
+
+            return fuel;
+        }
+
+        private void BackTrackRoadFuel(ref int fuel, Dictionary<int, List<int>> d, int currDest, int currFuel, int pass, List<int> visited, int level)
+        {
+            //Console.WriteLine("before currFuel " + currFuel);
+            currFuel = ((currFuel * level) + 1) * (pass > 5 ? (pass / 5) + 1 : 1);
+            if (visited.Contains(currDest))
+                return;
+            visited.Add(currDest);
+            if (d.ContainsKey(currDest))
+            {
+                //Console.WriteLine("From " + currDest);
+                //Console.WriteLine("From " + currDest + " " + d[currDest].Count);
+                foreach (var dest in d[currDest])
+                {
+                    if (dest == 0 || visited.Contains(dest))
+                        continue;
+                    //Console.WriteLine("To " + dest);
+                    //Console.WriteLine("currFuel " + currFuel);
+                    fuel = Math.Max(fuel, currFuel);
+                    BackTrackRoadFuel(ref fuel, d, dest, currFuel, pass + 1, visited, level + 1);
+                }
+            }
+        }
+
+
         const string vowels = "aeiou";
 
         public int MaxVowels(string s, int k)
@@ -141,7 +190,7 @@ namespace Interview
                 int currP = c.Count(x => x < i);
                 int currR = c.Count(x => x > i);
                 if (!c.Contains(i) && p > currP && r > currR && arr[i] >= currP && brr[i] >= currR)
-                {                    
+                {
                     c.Add(i);
                     max = Math.Max(max, c.Count);
                     InviteFriendsBackTrack(ref max, n, new List<int>(c), Math.Min(p, arr[i]), Math.Min(r, brr[i]), arr, brr);
@@ -460,7 +509,7 @@ namespace Interview
                 int i = 0;
                 int currentGroup = n;
                 bool possible = false;
-                while(profit <= minProfit && i < numbers.Count && currentGroup >= group[numbers[i]])
+                while (profit <= minProfit && i < numbers.Count && currentGroup >= group[numbers[i]])
                 {
                     profit += profits[numbers[i]];
                     currentGroup -= group[numbers[i]];
@@ -579,11 +628,11 @@ namespace Interview
         {
             bool[] result = new bool[candies.Length];
 
-            if(candies != null && candies.Length > 0)
+            if (candies != null && candies.Length > 0)
             {
                 int max = candies.Max();
                 int i = 0;
-                while(i < candies.Length)
+                while (i < candies.Length)
                 {
                     if (candies[i] + extraCandies > max)
                     {
@@ -651,7 +700,7 @@ namespace Interview
 
             if (k == 0)
             {
-                maxCoinValue = Math.Max(maxCoinValue, currentValue);                
+                maxCoinValue = Math.Max(maxCoinValue, currentValue);
                 return;
             }
 
@@ -659,7 +708,7 @@ namespace Interview
             {
                 if (start < piles[j].Count)
                 {
-                    BacktrackMaxValueOfCoinsV2(piles, j, start + 1, maxCount, k -1, currentValue + piles[j][start], ref maxCoinValue, selected + 1);
+                    BacktrackMaxValueOfCoinsV2(piles, j, start + 1, maxCount, k - 1, currentValue + piles[j][start], ref maxCoinValue, selected + 1);
                 }
                 start = 0;
             }

@@ -15,6 +15,10 @@ namespace Interview
 
             try
             {
+                //var x = new ArrayQns().RoadFuel(new int[] { 0, 1, 1 }, new int[] { 1, 2, 3 });
+                //Assert.AreEqual(3, x);
+                //x = new ArrayQns().RoadFuel(new int[] { 1, 1, 1, 9, 9, 9, 9, 7, 8}, new int[] { 2, 0, 3, 1, 6, 5, 4, 0, 0 });
+                //Assert.AreEqual(10, x);
                 //int[] arr = new int[] { 1, 2, 1 };
                 //int[] brr = new int[] { 2, 1, 1 };
                 //int x = 0;
