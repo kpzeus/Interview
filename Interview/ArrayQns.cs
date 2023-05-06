@@ -13,17 +13,9 @@ namespace Interview
     {
         public class EnumeratorConfig
         {
-            // Specifies the minimum length of strings that should be returned by a custom enumerator.
-            // If it is set to a negative value then this option is ignored.
             public int MinLength { get; set; } = -1;
-            // Specifies the maximum length of strings that should be returned by a custom enumerator.
-            // If it is set to negative value then this option is ignored.
             public int MaxLength { get; set; } = -1;
-            // Specifies that only strings that start with a capital letter should be returned by a custom enumerato
-            // Please note that empty or null strings do not meet this condition.
             public bool StartWithCapitalLetter { get; set; }
-            // Specifies that only strings that start with a digit should be returned by a custom enumerator.
-            // Please note that empty or null strings do not meet this condition.
             public bool StartWithDigit { get; set; }
         }
 
