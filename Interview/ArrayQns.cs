@@ -23,7 +23,6 @@ namespace Interview
         {
             List<string> list;
 
-
             public CustomStringEnumerator(IEnumerable<string> collection, EnumeratorConfig config)
             {
                 if (collection == null || config == null)
@@ -45,11 +44,13 @@ namespace Interview
             {
                 return list.GetEnumerator();
             }
+
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return (IEnumerator)list;
             }
         }
+
         public int RoadFuel(int[] A, int[] B)
         {
             var d = new Dictionary<int, List<int>>();
