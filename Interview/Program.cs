@@ -15,12 +15,12 @@ namespace Interview
 
             try
             {
-                var x = new ArrayQns().LongestObstacleCourseAtEachPosition(new int[] { 1, 2, 3, 2 });
-                Assert.AreEqual(3, x[3]);
-                x = new ArrayQns().LongestObstacleCourseAtEachPosition(new int[] { 2, 2, 1 });
-                Assert.AreEqual(1, x[2]);
-                x = new ArrayQns().LongestObstacleCourseAtEachPosition(new int[] { 5, 1, 5, 5, 1, 3, 4, 5, 1, 4 });
-                Assert.AreEqual(5, x[9]);
+                //var x = new ArrayQns().LongestObstacleCourseAtEachPosition(new int[] { 1, 2, 3, 2 });
+                //Assert.AreEqual(3, x[3]);
+                //x = new ArrayQns().LongestObstacleCourseAtEachPosition(new int[] { 2, 2, 1 });
+                //Assert.AreEqual(1, x[2]);
+                //x = new ArrayQns().LongestObstacleCourseAtEachPosition(new int[] { 5, 1, 5, 5, 1, 3, 4, 5, 1, 4 });
+                //Assert.AreEqual(5, x[9]);
                 //var x = new ArrayQns().RoadFuel(new int[] { 0, 1, 1 }, new int[] { 1, 2, 3 });
                 //Assert.AreEqual(3, x);
                 //x = new ArrayQns().RoadFuel(new int[] { 1, 1, 1, 9, 9, 9, 9, 7, 8}, new int[] { 2, 0, 3, 1, 6, 5, 4, 0, 0 });
