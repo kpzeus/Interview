@@ -50,4 +50,24 @@ insert into matches values(13, 65, 45, 10, 10);
 insert into matches values(5, 30, 65, 3, 15);
 insert into matches values(42, 45, 65, 8, 4);
 
-
+select s.group_id, min(b.player_id) as winner_id from
+(
+	select group_id, Coalesce(max(score), 0) as score from
+	(
+		select group_id, p.player_id, sum(first_score) + sum(second_score) as score
+		from players p 
+		left join matches m on p.player_id = m.first_player or p.player_id = m.second_player
+		group by group_id, p.player_id
+	) a group by group_id
+) s, players p1, 
+(
+	select player_id, Coalesce(max(score), 0) as score from
+	(
+		select group_id, p.player_id, sum(first_score) + sum(second_score) as score
+		from players p 
+		left join matches m on p.player_id = m.first_player or p.player_id = m.second_player
+		group by group_id, p.player_id
+	) a group by player_id
+) b where s.group_id = p1.group_id and s.score = b.score and b.player_id = p1.player_id
+group by s.group_id 
+order by s.group_id
