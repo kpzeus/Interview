@@ -11,6 +11,28 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int[] ColorTheArray(int n, int[][] queries)
+        {
+            var a = new int[n];
+            var r = new int[queries.Length];
+
+            int i = 0;
+            foreach (var q in queries)
+            {
+                a[q[0]] = q[1];
+                int c = 0;
+                for (int j = 1; j < n; j++)
+                {
+                    if (a[j] == a[j - 1] && a[j] != 0)
+                        c++;
+                }
+                r[i] = c;
+                i++;
+            }
+
+            return r;
+        }
+
         public class FrequencyTracker
         {
             int[] map;
