@@ -16,18 +16,22 @@ namespace Interview
             var a = new int[n];
             var r = new int[queries.Length];
 
-            int i = 0;
+            int k = 0;
+            int c = 0;
             foreach (var q in queries)
             {
-                a[q[0]] = q[1];
-                int c = 0;
-                for (int j = 1; j < n; j++)
-                {
-                    if (a[j] == a[j - 1] && a[j] != 0)
-                        c++;
-                }
-                r[i] = c;
-                i++;
+                int i = queries[k][0], color = queries[k][1];
+                int pre = (i > 0) ? a[i - 1] : 0;
+                int next = (i < n - 1) ? a[i + 1] : 0;
+
+                if (a[i] != 0 && a[i] == pre) c--;
+                if (a[i] != 0 && a[i] == next) c--;
+                a[i] = color;
+                if (a[i] == pre) c++;
+                if (a[i] == next) c++;
+
+                r[k] = c;
+                k++;
             }
 
             return r;
