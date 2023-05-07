@@ -11,6 +11,45 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int[] LongestObstacleCourseAtEachPosition(int[] obstacles)
+        {
+            int[] arr = new int[obstacles.Length];
+            int[] res = new int[obstacles.Length];
+            int len = 0;
+
+            for (int i = 0; i < obstacles.Length; i++)
+            {
+                int insertIndex = Search(arr, 0, len - 1, obstacles[i]); 
+                arr[insertIndex] = obstacles[i];
+                if (insertIndex == len)
+                { 
+                    len++;
+                }
+
+                res[i] = insertIndex + 1;
+            }
+
+            return res;
+        }
+
+        private int Search(int[] dp, int left, int right, int target)
+        {
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                if (dp[mid] <= target)
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    right = mid - 1;
+                }
+            }
+
+            return left;
+        }
+
         public int MinIncrements(int n, int[] cost)
         {
             int res = 0;
