@@ -11,6 +11,21 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int MinIncrements(int n, int[] cost)
+        {
+            int res = 0;
+            Search(ref res, 0, cost);
+            return res;
+        }
+
+        private int Search(ref int res, int i, int[] cost)
+        {
+            if (i >= cost.Length) return 0;
+            int a = Search(ref res, 2 * i + 1, cost), b = Search(ref res, 2 * i + 2, cost);
+            res += Math.Abs(a - b);
+            return cost[i] + Math.Max(a, b);
+        }
+
         public int[] ColorTheArray(int n, int[][] queries)
         {
             var a = new int[n];
