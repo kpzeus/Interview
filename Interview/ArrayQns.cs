@@ -11,6 +11,61 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public class FrequencyTracker
+        {
+            int[] map;
+            int[] freq;
+            public FrequencyTracker()
+            {
+                map = new int[100001];
+                freq = new int[100001];
+            }
+
+            public void Add(int number)
+            {
+                if (freq[map[number - 1]] > 0 && map[number - 1] > 0)
+                    freq[map[number - 1]]--;
+                map[number - 1]++;
+                freq[map[number - 1]]++;
+                //Console.WriteLine("Add" + number);
+                //Console.WriteLine("map[number-1] " + map[number-1]);
+                //Console.WriteLine("freq[map[number-1]] " + freq[map[number-1]]);
+                //int i=0;
+                //map.ToList().ForEach(x => {if(x > 0) Console.WriteLine("map" + (i+1)); i++;});
+                //i=0;
+                //freq.ToList().ForEach(x => {if(x > 0) Console.WriteLine("f" + x + "c" + i); i++;});
+                //Console.WriteLine();
+                //Console.WriteLine();
+            }
+
+            public void DeleteOne(int number)
+            {
+                if (freq[map[number - 1]] > 0)
+                {
+                    freq[map[number - 1]]--;
+                }
+                if (map[number - 1] > 0)
+                    map[number - 1]--;
+                freq[map[number - 1]]++;
+                //Console.WriteLine("DeleteOne" + number);
+                //int i=0;
+                //map.ToList().ForEach(x => {if(x > 0) Console.WriteLine("map" + (i+1)); i++;});
+                //i=0;
+                //freq.ToList().ForEach(x => {if(x > 0) Console.WriteLine("f" + x + "c" + i); i++;});
+                //Console.WriteLine();
+            }
+
+            public bool HasFrequency(int frequency)
+            {
+                //Console.WriteLine("HasFrequency" + frequency);
+                //Console.WriteLine("HasFrequencyx" + freq[frequency] );
+                //int i=0;
+                //freq.ToList().ForEach(x => {if(x > 0) Console.WriteLine("f" + i + "c" + x); i++;});
+                //Console.WriteLine();
+                return freq[frequency] > 0;
+            }
+        }
+
         public class EnumeratorConfig
         {
             public int MinLength { get; set; } = -1;

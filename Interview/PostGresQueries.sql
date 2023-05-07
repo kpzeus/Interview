@@ -24,3 +24,30 @@ end as strength_symbol from
 from dept_emp d
 group by d.dept_no) a, departments b
 where a.dept_no = b.dept_no order by strength
+
+create table players (
+	player_id INT not null unique,
+	group_id INT not null
+);
+
+create table matches (
+	match_id INT not null unique,
+	first_player INT not null,
+	second_player INT not null,
+	first_score INT not null,
+	second_score INT not null
+);
+
+insert into players values(20, 2);
+insert into players values(30, 1);
+insert into players values(40, 3);
+insert into players values(45, 1);
+insert into players values(50, 2);
+insert into players values(65, 1);
+insert into matches values(1, 30, 45, 10, 12);
+insert into matches values(2, 20, 50, 5, 5);
+insert into matches values(13, 65, 45, 10, 10);
+insert into matches values(5, 30, 65, 3, 15);
+insert into matches values(42, 45, 65, 8, 4);
+
+
