@@ -11,6 +11,24 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public string SortSentence(string s)
+        {
+            var sets = s.Split(' ');
+
+            var order = sets.ToList().Select(x => Convert.ToInt32(x.Last() - '0'));
+
+            var r = new string[sets.Length];
+
+            int i = 0;
+            foreach (var x in order)
+            {
+                r[x - 1] = sets[i].Substring(0, sets[i].Length - 1);
+                i++;
+            }
+
+            return string.Join(" ", r);
+        }
+
         public int[] LongestObstacleCourseAtEachPosition(int[] obstacles)
         {
             int[] arr = new int[obstacles.Length];
