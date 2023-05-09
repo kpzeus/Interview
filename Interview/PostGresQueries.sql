@@ -71,3 +71,10 @@ select s.group_id, min(b.player_id) as winner_id from
 ) b where s.group_id = p1.group_id and s.score = b.score and b.player_id = p1.player_id
 group by s.group_id 
 order by s.group_id
+
+SELECT v.customer_id, COUNT(v.visit_id) AS count_no_trans 
+from Visits v 
+LEFT JOIN Transactions t 
+ON v.visit_id = t.visit_id  
+WHERE t.transaction_id IS NULL 
+GROUP BY v.customer_id; 
