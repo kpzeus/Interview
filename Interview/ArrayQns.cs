@@ -11,34 +11,6 @@ namespace Interview
 {
     public class ArrayQns
     {
-        public IList<int> SpiralOrder(int[][] matrix)
-        {
-            int t = 0;
-            int b = matrix.Length - 1;
-            int l = 0;
-            int r = matrix[0].Length - 1;
-            int s = matrix.Length * matrix[0].Length;
-            IList<int> list = new List<int>();
-
-            while (list.Count < s)
-            {
-                for (int i = l; i <= r && list.Count < s; i++)
-                    list.Add(matrix[t][i]);
-                t++;
-                for (int i = t; i <= b && list.Count < s; i++)
-                    list.Add(matrix[i][r]);
-                r--;
-                for (int i = r; i >= l && list.Count < s; i--)
-                    list.Add(matrix[b][i]);
-                b--;
-                for (int i = b; i >= t && list.Count < s; i--)
-                    list.Add(matrix[i][l]);
-                l++;
-            }
-
-            return list;
-        }
-
         public string SortSentence(string s)
         {
             var sets = s.Split(' ');
