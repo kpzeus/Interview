@@ -55,5 +55,41 @@ namespace Interview
 
             return sum;
         }
+
+        public int[][] LargestLocal(int[][] grid)
+        {
+            int rows = grid.Length - 2;
+            int cols = grid[0].Length - 2;
+
+            int[][] local = new int[rows][];
+
+            for (int i = 0; i < rows; i++)
+            {
+                local[i] = new int[cols];
+                for (int j = 0; j < cols; j++)
+                {
+                    local[i][j] = FindMax(grid, i, j);
+                }
+            }
+
+            return local;
+        }
+
+        private int FindMax(int[][] grid, int x, int y)
+        {
+            int max = 0;
+            int rows = x + 3;
+            int cols = y + 3;
+
+            for (int i = x; i < rows; i++)
+            {
+                for (int j = y; j < cols; j++)
+                {
+                    if (grid[i][j] > max) max = grid[i][j];
+                }
+            }
+
+            return max;
+        }
     }
 }
