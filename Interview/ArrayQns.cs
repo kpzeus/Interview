@@ -11,6 +11,50 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int CountGoodStrings2(int low, int high, int zero, int one)
+        {
+            int[] dp = new int[high + 1];
+            int res = 0, mod = 1000000007;
+            dp[0] = 1;
+            for (int i = 1; i <= high; ++i)
+            {
+                if (i >= zero) dp[i] = (dp[i] + dp[i - zero]) % mod;
+                if (i >= one) dp[i] = (dp[i] + dp[i - one]) % mod;
+                if (i >= low) res = (res + dp[i]) % mod;
+            }
+            return res;
+        }
+
+        public int CountGoodStrings(int low, int high, int zero, int one)
+        {
+            HashSet<string> h = new();
+            var curr = new List<char>();
+            BackTrackCountGoodStrings(h, low, high, curr, zero, one);
+            return h.Count;
+        }
+
+        private void BackTrackCountGoodStrings(HashSet<string> h, int low, int high, List<char> curr, int zero, int one)
+        {
+            if (curr.Count > high)
+                return;
+
+            var s = new string(curr.ToArray());
+
+            if (curr.Count == high && h.Contains(s))
+                return;
+
+            if (curr.Count >= low)
+                h.Add(s);
+
+            var nextZero = new List<char>(curr);
+            nextZero.AddRange(Enumerable.Repeat('0', zero));
+            BackTrackCountGoodStrings(h, low, high, nextZero, zero, one);
+
+            var nextOne = new List<char>(curr);
+            nextOne.AddRange(Enumerable.Repeat('1', one));
+            BackTrackCountGoodStrings(h, low, high, nextOne, zero, one);
+        }
+
         public string SortSentence(string s)
         {
             var sets = s.Split(' ');
