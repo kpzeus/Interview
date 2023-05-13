@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,176 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int SumOfPower(int[] nums)
+        {
+            long res = 0;
+            long sum = 0;
+            long mod = 1000000007;
+            Array.Sort(nums);
+
+            foreach (var x in nums)
+            {
+                res = (res + (sum + x) * x % mod * x % mod) % mod;
+                sum = (sum * 2 + x) % mod;
+            }
+
+            return (int)res;
+        }
+
+        public int SumOfPower2(int[] nums)
+        {
+            long sum = 0;
+
+            GetSubsets(ref sum, nums);
+
+            return (int)sum;
+        }
+
+        private static void GetSubsets(ref long sum, int[] nums)
+        {
+            BacktrackGetSubsets(ref sum, 0, nums, new List<int>());
+        }
+
+        private static void BacktrackGetSubsets(ref long sum, int start, int[] nums, List<int> curr)
+        {
+            if (curr.Count > 0)
+            {
+                int max = curr.Max();
+                int min = curr.Min();
+                sum += (long)Math.Pow(max, 2) * min;
+                sum = sum % 1000000007;
+            }
+
+            for (int i = start; i < nums.Length; i++)
+            {
+                curr.Add(nums[i]);
+                BacktrackGetSubsets(ref sum, i + 1, nums, curr);
+                curr.RemoveAt(curr.Count - 1);
+            }
+        }
+
+        public long MaximumOr(int[] nums, int k)
+        {
+            int n = nums.Length;
+            long[] prefix = new long[n];
+            long[] suffix = new long[n];
+            prefix[0] = 0;
+            suffix[n - 1] = 0;
+            for (int i = 1; i < n; i++)
+            {
+                prefix[i] = prefix[i - 1] | nums[i - 1];
+            }
+            for (int i = n - 2; i >= 0; i--)
+            {
+                suffix[i] = suffix[i + 1] | nums[i + 1];
+            }
+            long max = 0;
+            for (int i = 0; i < n; i++)
+            {
+                long val = prefix[i] | suffix[i];
+                long v = nums[i] * (long)Math.Pow(2, k);
+                max = Math.Max(max, val | v);
+            }
+            return max;
+        }
+
+        public long MaximumOr2(int[] nums, int k)
+        {
+            long max = long.MinValue;
+            List<List<long>> r = new();
+            List<long> curr = new();
+            BackTrackMaximumOr(curr, 0, nums, k, r);
+            r.ForEach(x => {
+                long n = 0;
+                x.ForEach(y => {
+                    //Console.WriteLine(y);
+                    n = n | y;
+                });
+                //Console.WriteLine(n);
+                //Console.WriteLine();
+                max = Math.Max(max, n);
+            });
+            return max;
+        }
+
+        private void BackTrackMaximumOr(List<long> curr, int i, int[] nums, int k, List<List<long>> r)
+        {
+            if (i < nums.Length)
+            {
+                var a = new List<long>(curr);
+                a.Add((long)nums[i]);
+                BackTrackMaximumOr(a, i + 1, nums, k, r);
+
+                if (k > 0)
+                {
+                    var b = new List<long>(curr);
+                    b.Add((long)nums[i] * 2);
+                    BackTrackMaximumOr(b, i + 1, nums, k - 1, r);
+
+                    var c = new List<long>(curr);
+                    if (c.Count > 0)
+                        c[c.Count - 1] = c[c.Count - 1] * 2;
+                    else
+                        c.Add((long)nums[i] * 2);
+                    if (k - 1 > 0)
+                        BackTrackMaximumOr(c, i, nums, k - 1, r);
+                    else
+                        BackTrackMaximumOr(c, i + 1, nums, k - 1, r);
+                }
+            }
+            else
+            {
+                r.Add(curr);
+            }
+        }
+
+        public int MatrixSum(int[][] nums)
+        {
+            List<PriorityQueue<int, int>> pqList = new();
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                var q = new PriorityQueue<int, int>();
+                for (int j = 0; j < nums[0].Length; j++)
+                {
+                    q.Enqueue(nums[i][j], -nums[i][j]);
+                }
+                pqList.Add(q);
+            }
+            int sum = 0;
+
+            while (pqList.Count > 0)
+            {
+                int max = 0;
+
+                pqList.ForEach(
+                    q => {
+                        if (q.Count > 0)
+                            max = Math.Max(max, q.Dequeue());
+                    });
+
+                int i = 0;
+                while (i < pqList.Count)
+                {
+                    if (pqList[i].Count == 0)
+                    {
+                        pqList.Remove(pqList[i]);
+                        i--;
+                    }
+                    i++;
+                }
+
+                sum += max;
+            }
+
+            return sum;
+        }
+
         public int CountGoodStrings2(int low, int high, int zero, int one)
         {
             int[] dp = new int[high + 1];
-            int res = 0, mod = 1000000007;
+            int res = 0;
+            int mod = 1000000007;
             dp[0] = 1;
             for (int i = 1; i <= high; ++i)
             {

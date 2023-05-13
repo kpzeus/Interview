@@ -15,6 +15,14 @@ namespace Interview
 
             try
             {
+                var x = new ArrayQns().SumOfPower(new int[] { 2, 1, 4 });
+                Console.WriteLine(x);
+                //var x = Permutations.GetSubsets(new int[] { 2, 1, 4 });
+                //x.ForEach(y =>
+                //{
+                //    y.ForEach(z => { Console.Write(z + " "); });
+                //    Console.WriteLine();
+                //});
                 //var x = new ArrayQns().LongestObstacleCourseAtEachPosition(new int[] { 1, 2, 3, 2 });
                 //Assert.AreEqual(3, x[3]);
                 //x = new ArrayQns().LongestObstacleCourseAtEachPosition(new int[] { 2, 2, 1 });
