@@ -16,10 +16,10 @@ namespace Interview
         public int MaxScore(int[] nums)
         {
             var dp = new Dictionary<string, int>();
-            return Util(dp, nums, new bool[nums.Length], nums.Length / 2);
+            return MaxScoreUtility(dp, nums, new bool[nums.Length], nums.Length / 2);
         }
 
-        private int Util(Dictionary<string, int> dp, int[] arr, bool[] taken, int operations)
+        private int MaxScoreUtility(Dictionary<string, int> dp, int[] arr, bool[] taken, int operations)
         {
             if (operations == 0)
             {
@@ -38,7 +38,7 @@ namespace Interview
                     if (!taken[i] && !taken[j])
                     {
                         taken[i] = taken[j] = true;
-                        int val = (operations * Gcd(arr[i], arr[j])) + Util(dp, arr, taken, operations - 1);
+                        int val = (operations * Gcd(arr[i], arr[j])) + MaxScoreUtility(dp, arr, taken, operations - 1);
                         max = Math.Max(max, val);
                         taken[i] = taken[j] = false;
                     }
