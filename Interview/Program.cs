@@ -15,12 +15,12 @@ namespace Interview
 
             try
             {
-                var x = new ArrayQns().IsValidArrayDerivedFromBinaryArray(new int[] { 1, 1, 0 });
-                Console.WriteLine(x);
-                x = new ArrayQns().IsValidArrayDerivedFromBinaryArray(new int[] { 1, 1 });
-                Console.WriteLine(x);
-                x = new ArrayQns().IsValidArrayDerivedFromBinaryArray(new int[] { 1, 0 });
-                Console.WriteLine(x);
+                //var x = new ArrayQns().DoesValidArrayExist(new int[] { 1, 1, 0 });
+                //Console.WriteLine(x);
+                //x = new ArrayQns().DoesValidArrayExist(new int[] { 1, 1 });
+                //Console.WriteLine(x);
+                //x = new ArrayQns().DoesValidArrayExist(new int[] { 1, 0 });
+                //Console.WriteLine(x);
                 //var x = new ArrayQns().SumOfPower(new int[] { 2, 1, 4 });
                 //Console.WriteLine(x);
                 //var x = Permutations.GetSubsets(new int[] { 2, 1, 4 });

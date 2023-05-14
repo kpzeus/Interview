@@ -12,10 +12,114 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int CountCompleteComponents(int n, int[][] edges)
+        {
+            if (n == 1)
+                return 1;
+
+            Dictionary<int, List<int>> d = new();
+
+            int i = 0;
+            while (i < n)
+            {
+                if (!d.ContainsKey(i))
+                    d.Add(i, new List<int>());
+                i++;
+            }
+
+            i = 0;
+            while (i < edges.Length)
+            {
+                d[edges[i][0]].Add(edges[i][1]);
+                d[edges[i][1]].Add(edges[i][0]);
+
+                i++;
+            }
+
+            int c = d.Count(x => x.Value.Count == 0);
+            Console.WriteLine("b" + c);
+            foreach (var kv in d)
+            {
+                if (kv.Value.Count > 0)
+                {
+                    bool valid = true;
+                    foreach (var e in kv.Value)
+                    {
+                        foreach (var f in kv.Value)
+                        {
+                            if (f != e && !d[e].Contains(f))
+                            {
+                                valid = false;
+                                break;
+                            }
+                            if (f != e && !d[f].Contains(e))
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (valid)
+                    {
+                        Console.WriteLine("x" + kv.Key);
+                        c++;
+                    }
+                }
+            }
+
+            return c;
+        }
+
+        public int MaxMoves2(int[][] grid)
+        {
+            int i = 0;
+            int max = 0;
+            int old = 0;
+            while (i < grid.Length)
+            {
+                int c = 0;
+                int j = 0;
+                while (j < grid[0].Length - 1)
+                {
+                    if (i > 0 && grid[i - 1][j + 1] > grid[i][j])
+                    {
+                        c++;
+                        j++;
+                        i--;
+                        continue;
+                    }
+                    if (grid[i][j + 1] > grid[i][j])
+                    {
+                        c++;
+                        j++;
+                        continue;
+                    }
+                    if (i < grid.Length - 1 && grid[i + 1][j + 1] > grid[i][j])
+                    {
+                        c++;
+                        j++;
+                        i++;
+                        continue;
+                    }
+                    break;
+                }
+                max = Math.Max(max, c);
+                if (max == grid[0].Length - 1)
+                    break;
+                i = old + 1;
+                old++;
+            }
+
+            return max;
+        }
+
         public bool DoesValidArrayExist(int[] derived)
         {
             int n = derived.Length;
             int[] original = new int[n];
+
+            if (n == 1 && derived[0] == 1)
+                return false;
 
             int i = n - 1;
             bool status = false;
