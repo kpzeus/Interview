@@ -13,6 +13,155 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int MaxScore(int[] nums)
+        {
+            var dp = new Dictionary<string, int>();
+            return Util(dp, nums, new bool[nums.Length], nums.Length / 2);
+        }
+
+        private int Util(Dictionary<string, int> dp, int[] arr, bool[] taken, int operations)
+        {
+            if (operations == 0)
+            {
+                return 0;
+            }
+            string key = string.Join(",", taken.Select(b => b ? "1" : "0")) + "|" + operations;
+            if (dp.ContainsKey(key))
+            {
+                return dp[key];
+            }
+            int max = int.MinValue;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                for (int j = i + 1; j < arr.Length; j++)
+                {
+                    if (!taken[i] && !taken[j])
+                    {
+                        taken[i] = taken[j] = true;
+                        int val = (operations * Gcd(arr[i], arr[j])) + Util(dp, arr, taken, operations - 1);
+                        max = Math.Max(max, val);
+                        taken[i] = taken[j] = false;
+                    }
+                }
+            }
+            dp[key] = max;
+            return max;
+        }
+
+        public int MaxScore2(int[] nums)
+        {
+            var l = new List<int>(nums);
+
+            int sum = 0;
+
+            l.Sort();
+
+            l.ForEach(x => Console.WriteLine(x));
+
+            List<int> res = new();
+            while (l.Count > 0)
+            {
+                Console.WriteLine("even");
+                int last = 0;
+                bool found = false;
+                int n = l.Count;
+                var high = l[n - 1];
+                int low = 0;
+                int i = n - 2;
+                var div = false;
+                int gcd = 1;
+                while (l.Count > 0 && last != l.Count)
+                {
+                    last = l.Count;
+                    n = l.Count;
+                    high = l[n - 1];
+                    if (high % 2 == 1)
+                    {
+                        n--;
+                        high = l[n - 1];
+                    }
+                    i = n - 2;
+                    found = false;
+
+                    Console.WriteLine("high " + high);
+                    while (i > -1)
+                    {
+                        low = l[i];
+                        Console.WriteLine("low " + low);
+                        div = (high % low == 0);
+                        if (div)
+                        {
+                            Console.WriteLine(high);
+                            Console.WriteLine(low);
+                            l.Remove(high);
+                            res.Add(low);
+                            l.Remove(low);
+                            found = true;
+                            break;
+                        }
+                        i--;
+                    }
+                    if (!found)
+                    {
+                        break;
+                    }
+                }
+
+                if (l.Count == 0)
+                    break;
+                Console.WriteLine("odd");
+                n = l.Count;
+                high = l[n - 1];
+                i = n - 2;
+                found = false;
+                Console.WriteLine("high " + high);
+                while (i > -1)
+                {
+                    low = l[i];
+                    Console.WriteLine("low " + low);
+                    div = (high % low == 0);
+                    Console.WriteLine("gcd " + gcd);
+                    if (div)
+                    {
+                        Console.WriteLine(high);
+                        Console.WriteLine(low);
+                        l.Remove(high);
+                        l.Remove(low);
+                        res.Add(low);
+                        found = true;
+                        break;
+                    }
+                    i--;
+                }
+                if (!found)
+                {
+                    Console.WriteLine("1 gcd");
+                    Console.WriteLine("high " + high);
+                    Console.WriteLine("low " + low);
+                    l.Remove(high);
+                    res.Add(Gcd(high, low));
+                    l.Remove(low);
+                }
+            }
+
+            res.Reverse();
+
+            int k = res.Count;
+            while (k > 0)
+            {
+                Console.WriteLine("res " + res[k - 1]);
+                sum += k * res[k - 1];
+                k--;
+            }
+
+            return sum;
+        }
+
+        private static int Gcd(int a, int b)
+        {
+            return b == 0 ? a : Gcd(b, a % b);
+        }
+
         public int CountCompleteComponents(int n, int[][] edges)
         {
             List<int>[] graph = new List<int>[n];
@@ -2331,7 +2480,6 @@ namespace Interview
                         }
                     }
                 }
-                i++;
             }
 
             return 0;
