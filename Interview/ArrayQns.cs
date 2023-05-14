@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 using static Interview.ArrayQns;
@@ -12,7 +13,7 @@ namespace Interview
 {
     public class ArrayQns
     {
-        public int CountCompleteComponents(int n, int[][] edges)
+        public int CountCompleteComponents2(int n, int[][] edges)
         {
             if (n == 1)
                 return 1;
@@ -37,37 +38,84 @@ namespace Interview
             }
 
             int c = d.Count(x => x.Value.Count == 0);
+            int max = d.Max(x => x.Value.Count);
             Console.WriteLine("b" + c);
-            foreach (var kv in d)
+            while (max > 0)
             {
-                if (kv.Value.Count > 0)
+                foreach (var kv in d)
                 {
-                    bool valid = true;
-                    foreach (var e in kv.Value)
+                    if (kv.Value.Count > 0)
                     {
-                        foreach (var f in kv.Value)
+                        bool valid = true;
+                        foreach (var e in kv.Value)
                         {
-                            if (f != e && !d[e].Contains(f))
+                            foreach (var f in kv.Value)
                             {
-                                valid = false;
-                                break;
-                            }
-                            if (f != e && !d[f].Contains(e))
-                            {
-                                valid = false;
-                                break;
+                                if (f != e && !d[e].Contains(f))
+                                {
+                                    valid = false;
+                                    break;
+                                }
+                                if (f != e && !d[f].Contains(e))
+                                {
+                                    valid = false;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if (valid)
-                    {
-                        Console.WriteLine("x" + kv.Key);
-                        c++;
+                        if (valid)
+                        {
+                            Console.WriteLine("x" + kv.Key);
+                            c++;
+                        }
                     }
                 }
+                max--;
             }
 
             return c;
+        }
+        public int MaxMoves(int[][] grid)
+        {
+            int[][] dp;
+            int[] dirs = new int[] { -1, 0, 1 };
+            int m, n, max = 0;
+
+            m = grid.Length;
+            n = grid[0].Length;
+
+            dp = new int[m][];
+            int i = 0;
+            while (i < m)
+            {
+                dp[i] = new int[n];
+                Array.Fill(dp[i], -1);
+                i++;
+            }
+
+            for (i = 0; i < m; i++)
+                max = Math.Max(max, MaxMoves(grid, i, 0, m, n, dirs, dp));
+
+            return max;
+        }
+
+        private int MaxMoves(int[][] grid, int x, int y, int m, int n, int[] dirs, int[][] dp)
+        {
+            if (y == n - 1) return 0;
+
+            if (dp[x][y] != -1) return dp[x][y];
+
+            dp[x][y] = 0;
+            foreach (var dir in dirs)
+            {
+                var x2 = x + dir;
+                if (x2 < 0 || x2 == m) continue;
+
+                if (grid[x2][y + 1] > grid[x][y])
+                    dp[x][y] = Math.Max(dp[x][y], 1 + MaxMoves(grid, x2, y + 1, m, n, dirs, dp));
+            }
+
+            return dp[x][y];
         }
 
         public int MaxMoves2(int[][] grid)
@@ -111,7 +159,7 @@ namespace Interview
             }
 
             return max;
-        }
+        }         
 
         public bool DoesValidArrayExist(int[] derived)
         {
@@ -1709,7 +1757,7 @@ namespace Interview
 
         static IList<IList<string>> r = new List<IList<string>>();
 
-        public static IList<IList<string>> FindLadders(string beginWord, string endWord, IList<string> wordList)
+        public static IList<IList<string>> FindLAdders(string beginWord, string endWord, IList<string> wordList)
         {
             r.Clear();
 
