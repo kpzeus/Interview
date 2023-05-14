@@ -12,6 +12,53 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public bool DoesValidArrayExist(int[] derived)
+        {
+            int n = derived.Length;
+            int[] original = new int[n];
+
+            int i = n - 1;
+            bool status = false;
+
+            if (derived[i] == 0)
+            {
+                // Case last = 1 and first = 1
+                original[i] = 1;
+                original[0] = 1;
+                status = FillDoesValidArrayExist(derived, original) && original[0] == 1;
+
+                // Case last = 0 and first = 0
+                i = n - 1;
+                original[i] = 0;
+                original[0] = 0;
+                status = status || (FillDoesValidArrayExist(derived, original) && original[0] == 0);
+            }
+            else
+            {
+                // Case last = 1 and first = 1
+                original[i] = 1;
+                original[0] = 0;
+                status = FillDoesValidArrayExist(derived, original) && original[0] == 0;
+
+                // Case last = 0 and first = 0
+                i = n - 1;
+                original[i] = 0;
+                original[0] = 1;
+                status = status || (FillDoesValidArrayExist(derived, original) && original[0] == 1);
+            }
+
+            return status;
+        }
+
+        private bool FillDoesValidArrayExist(int[] derived, int[] original)
+        {
+            for (int i = derived.Length - 2; i >= 0; i--)
+            {
+                original[i] = derived[i] ^ original[i + 1];
+            }
+            return original.All(x => x == 0 || x == 1);
+        }
+
         public int SumOfPower(int[] nums)
         {
             long res = 0;
