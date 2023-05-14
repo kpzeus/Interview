@@ -15,15 +15,17 @@ namespace Interview
 
             try
             {
-                int[][] edges = new int[2][];
-                edges[0] = new int[2];
-                edges[0][0] = 3;
-                edges[0][1] = 4;
-                edges[1] = new int[2];
-                edges[1][0] = 4;
-                edges[1][1] = 5;
-                var x = new ArrayQns().CountCompleteComponents(6, edges);
-                Console.WriteLine(x);
+                //Console.WriteLine(ArrayQns.Gcd(10,8));
+                //Console.WriteLine(ArrayQns.Gcd(8, 10));
+                //int[][] edges = new int[2][];
+                //edges[0] = new int[2];
+                //edges[0][0] = 3;
+                //edges[0][1] = 4;
+                //edges[1] = new int[2];
+                //edges[1][0] = 4;
+                //edges[1][1] = 5;
+                //var x = new ArrayQns().CountCompleteComponents(6, edges);
+                //Console.WriteLine(x);
                 //var x = new ArrayQns().DoesValidArrayExist(new int[] { 1, 1, 0 });
                 //Console.WriteLine(x);
                 //x = new ArrayQns().DoesValidArrayExist(new int[] { 1, 1 });
