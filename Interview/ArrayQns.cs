@@ -13,6 +13,50 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int CountCompleteComponents(int n, int[][] edges)
+        {
+            List<int>[] graph = new List<int>[n];
+            for (int i = 0; i < n; i++)
+                graph[i] = new List<int>();
+            foreach (int[] edge in edges)
+            {
+                int x = edge[0], y = edge[1];
+                graph[x].Add(y);
+                graph[y].Add(x);
+            }
+
+            bool[] vis = new bool[n];
+            int ans = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                if (!vis[i])
+                {
+                    HashSet<int> set = new();
+                    int degree = CountCompleteComponentsDfs(i, vis, graph, set);
+                    if (set.Count == 1 && set.Contains(degree - 1))
+                        ans++;
+                }
+            }
+
+            return ans;
+        }
+
+        public int CountCompleteComponentsDfs(int src, bool[] vis, List<int>[] graph, HashSet<int> set)
+        {
+            vis[src] = true;
+            set.Add(graph[src].Count);
+            int ans = 1;
+            foreach (int nbr in graph[src])
+            {
+                if (!vis[nbr])
+                {
+                    ans += CountCompleteComponentsDfs(nbr, vis, graph, set);
+                }
+            }
+            return ans;
+        }
+
         public int CountCompleteComponents2(int n, int[][] edges)
         {
             if (n == 1)
@@ -75,6 +119,7 @@ namespace Interview
 
             return c;
         }
+
         public int MaxMoves(int[][] grid)
         {
             int[][] dp;

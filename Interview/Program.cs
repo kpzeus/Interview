@@ -22,7 +22,7 @@ namespace Interview
                 edges[1] = new int[2];
                 edges[1][0] = 4;
                 edges[1][1] = 5;
-                var x = new ArrayQns().CountCompleteComponents2(6, edges);
+                var x = new ArrayQns().CountCompleteComponents(6, edges);
                 Console.WriteLine(x);
                 //var x = new ArrayQns().DoesValidArrayExist(new int[] { 1, 1, 0 });
                 //Console.WriteLine(x);
