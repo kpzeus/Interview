@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+LOG_FILE="$1"
+TO="alert@project.com"
+
+tail -n0 -f "$LOG_FILE" | while read -r LINE; do
+	echo "$LINE"
+	if [[ $LINE == *" 500 "* ]]; then
+		read -ra SEGMENTS <<< "$LINE"
+		SEGMENTSCOUNT=${#SEGMENTS[@]}
+		if [[ $SEGMENTSCOUNT -ge 7 ]]; then
+			FILESEGMENT="${SEGMENTS[6]}"
+			mail -s "HTTP 500 on $FILESEGMENT" "$TO"
+		fi
+	fi
+done
