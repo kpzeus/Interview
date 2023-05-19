@@ -13,6 +13,33 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public string GcdOfStrings(string str1, string str2)
+        {
+            if (str1.Contains(str2) && str1.Split(str2).All(x => x == string.Empty))
+                return str2;
+
+            int len = str2.Length - 1;
+            while (len > 0)
+            {
+                var x = str2.Substring(0, len);
+                if (str1.Contains(x) && str1.Split(x).All(z => z == string.Empty) && str2.Split(x).All(z => z == string.Empty))
+                    return x;
+                len--;
+            }
+
+            int i = 1;
+            len = str2.Length;
+            while (i < len)
+            {
+                var x = str2.Substring(i, len - i);
+                if (str1.Contains(x) && str1.Split(x).All(z => z == string.Empty) && str2.Split(x).All(z => z == string.Empty))
+                    return x;
+                i++;
+            }
+
+            return string.Empty;
+        }
+
         public int MaxScore(int[] nums)
         {
             var dp = new Dictionary<string, int>();
