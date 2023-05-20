@@ -13,6 +13,50 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public bool IncreasingTriplet(int[] nums)
+        {
+            if (nums.Length < 3)
+                return false;
+            int n = nums.Length;
+            int[] l = new int[n];
+            int[] r = new int[n];
+            int i = 0;
+            int min = int.MaxValue;
+            int max = int.MinValue;
+            while (i < nums.Length)
+            {
+                if (nums[i] < min)
+                {
+                    min = nums[i];
+                }
+                l[i] = min;
+                i++;
+            }
+
+            i = n - 1;
+            while (i > -1)
+            {
+                if (nums[i] > max)
+                {
+                    max = nums[i];
+                }
+                r[i] = max;
+                i--;
+            }
+
+            i = 1;
+            while (i < nums.Length - 1)
+            {
+                if (nums[i] > l[i] && nums[i] < r[i])
+                {
+                    return true;
+                }
+                i++;
+            }
+
+            return false;
+        }
+
         public string GcdOfStrings(string str1, string str2)
         {
             if (str1.Contains(str2) && str1.Split(str2).All(x => x == string.Empty))
