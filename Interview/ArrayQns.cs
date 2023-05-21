@@ -13,6 +13,111 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int[][] ModifiedGraphEdges2(int n, int[][] edges, int source, int destination, int target)
+        {
+            Dictionary<int, List<(int, int)>> d = new();
+            List<int[]> r = new();
+
+
+            edges.ToList().ForEach(x => {
+                int n1 = x[0];
+                int n2 = x[1];
+                int w = x[2];
+
+                if (!d.ContainsKey(n1))
+                    d.Add(n1, new());
+                if (!d.ContainsKey(n2))
+                    d.Add(n2, new());
+
+                d[n1].Add((n2, w));
+                d[n2].Add((n1, w));
+            });
+
+            var x = ShortestPath(d, source, destination, n);
+
+            if (x.Count == 0)
+            {
+                return r.ToArray();
+            }
+
+            int a = 0;
+            int curr = x[0];
+            x.ForEach(z => {
+                Console.WriteLine(z);
+                if (z != curr)
+                {
+                    int dist = d[curr].First(e => e.Item1 == z).Item2;
+                    Console.WriteLine("dist " + dist);
+                    if (dist != -1)
+                    {
+                        a += dist;
+                    }
+                    curr = z;
+                }
+            });
+            Console.WriteLine("total : " + a);
+            Console.WriteLine();
+
+            if (a > target)
+            {
+                return r.ToArray();
+            }
+
+            return r.ToArray();
+        }
+
+        private List<int> ShortestPath(Dictionary<int, List<(int, int)>> d, int source, int destination, int V)
+        {
+            bool[] visited = new bool[V];
+            int[] previous = new int[V];
+            int[] distance = new int[V];
+
+            for (int i = 0; i < V; i++)
+            {
+                visited[i] = false;
+                previous[i] = -1;
+                distance[i] = int.MaxValue;
+            }
+
+            Queue<int> queue = new Queue<int>();
+            visited[source] = true;
+            distance[source] = 0;
+            queue.Enqueue(source);
+
+            while (queue.Count > 0)
+            {
+                int currentVertex = queue.Dequeue();
+
+                foreach (var set in d[currentVertex])
+                {
+                    var neighbor = set.Item1;
+                    if (!visited[neighbor])
+                    {
+                        visited[neighbor] = true;
+                        distance[neighbor] = distance[currentVertex] + 1;
+                        previous[neighbor] = currentVertex;
+                        queue.Enqueue(neighbor);
+
+                        if (neighbor == destination)
+                        {
+                            // Destination reached, construct the shortest path
+                            List<int> shortestPath = new List<int>();
+                            int vertex = destination;
+                            while (vertex != -1)
+                            {
+                                shortestPath.Insert(0, vertex);
+                                vertex = previous[vertex];
+                            }
+                            return shortestPath;
+                        }
+                    }
+                }
+            }
+
+            // No path found
+            return new List<int>();
+        }
+
         public int PunishmentNumber(int n)
         {
             int r = 1;
