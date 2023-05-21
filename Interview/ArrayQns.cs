@@ -13,6 +13,55 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int MinLength(string s)
+        {
+            char[] c = s.ToCharArray();
+
+            int i = 0;
+            int len = s.Length;
+            while (i < len)
+            {
+                if (c[i] == 'A')
+                {
+                    if (i < len - 1 && c[i + 1] == 'B')
+                    {
+                        //Console.WriteLine(i);
+                        Shift(c, i, len);
+                        len = len - 2;
+                        i = 0;
+                        //Console.WriteLine(new String(c).Substring(0, len));
+                        //Console.WriteLine(len);
+                        continue;
+                    }
+                }
+                if (c[i] == 'C')
+                {
+                    if (i < len - 1 && c[i + 1] == 'D')
+                    {
+                        //Console.WriteLine(i);
+                        Shift(c, i, len);
+                        len = len - 2;
+                        i = 0;
+                        //Console.WriteLine(new String(c).Substring(0, len));
+                        //Console.WriteLine(len);
+                        continue;
+                    }
+                }
+                i++;
+            }
+
+            return len;
+        }
+
+        private void Shift(char[] c, int i, int len)
+        {
+            while (i < len - 2)
+            {
+                c[i] = c[i + 2];
+                i++;
+            }
+        }
+
         public bool IncreasingTriplet(int[] nums)
         {
             if (nums.Length < 3)
