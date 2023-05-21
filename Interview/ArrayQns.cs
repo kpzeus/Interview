@@ -13,6 +13,181 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int[][] ModifiedGraphEdges(int n, int[][] edges, int source, int destination, int target)
+        {
+            int[,] adj = new int[n, n];
+
+            foreach (int[] edge in edges)
+            {
+                int a = edge[0];
+                int b = edge[1];
+                int w = edge[2];
+                adj[a, b] = w;
+                adj[b, a] = w;
+            }
+
+            Pair shortestPath = FindPath(adj, source, destination, target);
+
+            if (shortestPath == null)
+            {
+                return new int[][] { };
+            }
+            else if (shortestPath.w == target)
+            {
+                return Fill(adj);
+            }
+            else
+            {
+                while (true)
+                {
+                    int[] curr = FindFirstModifiableIndex(shortestPath.parent, destination, source, adj);
+
+                    if (curr == null)
+                    {
+                        return new int[][] { };
+                    }
+
+                    adj[curr[0], curr[1]] = target - shortestPath.w + 1;
+                    adj[curr[1], curr[0]] = target - shortestPath.w + 1;
+                    shortestPath = FindPath(adj, source, destination, target);
+
+                    if (shortestPath.w == target)
+                    {
+                        return Fill(adj);
+                    }
+                    else if (shortestPath.w > target)
+                    {
+                        return new int[][] { };
+                    }
+                }
+            }
+        }
+
+        private int[] FindFirstModifiableIndex(int[] parent, int dest, int source, int[,] adj)
+        {
+            List<int> list = new List<int>();
+            int curr = dest;
+
+            while (curr != -1)
+            {
+                list.Add(curr);
+                curr = parent[curr];
+            }
+
+            list.Reverse();
+
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                int v = list[i];
+                int v2 = list[i + 1];
+
+                if (adj[v, v2] == -1)
+                {
+                    return new int[] { v, v2 };
+                }
+            }
+
+            return null;
+        }
+
+        private int[][] Fill(int[,] adj)
+        {
+            int n = adj.GetLength(0);
+            List<int[]> list = new List<int[]>();
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (adj[i, j] != 0)
+                    {
+                        int c = adj[i, j];
+
+                        if (c == -1)
+                        {
+                            c = 1;
+                        }
+
+                        list.Add(new int[] { i, j, c });
+                    }
+                }
+            }
+
+            int[][] res = new int[list.Count][];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                res[i] = list[i];
+            }
+
+            return res;
+        }
+
+        private Pair FindPath(int[,] adj, int source, int destination, int target)
+        {
+            int n = adj.GetLength(0);
+            int[] dist = new int[n];
+            int[] parent = new int[n];
+            Array.Fill(dist, int.MaxValue);
+            Array.Fill(parent, -1);
+            dist[source] = 0;
+            parent[source] = -1;
+
+            PriorityQueue<int[], int> pq = new PriorityQueue<int[], int>();
+            pq.Enqueue(new int[] { source, dist[source] }, dist[source]);
+
+            while (pq.Count > 0)
+            {
+                int[] curr = pq.Dequeue();
+                int c = curr[0];
+                int w = curr[1];
+
+                if (w > target)
+                {
+                    return null;
+                }
+
+                if (c == destination)
+                {
+                    return new Pair(w, parent);
+                }
+
+                for (int i = 0; i < n; i++)
+                {
+                    if (adj[c, i] != 0)
+                    {
+                        int nw = adj[c, i];
+
+                        if (nw == -1)
+                        {
+                            nw = 1;
+                        }
+
+                        if (nw + w < dist[i])
+                        {
+                            dist[i] = nw + w;
+                            parent[i] = c;
+                            pq.Enqueue(new int[] { i, dist[i] }, dist[i]);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        class Pair
+        {
+            public int w;
+            public int[] parent;
+
+            public Pair(int w, int[] parent)
+            {
+                this.w = w;
+                this.parent = parent;
+            }
+        }
+
         public int[][] ModifiedGraphEdges2(int n, int[][] edges, int source, int destination, int target)
         {
             Dictionary<int, List<(int, int)>> d = new();
