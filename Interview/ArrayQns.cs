@@ -13,6 +13,81 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int PunishmentNumber(int n)
+        {
+            int r = 1;
+
+            int i = 9;
+            while (i <= n)
+            {
+                int x = i * i;
+                if (IsValid(x, i))
+                    r += x;
+                i++;
+            }
+
+            return r;
+        }
+
+        private bool IsValid(int x, int i)
+        {
+            var digits = new List<char>();
+            int zero = (int)'0';
+            while (x > 0)
+            {
+                var z = (char)((x % 10) + zero);
+                digits.Add(z);
+                x /= 10;
+            }
+            digits.Reverse();
+
+            List<List<string>> partitions = PartitionString(new string(digits.ToArray()));
+
+            foreach (List<string> partition in partitions)
+            {
+                int a = 0;
+                //Console.WriteLine(string.Join(" | ", partition));
+                foreach (var item in partition)
+                {
+                    a += Convert.ToInt32(item);
+                }
+                //Console.WriteLine("X " + a + " " + i);
+                if (a == i)
+                {
+                    //Console.WriteLine();
+                    //Console.WriteLine(true);
+                    //Console.WriteLine();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        static List<List<string>> PartitionString(string input)
+        {
+            //Console.WriteLine(" R " + input);
+            List<List<string>> partitions = new List<List<string>>();
+            PartitionStringHelper(input, 0, new List<string>(), partitions);
+            return partitions;
+        }
+
+        static void PartitionStringHelper(string input, int start, List<string> partition, List<List<string>> partitions)
+        {
+            if (start == input.Length)
+            {
+                partitions.Add(new List<string>(partition));
+                return;
+            }
+
+            for (int end = start + 1; end <= input.Length; end++)
+            {
+                string substring = input.Substring(start, end - start);
+                partition.Add(substring);
+                PartitionStringHelper(input, end, partition, partitions);
+                partition.RemoveAt(partition.Count - 1);
+            }
+        }
+
         public int MinLength(string s)
         {
             char[] c = s.ToCharArray();
