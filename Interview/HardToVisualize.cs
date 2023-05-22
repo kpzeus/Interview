@@ -8,6 +8,120 @@ namespace Interview
 {
     public class HardToVisualize
     {
+        public int MaxOperations(int[] nums, int k)
+        {
+            Dictionary<int, int> map = new();
+
+            int ans = 0;
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (map.ContainsKey(k - nums[i]) && map[k - nums[i]] > 0)
+                {
+                    ans++;
+                    map[k - nums[i]] = map[k - nums[i]] - 1;
+                }
+                else
+                {
+                    if (map.ContainsKey(nums[i]))
+                        map[nums[i]] = map[nums[i]] + 1;
+                    else
+                        map[nums[i]] = 1;
+                }
+            }
+
+            return ans;
+        }
+
+        public int MaxOperations2(int[] nums, int k)
+        {
+            Dictionary<int, int> d = new();
+            foreach (var x in nums)
+            {
+                if (x < k)
+                {
+                    if (!d.ContainsKey(x))
+                        d.Add(x, 1);
+                    else
+                        d[x]++;
+                }
+            }
+
+            int r = 0;
+            int l = 0;
+            int h = 1;
+            while (l < h && d.Count > 0)
+            {
+                l = d.Keys.Min();
+                h = d.Keys.Max();
+                Console.WriteLine(l + " " + h);
+                int x = k - h;
+                //Console.WriteLine(x);
+                while (d.ContainsKey(l) && l < x)
+                {
+                    d.Remove(l);
+                    if (d.Count == 0)
+                        break;
+                    l = d.Keys.Min();
+                }
+                //Console.WriteLine(" " + d.Count);
+                l = x;
+                while (d.ContainsKey(l) && d[l] > 0 && d[h] > 0 && (l != h || d[l] > 1))
+                {
+                    //Console.WriteLine(true);
+                    r++;
+                    d[l]--;
+                    d[h]--;
+                }
+                if (d.ContainsKey(l) && d[l] == 0)
+                    d.Remove(l);
+                if (d.ContainsKey(h) && d[h] == 0)
+                    d.Remove(h);
+                d.Remove(h);
+            }
+
+            return r;
+        }
+
+        public int MaxOperations3(int[] nums, int k)
+        {
+            Array.Sort(nums);
+            int r = 0;
+            int i = 0;
+            int j = nums.Length - 1;
+            while (j > -1 && nums[j] >= k)
+                j--;
+
+            while (i < j)
+            {
+                var x = k - nums[j];
+                //Console.WriteLine(nums[i]  + "-" + nums[j] + " " + x);
+                if (nums[i] == x)
+                {
+                    //Console.WriteLine(i + " " + j);
+                    r++;
+                    i++;
+                    j--;
+                    continue;
+                }
+                while (i < nums.Length && nums[i] < x)
+                    i++;
+                //Console.WriteLine(nums[i]  + "-" + nums[j]);
+                if (i < nums.Length && nums[i] == x)
+                {
+                    //Console.WriteLine(i + " " + j);
+                    r++;
+                    i++;
+                    j--;
+                    continue;
+                }
+                else
+                    j--;
+            }
+
+            return r;
+        }
+
         public IList<int> SpiralOrder(int[][] matrix)
         {
             int t = 0;
