@@ -8,6 +8,76 @@ namespace Interview
 {
     public class HardToVisualize
     {
+        public bool CloseStrings(string word1, string word2)
+        {
+            if (word1.Length != word2.Length)
+            {
+                return false;
+            }
+
+            char[] w1 = word1.ToCharArray();
+            char[] w2 = word2.ToCharArray();
+            Array.Sort(w1);
+            Array.Sort(w2);
+
+            int count = 1;
+            List<int> list1 = new List<int>();
+            List<int> list2 = new List<int>();
+
+            for (int i = 0; i < w1.Length - 1; i++)
+            {
+                if (!word2.Contains(w1[i].ToString()))
+                {
+                    return false;
+                }
+                if (w1[i] == w1[i + 1])
+                {
+                    count++;
+                }
+                else
+                {
+                    list1.Add(count);
+                    count = 1;
+                }
+            }
+            list1.Add(count);
+            count = 1;
+
+            for (int i = 0; i < w2.Length - 1; i++)
+            {
+                if (w2[i] == w2[i + 1])
+                {
+                    count++;
+                }
+                else
+                {
+                    list2.Add(count);
+                    count = 1;
+                }
+            }
+            list2.Add(count);
+
+            for (int i = 0; i < list1.Count; i++)
+            {
+                if (list2.Contains(list1[i]))
+                {
+                    list2.Remove(list1[i]);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            foreach (var z in word1)
+            {
+                if (!word2.Contains(z))
+                    return false;
+            }
+
+            return true;
+        }
+
         public int MaxOperations(int[] nums, int k)
         {
             Dictionary<int, int> map = new();
