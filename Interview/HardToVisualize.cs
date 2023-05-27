@@ -8,50 +8,30 @@ namespace Interview
 {
     public class HardToVisualize
     {
-        public long MaxStrength(int[] nums)
+        public int MinExtraChar(string s, string[] dictionary)
         {
-            Array.Sort(nums);
+            int[] dp = new int[s.Length + 1];
+            Array.Fill(dp, -1);
+            HashSet<string> st = new HashSet<string>(dictionary);
+            return MinExtraCharEval(0, s, st, dp);
+        }
 
-            long s = 1;
-            long max = long.MinValue;
-            int i = 0;
-            int numMax = nums[nums.Length - 1];
-            int neg = 0;
-            while (i < nums.Length && nums[i] < 0)
+        public int MinExtraCharEval(int idx, string s, HashSet<string> st, int[] dp)
+        {
+            if (idx == s.Length)
+                return 0;
+            if (dp[idx] != -1)
+                return dp[idx];
+            int res = int.MaxValue;
+            for (int j = idx; j < s.Length; ++j)
             {
-                s = s * (long)nums[i];
-                max = Math.Max(max, s);
-                i++;
-                neg++;
+                string str = s.Substring(idx, j - idx + 1);
+                if (st.Contains(str))
+                    res = Math.Min(res, MinExtraCharEval(j + 1, s, st, dp));
+                else
+                    res = Math.Min(res, j - idx + 1 + MinExtraCharEval(j + 1, s, st, dp));
             }
-            if (nums[0] < 0 && nums.Length > 1 && nums[1] < 0)
-                s = max;
-            else
-            {
-                s = 1;
-                if (numMax == 0 && neg < 2)
-                    return 0;
-            }
-            if (numMax < 0 && max < 0)
-            {
-                i = 0;
-                s = numMax;
-            }
-            while (i < nums.Length && nums[i] < 1)
-            {
-                i++;
-            }
-            //Console.WriteLine(i + " " + s);
-            while (i < nums.Length)
-            {
-                //Console.WriteLine(nums[i]);
-                s = s * nums[i];
-                //Console.WriteLine(s);
-                i++;
-            }
-            //Console.WriteLine();
-
-            return s;
+            return dp[idx] = res;
         }
 
         public int MinExtraChar2(string s, string[] dictionary)
@@ -67,7 +47,7 @@ namespace Interview
             return s.Length;
         }
 
-        private static string ReplaceFirst(string text, string item)
+        public static string ReplaceFirst(string text, string item)
         {
             int pos = text.IndexOf(item);
             if (pos < 0)
@@ -76,6 +56,7 @@ namespace Interview
             }
             return text.Substring(0, pos) + text.Substring(pos + item.Length);
         }
+
         public bool CloseStrings(string word1, string word2)
         {
             if (word1.Length != word2.Length)

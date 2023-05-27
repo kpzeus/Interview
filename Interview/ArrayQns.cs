@@ -13,7 +13,7 @@ namespace Interview
 {
     public class ArrayQns
     {
-        public bool CanTraverseAllPairs(int[] nums)
+        public bool CanTraverseAllPairs2(int[] nums)
         {
             int i = 0;
             if (nums.Length == 1)
@@ -78,6 +78,52 @@ namespace Interview
             }
 
             return true;
+        }
+
+        public long MaxStrength(int[] nums)
+        {
+            Array.Sort(nums);
+
+            long s = 1;
+            long max = long.MinValue;
+            int i = 0;
+            int numMax = nums[nums.Length - 1];
+            int neg = 0;
+            while (i < nums.Length && nums[i] < 0)
+            {
+                s = s * (long)nums[i];
+                max = Math.Max(max, s);
+                i++;
+                neg++;
+            }
+            if (nums[0] < 0 && nums.Length > 1 && nums[1] < 0)
+                s = max;
+            else
+            {
+                s = 1;
+                if (numMax == 0 && neg < 2)
+                    return 0;
+            }
+            if (numMax < 0 && max < 0)
+            {
+                i = 0;
+                s = numMax;
+            }
+            while (i < nums.Length && nums[i] < 1)
+            {
+                i++;
+            }
+            //Console.WriteLine(i + " " + s);
+            while (i < nums.Length)
+            {
+                //Console.WriteLine(nums[i]);
+                s = s * nums[i];
+                //Console.WriteLine(s);
+                i++;
+            }
+            //Console.WriteLine();
+
+            return s;
         }
 
         public int[][] ModifiedGraphEdges(int n, int[][] edges, int source, int destination, int target)
