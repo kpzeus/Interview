@@ -8,6 +8,28 @@ namespace Interview
 {
     public class HardToVisualize
     {
+        public int MinExtraChar2(string s, string[] dictionary)
+        {
+            Array.Sort(dictionary, (x, y) => y.Length.CompareTo(x.Length));
+            Console.WriteLine(dictionary[0]);
+
+            foreach (var z in dictionary)
+            {
+                s = s.Replace(z, "");
+            }
+
+            return s.Length;
+        }
+
+        private static string ReplaceFirst(string text, string item)
+        {
+            int pos = text.IndexOf(item);
+            if (pos < 0)
+            {
+                return text;
+            }
+            return text.Substring(0, pos) + text.Substring(pos + item.Length);
+        }
         public bool CloseStrings(string word1, string word2)
         {
             if (word1.Length != word2.Length)
