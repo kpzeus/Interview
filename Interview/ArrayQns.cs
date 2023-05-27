@@ -13,6 +13,73 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public bool CanTraverseAllPairs(int[] nums)
+        {
+            int i = 0;
+            if (nums.Length == 1)
+                return true;
+
+            HashSet<(int, int)> targets = new();
+            while (i < nums.Length - 1)
+            {
+                int j = i + 1;
+                while (j < nums.Length)
+                {
+                    var gcd = Gcd(nums[i], nums[j]);
+                    //Console.WriteLine(nums[i] + " " + nums[j] + " " + gcd);
+                    if (gcd > 1)
+                    {
+                        targets.Add((i, j));
+                        targets.Add((j, i));
+
+                        int old = 0;
+                        while (targets.Count > old)
+                        {
+                            old = targets.Count;
+                            HashSet<(int, int)> t1 = new();
+                            foreach (var z in targets)
+                            {
+                                foreach (var x in targets)
+                                {
+                                    if (z.Item2 == x.Item1)
+                                    {
+                                        t1.Add((x.Item2, z.Item2));
+                                        t1.Add((z.Item2, x.Item2));
+                                    }
+                                    if (z.Item2 == x.Item2)
+                                    {
+                                        t1.Add((x.Item1, z.Item1));
+                                        t1.Add((z.Item1, x.Item1));
+                                    }
+                                }
+                            }
+                            foreach (var z in t1)
+                            {
+                                targets.Add(z);
+                            }
+                        }
+                    }
+                    j++;
+                }
+                i++;
+            }
+
+            //foreach(var z in targets){
+            //Console.WriteLine(z.Item1 + " " + z.Item2);
+            //}
+
+            i = 1;
+            while (i < nums.Length)
+            {
+                //Console.WriteLine("To " + i);
+                if (!targets.Contains((0, i)))
+                    return false;
+                i++;
+            }
+
+            return true;
+        }
+
         public int[][] ModifiedGraphEdges(int n, int[][] edges, int source, int destination, int target)
         {
             int[,] adj = new int[n, n];

@@ -76,7 +76,7 @@ public struct RationalNumber
 
         if (denominator == 0) throw new InvalidOperationException();
 
-        int gcd = GCD(this.N, this.D);
+        int gcd = Gcd(this.N, this.D);
 
         N = N / gcd;
         D = D / gcd;
@@ -90,12 +90,12 @@ public struct RationalNumber
 
     internal RationalNumber Reduce()
     {
-        int gcd = GCD(this.N, this.D);
+        int gcd = Gcd(this.N, this.D);
 
         return new RationalNumber(this.N / gcd, this.D / gcd);
     }
 
-    private int GCD(int a, int b)
+    private int Gcd(int a, int b)
     {
         int r1 = Math.Abs(a);
         int r2 = Math.Abs(b);
