@@ -13,6 +13,63 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int MaxIncreasingCells(int[][] mat)
+        {
+            int r = 1;
+            int i = 0;
+            int max = mat.Length * mat[0].Length;
+            while (i < mat.Length)
+            {
+                int j = 0;
+                while (j < mat[0].Length)
+                {
+                    var v = new HashSet<(int, int)>();
+                    v.Add((i, j));
+                    MaxIncreasingCellsVisit(ref r, mat, v, (i, j), 1, max);
+                    j++;
+                }
+                i++;
+            }
+            return r;
+        }
+
+        void MaxIncreasingCellsVisit(ref int r, int[][] mat, HashSet<(int, int)> visited, (int, int) l, int c, int max)
+        {
+            if (r == max)
+                return;
+            r = Math.Max(r, c);
+            int i = 0;
+            while (i < mat[0].Length)
+            {
+                if (mat[l.Item1][i] > mat[l.Item1][l.Item2])
+                {
+                    var newL = (l.Item1, i);
+                    if (!visited.Contains(newL))
+                    {
+                        var v = new HashSet<(int, int)>(visited);
+                        v.Add(newL);
+                        MaxIncreasingCellsVisit(ref r, mat, v, newL, c + 1, max);
+                    }
+                }
+                i++;
+            }
+            i = 0;
+            while (i < mat.Length)
+            {
+                if (mat[i][l.Item2] > mat[l.Item1][l.Item2])
+                {
+                    var newL = (i, l.Item2);
+                    if (!visited.Contains(newL))
+                    {
+                        var v = new HashSet<(int, int)>(visited);
+                        v.Add(newL);
+                        MaxIncreasingCellsVisit(ref r, mat, v, newL, c + 1, max);
+                    }
+                }
+                i++;
+            }
+        }
+
         public bool CanTraverseAllPairs(int[] nums)
         {
             if (nums.Length == 1)
