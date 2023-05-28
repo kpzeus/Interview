@@ -13,6 +13,63 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int MaxIncreasingCells(int[][] mat)
+        {
+            int n = mat.Length;
+            int m = mat[0].Length;
+            SortedDictionary<int, List<int[]>> d = new SortedDictionary<int, List<int[]>>();
+            int[] row = new int[n];
+            int[] col = new int[m];
+            int res = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    int value = mat[i][j];
+                    if (!d.ContainsKey(value))
+                    {
+                        d[value] = new List<int[]>();
+                    }
+                    d[value].Add(new int[] { i, j });
+                }
+            }
+
+            foreach (var kvp in d)
+            {
+                int value = kvp.Key;
+                List<int[]> coordinates = kvp.Value;
+                List<int[]> trow = new List<int[]>();
+                List<int[]> tcol = new List<int[]>();
+
+                foreach (int[] coordinate in coordinates)
+                {
+                    int i = coordinate[0];
+                    int j = coordinate[1];
+                    int t = Math.Max(1, Math.Max(row[i] + 1, col[j] + 1));
+                    res = Math.Max(res, t);
+                    trow.Add(new int[] { i, t });
+                    tcol.Add(new int[] { j, t });
+                }
+
+                foreach (int[] entry in trow)
+                {
+                    int i = entry[0];
+                    int j = entry[1];
+                    row[i] = Math.Max(row[i], j);
+                }
+
+                foreach (int[] entry in tcol)
+                {
+                    int i = entry[0];
+                    int j = entry[1];
+                    col[i] = Math.Max(col[i], j);
+                }
+            }
+
+            return res;
+        }
+
         public int MaxIncreasingCells2(int[][] mat)
         {
             int r = 1;
