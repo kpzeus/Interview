@@ -13,18 +13,26 @@ namespace Interview
 {
     public class ArrayQns
     {
-        public bool CanTraverseAllPairs2(int[] nums)
+        public bool CanTraverseAllPairs(int[] nums)
         {
-            int i = 0;
             if (nums.Length == 1)
                 return true;
 
             HashSet<(int, int)> targets = new();
+            var indexes = Enumerable.Range(0, nums.Length);
+            int i = 0;
             while (i < nums.Length - 1)
             {
+                if (nums[i] == 1)
+                    return false;
                 int j = i + 1;
                 while (j < nums.Length)
                 {
+                    if (targets.Contains((i, j)))
+                    {
+                        j++;
+                        continue;
+                    }
                     var gcd = Gcd(nums[i], nums[j]);
                     //Console.WriteLine(nums[i] + " " + nums[j] + " " + gcd);
                     if (gcd > 1)
@@ -58,26 +66,20 @@ namespace Interview
                                 targets.Add(z);
                             }
                         }
+                        if (indexes.All(z => targets.Contains((0, z))))
+                        {
+                            return true;
+                        }
                     }
                     j++;
                 }
+                //foreach(var z in targets){
+                //Console.WriteLine(z.Item1 + " " + z.Item2);
+                //}
                 i++;
             }
 
-            //foreach(var z in targets){
-            //Console.WriteLine(z.Item1 + " " + z.Item2);
-            //}
-
-            i = 1;
-            while (i < nums.Length)
-            {
-                //Console.WriteLine("To " + i);
-                if (!targets.Contains((0, i)))
-                    return false;
-                i++;
-            }
-
-            return true;
+            return indexes.All(z => targets.Contains((0, z)));
         }
 
         public long MaxStrength(int[] nums)
@@ -745,7 +747,7 @@ namespace Interview
             return sum;
         }
 
-        public static int Gcd(int a, int b)
+        private static int Gcd(int a, int b)
         {
             return b == 0 ? a : Gcd(b, a % b);
         }
