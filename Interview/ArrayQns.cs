@@ -13,7 +13,7 @@ namespace Interview
 {
     public class ArrayQns
     {
-        public int MaxIncreasingCells(int[][] mat)
+        public int MaxIncreasingCells2(int[][] mat)
         {
             int r = 1;
             int i = 0;
