@@ -13,6 +13,57 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public static int FindMaxDistance(int[] blocks)
+        {
+            int N = blocks.Length;
+
+            // Step 1: Initialize left and right arrays
+            int[] left = new int[N];
+            int[] right = new int[N];
+
+            // Step 2: Fill left array
+            left[0] = 0;
+            for (int i = 1; i < N; i++)
+            {
+                if (blocks[i] >= blocks[i - 1])
+                {
+                    left[i] = i;
+                }
+                else
+                {
+                    left[i] = left[i - 1];
+                }
+            }
+
+            // Step 3: Fill right array
+            right[N - 1] = N - 1;
+            for (int i = N - 2; i >= 0; i--)
+            {
+                if (blocks[i] >= blocks[i + 1])
+                {
+                    right[i] = i;
+                }
+                else
+                {
+                    right[i] = right[i + 1];
+                }
+            }
+
+            // Step 4: Calculate maximum distance
+            int maxDistance = 0;
+            for (int i = 0; i < N; i++)
+            {
+                int distance = right[i] - left[i] + 1;
+                if (distance > maxDistance)
+                {
+                    maxDistance = distance;
+                }
+            }
+
+            // Step 5: Return maximum distance
+            return maxDistance;
+        }
+
         public int MaxIncreasingCells(int[][] mat)
         {
             int n = mat.Length;
