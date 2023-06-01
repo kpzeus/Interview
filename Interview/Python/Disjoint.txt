@@ -1,0 +1,25 @@
+﻿import math
+
+def solution(A, K, L):
+    n = len(A)
+    max = -math.inf
+    for i in range(n - K - L + 1):
+        set1 = A[i:i + K]
+        for j in range(i + K, n - L + 1):
+            set2 = A[j:j + L]
+            curr = sum(set1) + sum(set2)
+            if curr > max:
+                max = curr
+        set1 = A[i:i + L]
+        for j in range(i + L, n - K + 1):
+            set2 = A[j:j + K]
+            curr = sum(set1) + sum(set2)
+            if curr > max:
+                max = curr
+                
+    if max == -math.inf:
+        return -1
+    
+    return max
+    
+print(solution([5, 1, 5, 1, 2, 1, 6], 1, 3))
