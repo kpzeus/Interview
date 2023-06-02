@@ -24,9 +24,8 @@ class Solution(object):
 
     def maximumDetonation(self, bombs):
         self.graph = self.bombs_to_graph(bombs)
-        print(self.graph.graph)
+        #print(self.graph.graph)
         ans = 1
-        self.dp = [0]*len(bombs)
         for i in range(len(bombs)):
             visited = set()
             self.DFS(i, visited)
