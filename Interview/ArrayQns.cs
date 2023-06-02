@@ -13,6 +13,59 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int EqualPairs(int[][] grid)
+        {
+            int res = 0;
+            int n = grid.Length;
+            int[] r = new int[n];
+            int[] c = new int[n];
+
+            int i = 0;
+            while (i < n)
+            {
+                int j = 0;
+                int s1 = 0;
+                int s2 = 0;
+                while (j < n)
+                {
+                    s1 += grid[i][j];
+                    s2 += grid[j][i];
+                    j++;
+                }
+                r[i] = s1;
+                c[i] = s2;
+                i++;
+            }
+
+            i = 0;
+            while (i < n)
+            {
+                int j = 0;
+                while (j < n)
+                {
+                    if (r[i] == c[j])
+                    {
+                        int k = 0;
+                        int x = 0;
+                        while (k < n)
+                        {
+                            if (grid[i][k] == grid[k][j])
+                                x++;
+                            else
+                                break;
+                            k++;
+                        }
+                        if (x == n)
+                            res++;
+                    }
+                    j++;
+                }
+                i++;
+            }
+
+            return res;
+        }
+
         public static int FindMaxDistance(int[] blocks)
         {
             int N = blocks.Length;
