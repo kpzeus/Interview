@@ -34,4 +34,3 @@ class Solution(object):
         end.next=None
 
         return head
-        
