@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: registry-statefulset
+spec:
+  serviceName: registry-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registry
+  template:
+    metadata:
+      labels:
+        app: registry
+    spec:
+      containers:
+      - name: registry-container
+        image: registry:2.7.1
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: registry-volume
+          mountPath: /var/lib/registry
+        readinessProbe:
+          tcpSocket:
+            port: 5000
+          initialDelaySeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 5000
+          initialDelaySeconds: 10
+  volumeClaimTemplates:
+  - metadata:
+      name: registry-volume
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Gi
