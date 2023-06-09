@@ -15,8 +15,8 @@ namespace Interview
 
             try
             {
-                var x = new TreeQns().RecoverFromPreorder("1-2--3--4-5--6--7");
-                Console.WriteLine(x);
+                //var x = new TreeQns().RecoverFromPreorder("1-2--3--4-5--6--7");
+                //Console.WriteLine(x);
                 //Console.WriteLine(ArrayQns.Gcd(10,8));
                 //Console.WriteLine(ArrayQns.Gcd(8, 10));
                 //int[][] edges = new int[2][];
