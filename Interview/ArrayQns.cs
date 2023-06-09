@@ -13,6 +13,58 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public int MaxSatisfaction(int[] satisfaction)
+        {
+            int n = satisfaction.Length;
+            if (n == 1)
+            {
+                return satisfaction[0] > 0 ? satisfaction[0] : 0;
+            }
+
+            Array.Sort(satisfaction);
+
+            int i = 0;
+            int firstPositive = -1;
+            while (i < n)
+            {
+                if (satisfaction[i] > 0)
+                {
+                    firstPositive = i;
+                    break;
+                }
+                i++;
+            }
+
+            if( firstPositive == -1 )
+            {
+                return 0;
+            }
+
+            i = 0;
+            int max = 0;
+            int factor = n - firstPositive;
+            int start = firstPositive;
+            int current = 0;
+            while (start > -1)
+            {
+                i = n - 1;
+                int f = factor;
+                current = 0;
+                while (f > 0)
+                {
+                    current += satisfaction[i] * f;
+                    f--;
+                    i--;
+                }
+                if (current > max)
+                    max = current;
+                start--;
+                factor = n - start;
+            }
+
+            return max;
+        }
+
         public int EqualPairs(int[][] grid)
         {
             int res = 0;
