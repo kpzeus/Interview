@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Interview
@@ -73,6 +74,41 @@ namespace Interview
                 VisitLongestZigZag(root.left, true, 0);
             }
         }
+
+        public TreeNode RecoverFromPreorder(string s)
+        {
+            int i = 0;
+            int req = 0;
+
+            
+
+            return RecoverFromPreorder(ref req, ref i, s, 0);
+        }
+
+        TreeNode RecoverFromPreorder(ref int req, ref int i, string s, int level)
+        {
+            string val = "";
+            req = 0;
+            while (i < s.Length && s[i] != '-')
+            {
+                val += s[i];
+                i++;
+            }
+            TreeNode node = new TreeNode(int.Parse(val));
+            while (i < s.Length && s[i] == '-')
+            {
+                req++;
+                i++;
+            }
+            if (req > level)
+            {
+                node.left = RecoverFromPreorder(ref req, ref i, s, level + 1);
+                if (i < s.Length && req > level)
+                    node.right = RecoverFromPreorder(ref req, ref i, s, level + 1);
+            }
+            return node;
+        }
+
         public static TreeNode BuildTree(int[] preorder, int[] inorder)
         {
             preIndex = 0;
