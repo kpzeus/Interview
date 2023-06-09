@@ -78,10 +78,8 @@ namespace Interview
         public TreeNode RecoverFromPreorder(string s)
         {
             int i = 0;
-            int req = 0;
-
+            int req = 0;    
             
-
             return RecoverFromPreorder(ref req, ref i, s, 0);
         }
 
@@ -106,6 +104,7 @@ namespace Interview
                 if (i < s.Length && req > level)
                     node.right = RecoverFromPreorder(ref req, ref i, s, level + 1);
             }
+
             return node;
         }
 
