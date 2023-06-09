@@ -1,0 +1,22 @@
+db.blogposts.aggregate([
+  { $match: { "authors.registered": true } },
+  { $unwind: "$tags" },
+  {
+    $group: {
+      _id: "$tags",
+      titles: { $addToSet: "$title" },
+      size: { $sum: 1 }
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      data: { $push: { tag: "$_id", titles: "$titles", size: "$size" } }
+    }
+  },
+  { $unwind: "$data" },
+  { $replaceRoot: { newRoot: "$data" } },
+  { $sort: { size: -1, tag: 1 } },
+  { $limit: 10 },
+  { $project: { _id: 0, tag: 1, titles: 1, size: 1 } }
+])

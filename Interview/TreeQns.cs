@@ -38,6 +38,41 @@ namespace Interview
     public class TreeQns
     {
         static int preIndex = 0;
+
+        static int max = 0;
+
+        public static int LongestZigZag2(TreeNode root)
+        {
+            max = 0;
+            if (root == null)
+                return 0;
+
+            VisitLongestZigZag(root, true, 0);
+            VisitLongestZigZag(root, false, 0);
+            return max;
+        }
+
+        private static void VisitLongestZigZag(TreeNode root, bool left, int count)
+        {
+            if (root == null)
+                return;
+
+            if (count > max)
+                max = count;
+
+            if (left)
+            {
+                VisitLongestZigZag(root.left, false, count + 1);
+                VisitLongestZigZag(root.right, false, 0);
+                VisitLongestZigZag(root.right, true, 0);
+            }
+            else
+            {
+                VisitLongestZigZag(root.right, true, count + 1);
+                VisitLongestZigZag(root.left, false, 0);
+                VisitLongestZigZag(root.left, true, 0);
+            }
+        }
         public static TreeNode BuildTree(int[] preorder, int[] inorder)
         {
             preIndex = 0;
