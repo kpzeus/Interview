@@ -13,6 +13,48 @@ namespace Interview
 {
     public class ArrayQns
     {
+        public IList<IList<int>> ThreeSum(int[] nums)
+        {
+            Array.Sort(nums);
+            int n = nums.Length;
+            int i = 0;
+            int j = 1;
+            int k = n - 1;
+            HashSet<IList<int>> r = new();
+            HashSet<string> h = new();
+            int sum = 0;
+            while (i < n - 2)
+            {
+                while (i < j && j < k)
+                {
+                    sum = nums[i] + nums[j];
+                    //Console.WriteLine(nums[i] + " " + nums[j] + " " + nums[k]);
+                    if (sum == -nums[k])
+                    {
+                        var c = new List<int>();
+                        c.Add(nums[i]);
+                        c.Add(nums[j]);
+                        c.Add(nums[k]);
+                        string key = nums[i] + ":" + nums[j] + ":" + nums[k];
+                        if (!h.Contains(key))
+                        {
+                            r.Add(c);
+                            h.Add(key);
+                        }
+                    }
+                    if (sum < -nums[k])
+                        j++;
+                    else
+                        k--;
+                }
+                i++;
+                j = i + 1;
+                k = n - 1;
+            }
+
+            return r.ToList();
+        }
+
         public int MaxSatisfaction(int[] satisfaction)
         {
             int n = satisfaction.Length;
