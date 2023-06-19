@@ -8,6 +8,49 @@ namespace Interview
 {
     public class MatrixQns
     {
+        public int UniquePaths(int m, int n)
+        {
+            var dp = new int[m][];
+
+            int i = 0;
+            while (i < m)
+            {
+                dp[i] = new int[n];
+                i++;
+            }
+
+            i = 0;
+            int j = 0;
+            while (j < n)
+            {
+                dp[i][j] = 1;
+                j++;
+            }
+
+            i = 0;
+            j = 0;
+            while (i < m)
+            {
+                dp[i][j] = 1;
+                i++;
+            }
+
+            i = 1;
+            j = 1;
+            while (i < m)
+            {
+                j = 1;
+                while (j < n)
+                {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                    j++;
+                }
+                i++;
+            }
+
+            return dp[m - 1][n - 1];
+        }
+
         public static void Rotate(int[][] matrix)
         {
             int n = matrix.Length;
