@@ -45,20 +45,20 @@ class KthLargestInBST
         return root;
     }
 
-    public int FindNthLargest(int n)
+    public int? FindNthLargest(int n)
     {
         count = 0;
         return FindNthLargestUtil(root, n);
     }
 
-    private int FindNthLargestUtil(Node root, int n)
+    private int? FindNthLargestUtil(Node root, int n)
     {
         if (root == null)
-            return -1;
+            return null;
 
-        int right = FindNthLargestUtil(root.right, n);
+        int? value = FindNthLargestUtil(root.right, n);
 
-        if (count != n)
+        if (count < n)
         {
             count++;
             if (count == n)
@@ -67,7 +67,7 @@ class KthLargestInBST
             return FindNthLargestUtil(root.left, n);
         }
 
-        return right;
+        return value;
     }
 
     public static void Test()
@@ -85,10 +85,18 @@ class KthLargestInBST
         //    30          70
         //20      40 60       80
 
-        int n = 7;
-        int nthLargest = tree.FindNthLargest(n);
+        int n = 5;
+        int? nthLargest = tree.FindNthLargest(n);
 
-        if (nthLargest != -1)
+        if (nthLargest != null)
+            Console.WriteLine($"The {n}th largest element is: {nthLargest}");
+        else
+            Console.WriteLine($"There is no {n}th largest element in the BST.");
+
+        n = 13;
+        nthLargest = tree.FindNthLargest(n);
+
+        if (nthLargest != null)
             Console.WriteLine($"The {n}th largest element is: {nthLargest}");
         else
             Console.WriteLine($"There is no {n}th largest element in the BST.");
