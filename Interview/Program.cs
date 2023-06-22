@@ -15,6 +15,7 @@ namespace Interview
 
             try
             {
+                MaxRectangleArea.Test();
                 //SubMatrixSumToTarget.Test();
                 //KthLargestInBST.Test();
                 //var x = new MatrixQns().UniquePaths(3, 7);
