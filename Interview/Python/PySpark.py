@@ -58,3 +58,7 @@ def get_trend(annual_percentage_change):
         .when((value > -0.5) & (value < 0.5), "no change") \
         .when((value >= 0.5) & (value <= 3), "weak decline") \
         .otherwise("strong increase")
+
+#transformed_row = transformed_row.withColumn('species', udf(get_english_name)(col('Species')))
+#transformed_row = transformed_row.withColumn('collected_from_year', udf(get_start_year)(col('Period')))
+#transformed_row = transformed_row.withColumn('trend', udf(get_trend)(col('Annual percentage change').cast("double")))
