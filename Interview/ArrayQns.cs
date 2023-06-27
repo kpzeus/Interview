@@ -77,7 +77,7 @@ namespace Interview
                 i++;
             }
 
-            if( firstPositive == -1 )
+            if (firstPositive == -1)
             {
                 return 0;
             }
@@ -621,7 +621,8 @@ namespace Interview
             List<int[]> r = new();
 
 
-            edges.ToList().ForEach(x => {
+            edges.ToList().ForEach(x =>
+            {
                 int n1 = x[0];
                 int n2 = x[1];
                 int w = x[2];
@@ -644,7 +645,8 @@ namespace Interview
 
             int a = 0;
             int curr = x[0];
-            x.ForEach(z => {
+            x.ForEach(z =>
+            {
                 Console.WriteLine(z);
                 if (z != curr)
                 {
@@ -1255,7 +1257,7 @@ namespace Interview
             }
 
             return max;
-        }         
+        }
 
         public bool DoesValidArrayExist(int[] derived)
         {
@@ -1386,9 +1388,11 @@ namespace Interview
             List<List<long>> r = new();
             List<long> curr = new();
             BackTrackMaximumOr(curr, 0, nums, k, r);
-            r.ForEach(x => {
+            r.ForEach(x =>
+            {
                 long n = 0;
-                x.ForEach(y => {
+                x.ForEach(y =>
+                {
                     //Console.WriteLine(y);
                     n = n | y;
                 });
@@ -1450,7 +1454,8 @@ namespace Interview
                 int max = 0;
 
                 pqList.ForEach(
-                    q => {
+                    q =>
+                    {
                         if (q.Count > 0)
                             max = Math.Max(max, q.Dequeue());
                     });
@@ -1543,10 +1548,10 @@ namespace Interview
 
             for (int i = 0; i < obstacles.Length; i++)
             {
-                int insertIndex = Search(arr, 0, len - 1, obstacles[i]); 
+                int insertIndex = Search(arr, 0, len - 1, obstacles[i]);
                 arr[insertIndex] = obstacles[i];
                 if (insertIndex == len)
-                { 
+                {
                     len++;
                 }
 
@@ -4537,11 +4542,11 @@ namespace Interview
         {
             int l = 1;
             int n = S.Length;
-            while(l<n)
+            while (l < n)
             {
                 int i = 0;
-                var d = new Dictionary<char,int>();
-                while(i < l)
+                var d = new Dictionary<char, int>();
+                while (i < l)
                 {
                     d[S[i]] = 1;
                     i++;
@@ -4554,7 +4559,7 @@ namespace Interview
                     int j = i;
                     var x = S.Substring(i, l);
                     var h = new HashSet<char>();
-                    while (j < i+l)
+                    while (j < i + l)
                     {
                         if (!d.ContainsKey(S[j]))
                             d[S[j]] = 0;
@@ -4564,16 +4569,55 @@ namespace Interview
                             d[S[j]]++;
                         }
                         j++;
-                    }                    
+                    }
                     i++;
                 }
 
-                
+
                 if (d.Any(x => x.Value == c))
                     return l;
                 l++;
             }
             return S.Length;
+        }
+
+        public int FindMaxSizedGroup(int N, int[,] arr)
+        {
+            int max = 0;
+            int start = 1;
+            int i = 1;
+            while (start <= N)
+            {
+                i = start;
+                int c = 0;
+                List<int> l = new List<int>();
+                while (c < N)
+                {
+                    //Console.WriteLine(i);
+                    if (i == N+1)
+                        i = 1;
+                    l.Add(i);
+                    bool valid = true;
+                    foreach (var entry in l)
+                    {
+                        if (l.Count(x => x > entry) > arr[entry - 1, 0] ||
+                    l.Count(x => x < entry) > arr[entry - 1, 1])
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if (valid)
+                    {
+                        max = Math.Max(max, l.Count);
+                    }
+                    i++;
+                    c++;
+                }
+                start++;
+            }
+
+            return max;
         }
     }
 }
