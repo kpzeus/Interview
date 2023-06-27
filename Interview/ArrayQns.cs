@@ -4593,7 +4593,6 @@ namespace Interview
                 List<int> l = new List<int>();
                 while (c < N)
                 {
-                    //Console.WriteLine(i);
                     if (i == N+1)
                         i = 1;
                     l.Add(i);
