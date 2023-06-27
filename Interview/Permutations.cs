@@ -8,6 +8,44 @@ namespace Interview
 {
     internal class Permutations
     {
+        public static void CalculatePermutations(params int[] arr)
+        {
+            int n = arr.Length;
+            bool[] used = new bool[n];
+            int[] permutation = new int[n];
+
+            CalculatePermutationsHelper(arr, permutation, used, 0);
+        }
+
+        private static void CalculatePermutationsHelper(int[] arr, int[] permutation, bool[] used, int level)
+        {
+            if (level == arr.Length)
+            {
+                PrintPermutation(permutation);
+                return;
+            }
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (!used[i])
+                {
+                    used[i] = true;
+                    permutation[level] = arr[i];
+                    CalculatePermutationsHelper(arr, permutation, used, level + 1);
+                    used[i] = false;
+                }
+            }
+        }
+
+        private static void PrintPermutation(int[] permutation)
+        {
+            foreach (int num in permutation)
+            {
+                Console.Write(num + " ");
+            }
+            Console.WriteLine();
+        }
+
         public static List<List<int>> GetPermutations(int[] nums)
         {
             List<List<int>> permutations = new List<List<int>>();
@@ -22,6 +60,7 @@ namespace Interview
                 permutations.Add(nums.ToList());
                 return;
             }
+
             for (int i = start; i < nums.Length; i++)
             {
                 Swap(nums, start, i);
