@@ -15,6 +15,19 @@ namespace Interview
 
             try
             {
+                int x = 0;
+                x = new ArrayQns().MinLengthWindow("abcdefg");
+                Console.WriteLine(x);
+                x = new ArrayQns().MinLengthWindow("akbakcaka");
+                Console.WriteLine(x);
+                x = new ArrayQns().MinLengthWindow("asehjagsvavcas");
+                Console.WriteLine(x);
+                x = new ArrayQns().MinLengthWindow("asdfbvasaxcvea");
+                Console.WriteLine(x);
+                x = new ArrayQns().MinLengthWindow("kjdfghaeiurabdmfbjagdsfa");
+                Console.WriteLine(x);
+                x = new ArrayQns().MinLengthWindow("kjdfghaeiurakskrjhtakjfmaberkaabdmfbjagdsfa");
+                Console.WriteLine(x);
                 //var x = new TreeQns().RecoverFromPreorder("1-2--3--4-5--6--7");
                 //Console.WriteLine(x);
                 //Console.WriteLine(ArrayQns.Gcd(10,8));

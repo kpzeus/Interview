@@ -4532,5 +4532,48 @@ namespace Interview
             }
             return c;
         }
+
+        public int MinLengthWindow(string S)
+        {
+            int l = 1;
+            int n = S.Length;
+            while(l<n)
+            {
+                int i = 0;
+                var d = new Dictionary<char,int>();
+                while(i < l)
+                {
+                    d[S[i]] = 1;
+                    i++;
+                }
+                i = 1;
+                int c = 1;
+                while (i + l <= n)
+                {
+                    c++;
+                    int j = i;
+                    var x = S.Substring(i, l);
+                    var h = new HashSet<char>();
+                    while (j < i+l)
+                    {
+                        if (!d.ContainsKey(S[j]))
+                            d[S[j]] = 0;
+                        if (!h.Contains(S[j]))
+                        {
+                            h.Add(S[j]);
+                            d[S[j]]++;
+                        }
+                        j++;
+                    }                    
+                    i++;
+                }
+
+                
+                if (d.Any(x => x.Value == c))
+                    return l;
+                l++;
+            }
+            return S.Length;
+        }
     }
 }
