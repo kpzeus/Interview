@@ -15,6 +15,10 @@ namespace Interview
 
             try
             {
+                var x = new Fuel().solution(new int[] { 0,1,1}, new int[] { 1,2,3});
+                Console.WriteLine(x);
+                x = new Fuel().solution(new int[] { 1, 1, 1,9,9,9,9,7,8 }, new int[] { 2,0,3,1,6,5,4,0,0 });
+                Console.WriteLine(x);
                 //int x = 0;
                 //int N = 3;
                 //int[,] arr = new int[N, 2];
