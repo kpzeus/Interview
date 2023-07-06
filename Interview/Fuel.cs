@@ -53,9 +53,9 @@ namespace Interview
 
             if (node > 0)
             {
-                if (total > 5)
+                if (total > 4)
                 {
-                    cost += (total / 5);
+                    cost += (total / 4);
                 }
                 cost++;
             }
