@@ -1,31 +1,27 @@
-﻿def count_subarray_with_mean(arr, s):
-    count = 0  # Variable to store the count of subarrays
-    prefix_sum = 0  # Prefix sum of the array elements
-    prefix_sum_count = {0: 1}  # Dictionary to store prefix sum occurrences
-
-    # Iterate over each element in the array
-    for num in arr:
-        prefix_sum += num  # Update the prefix sum
+﻿def solution(A, S):
+    r = 0
+    curr = 0
+    n=len(A)
+    d = dict()
+     
+    for i in range(0, n):
+        curr += (A[i] - S)
         
-        if num == s:
-            count=count+1
-
-        # Calculate the difference between current prefix sum and the target mean multiplied by the subarray length
-        diff = prefix_sum - s * len(prefix_sum_count)
-
-        # If the difference exists in the prefix sum occurrences, add its count to the total count
-        if diff in prefix_sum_count:
-            count += prefix_sum_count[diff]
-
-        # Increment the count of current prefix sum occurrence or initialize it to 1
-        prefix_sum_count[prefix_sum] = prefix_sum_count.get(prefix_sum, 0) + 1
-
-    return count
+        if (curr == 0):
+            r += 1
+             
+        if curr in d:
+            r += d[curr]
+             
+        if curr in d:
+            d[curr] += 1
+        else:
+            d[curr] = 1
+             
+    return min(r, 1000000000)
 
 
-# Example usage
-arr = [1,2,3]
-target_mean = 2
-
-result = count_subarray_with_mean(arr, target_mean)
-print("Count of subarrays with mean equal to", target_mean, ":", result)
+print(solution([2, 1, 3], 2))     # Output: 3
+print(solution([0, 4, 3, -1], 2)) # Output: 2
+print(solution([2, 1, 4], 3))     # Output: 0
+print(solution([3], 3))     # Output: 1
