@@ -46,7 +46,7 @@ select
 				from candidates where position = 'senior' 
 				and salary <= 50000
 				order by total desc
-			) a 
+			) a where a.total <= 50000
 		) b where position = 'junior'
 	) c 
 	where (total <= remaining or remaining is null) and total <= 50000
@@ -60,6 +60,6 @@ as juniors,
 		from candidates where position = 'senior' 
 		and salary <= 50000
 		order by total desc
-	) s
+	) s where s.total <= 50000
 )  
 as seniors;
