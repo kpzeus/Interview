@@ -4618,5 +4618,36 @@ namespace Interview
 
             return max;
         }
+
+        public string CountAndSay(int n)
+        {
+            if (n < 2)
+                return "1";
+
+            int i = 0;
+            var val = CountAndSay(n - 1);
+            StringBuilder sb = new();
+            var c = val[0];
+            int count = 0;
+            while(i < val.Length)
+            {
+                if (c == val[i])
+                    count++;
+                else
+                {
+                   
+                    sb.Append(count);
+                    sb.Append(c);
+                    c = val[i];
+                    count = 1;
+                }
+                i++;
+            }
+
+            sb.Append(count);
+            sb.Append(c);
+
+            return sb.ToString();
+        }
     }
 }
