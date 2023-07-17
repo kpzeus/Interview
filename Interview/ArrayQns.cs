@@ -4649,5 +4649,81 @@ namespace Interview
 
             return sb.ToString();
         }
+
+        public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        {
+            ListNode h = null;
+            ListNode r = null;
+
+            var carry = 0;
+            while(l1 != null && l2 != null)
+            {
+                var val = l1.val + l2.val + carry;
+                carry = val / 10;
+                val = val % 10;
+                if (r == null)
+                {
+                    r = new ListNode(val);
+                    h = r;
+                }
+                else
+                {
+                    r.next = new ListNode(val);
+                    r = r.next;
+                }
+                l1 = l1.next;
+                l2 = l2.next;
+            }
+
+            while (l1 != null)
+            {
+                var val = l1.val + carry;
+                carry = val / 10;
+                val = val % 10;
+                if (r == null)
+                {
+                    r = new ListNode(val);
+                    h = r;
+                }
+                else
+                {
+                    r.next = new ListNode(val);
+                    r = r.next;
+                }
+                l1 = l1.next;
+            }
+
+
+            while (l2 != null)
+            {
+                var val = l2.val + carry;
+                carry = val / 10;
+                val = val % 10;
+                if (r == null)
+                {
+                    r = new ListNode(val);
+                    h = r;
+                }
+                else
+                {
+                    r.next = new ListNode(val);
+                    r = r.next;
+                }
+                l2 = l2.next;
+            }
+
+            if (carry > 0)
+                if (r == null)
+                {
+                    r = new ListNode(carry);
+                    h = r;
+                }
+                else
+                {
+                    r.next = new ListNode(carry);
+                }
+
+            return h;
+        }
     }
 }
