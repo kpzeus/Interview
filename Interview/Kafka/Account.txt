@@ -1,0 +1,63 @@
+﻿package com.codility.tasks.kafka.solution;
+
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import java.util.List;
+
+class AccountUpdater 
+{
+    KafkaProducer<String, Double> kafkaProducer;
+
+    public AccountUpdater(KafkaProducer<String, Double> kafkaProducer) 
+    {
+        this.kafkaProducer = kafkaProducer;
+    }
+
+    public void processOperations(List<List<AccountOperation>> accountOperations) 
+    {
+        for (List<AccountOperation> day : accountOperations) 
+        {
+            for (AccountOperation operation : day)
+            {
+                if (operation.getName().isEmpty())
+                    continue;
+
+                if (operation.getCurrency().isEmpty() || operation.getCurrency().length() != 3)
+                    continue;
+
+                if (operation.getValue() == 0)
+                    continue;
+
+                if (operation.getAccountNumber() <= 0)
+                    continue;
+
+                String currency = operation.getCurrency();
+                Double amount = operation.getValue();
+                String accountNumber = Integer.toString(operation.getAccountNumber());
+
+                String topic = null;
+
+                // Determine the appropriate Kafka topic based on the currency and amount
+                if (currency == "EUR")
+                {
+                    topic = "account_operations_eur";
+                }
+                else if (currency == "USD")
+                {
+                    topic = "account_operations_usd";
+                }
+                else if (currency == "GBP" && (amount > 1000000 || amount < -1000000))
+                {
+                    topic = "account_operations_big_gbp";
+                }
+                else
+                {
+                    continue;
+                }
+
+                ProducerRecord<String, Double> record = new ProducerRecord<>(topic, accountNumber, amount);
+                kafkaProducer.send(record);
+            }
+        }
+    }
+}
