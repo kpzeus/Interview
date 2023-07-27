@@ -15,8 +15,10 @@ namespace Interview
 
             try
             {
-                var x = new ArrayQns().CountAndSay(4);
+                var x = new TreeFromPrePost().BuildTree(new int[] { 3, 9, 20, 15, 7 }, new int[] { 9, 3, 15, 20, 7 });
                 Console.WriteLine(x);
+                //var x = new ArrayQns().CountAndSay(4);
+                //Console.WriteLine(x);
                 //var x = new Fuel().solution(new int[] { 0, 1, 1 }, new int[] { 1, 2, 3 });
                 //Console.WriteLine(x);
                 //x = new Fuel().solution(new int[] { 1, 1, 1, 9, 9, 9, 9, 7, 8 }, new int[] { 2, 0, 3, 1, 6, 5, 4, 0, 0 });
